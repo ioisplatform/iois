@@ -16,8 +16,6 @@
         .golden-glow {
             text-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
         }
-        @keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .toast-animate { animation: slideIn 0.5s ease-out forwards; }
     </style>
 </head>
 <body class="bg-[#030712] text-white font-sans flex flex-col min-h-screen relative">
@@ -26,7 +24,7 @@
     <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-gray-950 py-1.5 px-4 font-bold text-xs flex items-center shadow-md">
         <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-black mr-2 uppercase tracking-wider shrink-0">LIVE UPDATE</span>
         <marquee class="font-bold tracking-wide">
-            🔥 ₹10 से जॉइन करके ₹49 वाला गोल्ड प्लान बेचें और पाएँ सीधे ₹35 (71%) कमीशन! &nbsp;&nbsp;&nbsp;&nbsp; 🎉 टेलीग्राम सपोर्ट के साथ सिर्फ 2 रेफरल पर 100% फीस वापस! &nbsp;&nbsp;&nbsp;&nbsp; 🚀 सभी 7 मेंबरशिप प्लांस सिंगल पेज पर उपलब्ध हैं!
+            🔥 ₹10 से जॉइन करके ₹49 वाला गोल्ड प्लान बेचें और पाएँ सीधे ₹35 (71%) कमीशन! &nbsp;&nbsp;&nbsp;&nbsp; 🎉 टेलीग्राम सपोर्ट के साथ सिर्फ 2 रेफरल पर 100% फीस वापस! &nbsp;&nbsp;&nbsp;&nbsp; 🚀 सभी 7 मेम्बरशिप प्लांस सिंगल पेज पर उपलब्ध हैं!
         </marquee>
     </div>
 
@@ -44,6 +42,7 @@
             <!-- Desktop Links (Smooth Scroll) -->
             <div class="hidden md:flex items-center gap-5 text-xs font-semibold text-gray-300">
                 <a href="#hero" class="hover:text-amber-400 transition"><i class="fa-solid fa-house"></i> होम</a>
+                <a href="#digital-clock-section" class="hover:text-amber-400 transition"><i class="fa-solid fa-clock text-amber-400"></i> डिजिटल घड़ी</a>
                 <a href="#membership-section" class="hover:text-amber-400 transition"><i class="fa-solid fa-layer-group text-amber-400"></i> ऑल 7 प्लांस</a>
                 <a href="#quiz-section" class="hover:text-amber-400 transition"><i class="fa-solid fa-circle-question text-teal-400"></i> MCQs क्विज़</a>
                 <a href="#study-parents-corner" class="hover:text-amber-400 transition"><i class="fa-solid fa-graduation-cap text-amber-400"></i> स्टडी व पेरेंट्स कॉर्नर</a>
@@ -63,6 +62,7 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-[#0e1938] px-4 py-4 border-t border-gray-800 space-y-3 font-medium text-xs">
             <a href="#hero" onclick="toggleMobileMenu()" class="block text-amber-400"><i class="fa-solid fa-house mr-2"></i> होम</a>
+            <a href="#digital-clock-section" onclick="toggleMobileMenu()" class="block text-gray-300"><i class="fa-solid fa-clock mr-2 text-amber-400"></i> डिजिटल घड़ी</a>
             <a href="#membership-section" onclick="toggleMobileMenu()" class="block text-gray-300"><i class="fa-solid fa-layer-group mr-2 text-amber-400"></i> ऑल 7 मेम्बरशिप प्लांस</a>
             <a href="#quiz-section" onclick="toggleMobileMenu()" class="block text-gray-300"><i class="fa-solid fa-circle-question mr-2 text-teal-400"></i> MCQs क्वेश्चन-आंसर</a>
             <a href="#study-parents-corner" onclick="toggleMobileMenu()" class="block text-gray-300"><i class="fa-solid fa-graduation-cap mr-2 text-amber-400"></i> स्टडी व पेरेंट्स कॉर्नर</a>
@@ -72,6 +72,22 @@
             </div>
         </div>
     </nav>
+
+    <!-- LIVE DIGITAL CLOCK BAR -->
+    <section id="digital-clock-section" class="bg-[#0b1329] border-b border-gray-800 py-3 px-4 text-center">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clock text-amber-400 text-lg"></i>
+                <span class="text-xs text-gray-300 font-semibold">भारतीय मानक समय (IST):</span>
+            </div>
+            <div id="live-clock" class="text-lg md:text-xl font-black tracking-widest tiranga-text font-mono">
+                --:--:-- --
+            </div>
+            <div id="live-date" class="text-xs text-teal-400 font-bold">
+                -- ---- ----
+            </div>
+        </div>
+    </section>
 
     <!-- Hero Section -->
     <section id="hero" class="py-12 px-4 text-center max-w-4xl mx-auto flex-1">
@@ -237,41 +253,51 @@
     <section id="quiz-section" class="py-12 bg-[#0b1329] px-4 border-t border-gray-800">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-8">
-                <h2 class="text-2xl md:text-3xl font-extrabold text-amber-400">Interactive Quiz / MCQs Section</h2>
-                <p class="text-gray-300 text-xs md:text-sm mt-1">IOIS सिस्टम और अर्निंग मॉडल से संबंधित सवालों के जवाब देकर अपनी जानकारी परखें:</p>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-amber-400"><i class="fa-solid fa-graduation-cap mr-2"></i>Interactive MCQs Quiz Corner</h2>
+                <p class="text-gray-300 text-xs md:text-sm mt-1">IOIS सिस्टम और अर्निंग मॉडल से संबंधित सवालों के सही उत्तर चुनकर अपनी जानकारी परखें:</p>
             </div>
 
             <div class="bg-[#111c38] border border-amber-500/30 rounded-2xl p-6 shadow-xl space-y-6">
                 <!-- Question 1 -->
                 <div class="border-b border-gray-800 pb-4">
-                    <p class="font-bold text-sm text-teal-400 mb-2">Q1. IOIS प्लेटफॉर्म पर न्यूनतम कितने रुपये से शुरुआत की जा सकती है?</p>
+                    <p class="font-bold text-sm text-teal-400 mb-2">Q1. IOIS प्लेटफॉर्म पर न्यूनतम कितने रुपये से डिजिटल अर्निंग की शुरुआत की जा सकती है?</p>
                     <div class="space-y-1.5 text-xs text-gray-300">
-                        <label class="block cursor-pointer"><input type="radio" name="q1" value="wrong" class="mr-2"> A) ₹49</label>
-                        <label class="block cursor-pointer"><input type="radio" name="q1" value="correct" class="mr-2"> B) ₹10 (Silver Starter Plan)</label>
-                        <label class="block cursor-pointer"><input type="radio" name="q1" value="wrong" class="mr-2"> C) ₹99</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q1" value="wrong" class="mr-2"> A) ₹49</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q1" value="correct" class="mr-2"> B) ₹10 (Silver Starter Plan)</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q1" value="wrong" class="mr-2"> C) ₹99</label>
                     </div>
                 </div>
 
                 <!-- Question 2 -->
                 <div class="border-b border-gray-800 pb-4">
-                    <p class="font-bold text-sm text-teal-400 mb-2">Q2. ₹49 वाले 'Tiranga Gold Pro' प्लान पर सीधा कितना कमीशन मिलता है?</p>
+                    <p class="font-bold text-sm text-teal-400 mb-2">Q2. ₹49 वाले 'Tiranga Gold Pro' प्लान पर सीधा कितना रेफरल कमीशन मिलता है?</p>
                     <div class="space-y-1.5 text-xs text-gray-300">
-                        <label class="block cursor-pointer"><input type="radio" name="q2" value="wrong" class="mr-2"> A) ₹15</label>
-                        <label class="block cursor-pointer"><input type="radio" name="q2" value="correct" class="mr-2"> B) ₹35 (71% Direct Payout)</label>
-                        <label class="block cursor-pointer"><input type="radio" name="q2" value="wrong" class="mr-2"> C) ₹25</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q2" value="wrong" class="mr-2"> A) ₹15</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q2" value="correct" class="mr-2"> B) ₹35 (71% Direct Payout)</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q2" value="wrong" class="mr-2"> C) ₹25</label>
                     </div>
                 </div>
 
                 <!-- Question 3 -->
-                <div>
-                    <p class="font-bold text-sm text-teal-400 mb-2">Q3. पेमेंट के बाद सपोर्ट और नोटिफिकेशन किस माध्यम से प्राप्त होता है?</p>
+                <div class="border-b border-gray-800 pb-4">
+                    <p class="font-bold text-sm text-teal-400 mb-2">Q3. यदि आपके पास ₹10 का सिल्वर प्लान है और कोई ₹49 का गोल्ड प्लान लेता है, तो आपको कितना मिलेगा?</p>
                     <div class="space-y-1.5 text-xs text-gray-300">
-                        <label class="block cursor-pointer"><input type="radio" name="q3" value="correct" class="mr-2"> A) Telegram Channel / Bot Notification</label>
-                        <label class="block cursor-pointer"><input type="radio" name="q3" value="wrong" class="mr-2"> B) Postal Mail</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q3" value="correct" class="mr-2"> A) पूरा ₹35 (Open Referral Power)</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q3" value="wrong" class="mr-2"> B) केवल ₹7</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q3" value="wrong" class="mr-2"> C) कुछ नहीं</label>
                     </div>
                 </div>
 
-                <button onclick="checkQuizAnswers()" class="w-full py-2.5 bg-teal-400 text-gray-950 font-black rounded-xl text-xs shadow-lg hover:bg-teal-300 transition">स्कोर चेक करें (Check Quiz Result)</button>
+                <!-- Question 4 -->
+                <div>
+                    <p class="font-bold text-sm text-teal-400 mb-2">Q4. पेमेंट पूरा करने के बाद तुरंत सपोर्ट और अपडेट किस माध्यम से मिलता है?</p>
+                    <div class="space-y-1.5 text-xs text-gray-300">
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q4" value="correct" class="mr-2"> A) IOIS Official Telegram Channel & Help Desk</label>
+                        <label class="block cursor-pointer hover:text-amber-400"><input type="radio" name="q4" value="wrong" class="mr-2"> B) डाक/पोस्ट सर्विस द्वारा</label>
+                    </div>
+                </div>
+
+                <button onclick="checkQuizAnswers()" class="w-full py-3 bg-teal-400 text-gray-950 font-black rounded-xl text-xs shadow-lg hover:bg-teal-300 transition">स्कोर चेक करें (Check Quiz Result)</button>
             </div>
         </div>
     </section>
@@ -280,8 +306,8 @@
     <section id="study-parents-corner" class="py-12 bg-[#080d1e] px-4 border-t border-gray-800">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-10">
-                <h2 class="text-2xl md:text-3xl font-extrabold text-amber-400">Free Study Hub & Parents Corner</h2>
-                <p class="text-gray-300 text-xs md:text-sm mt-1">विद्यार्थियों और अभिभावकों के लिए विशेष डिजिटल संसाधन:</p>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-amber-400"><i class="fa-solid fa-shapes mr-2"></i>Free Study Hub & Parents Corner</h2>
+                <p class="text-gray-300 text-xs md:text-sm mt-1">विद्यार्थियों, युवाओं और अभिभावकों के लिए विशेष मुफ़्त डिजिटल संसाधन:</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -289,21 +315,21 @@
                 <div class="bg-[#111c38] border border-amber-500/20 p-5 rounded-2xl shadow-xl">
                     <div class="text-amber-400 text-2xl mb-2"><i class="fa-solid fa-book-open"></i></div>
                     <h3 class="font-bold text-base text-white mb-2">1st - 12th Study Materials</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">NCERT पुस्तकें, वर्कशीट्स, और प्रश्न-उत्तर संग्रह (हिन्दी व English मीडियम)।</p>
+                    <p class="text-xs text-gray-300 leading-relaxed">NCERT पुस्तकें, पिछले वर्षों के प्रश्न पत्र, वर्कशीट्स और मुख्य विषय नोट्स (हिंदी एवं अंग्रेजी माध्यम)।</p>
                 </div>
 
                 <!-- Box 2 -->
                 <div class="bg-[#111c38] border border-teal-500/20 p-5 rounded-2xl shadow-xl">
                     <div class="text-teal-400 text-2xl mb-2"><i class="fa-solid fa-brain"></i></div>
                     <h3 class="font-bold text-base text-white mb-2">Maths Puzzles & Brain Boosters</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">बच्चों की तर्कशक्ति बढ़ाने के लिए लॉजिकल क्विज़, पहेलियाँ और डेली रीज़निंग टेस्ट।</p>
+                    <p class="text-xs text-gray-300 leading-relaxed">बच्चों और छात्रों की तर्कशक्ति बढ़ाने के लिए दिमागी पहेलियाँ, लॉजिकल क्विज़ और डेली रीज़निंग टेस्ट।</p>
                 </div>
 
                 <!-- Box 3 -->
                 <div class="bg-[#111c38] border border-sky-500/20 p-5 rounded-2xl shadow-xl">
                     <div class="text-sky-400 text-2xl mb-2"><i class="fa-solid fa-calendar-check"></i></div>
-                    <h3 class="font-bold text-base text-white mb-2">दैनिक पंचांग व उपयोगी जानकारी</h3>
-                    <p class="text-xs text-gray-300 leading-relaxed">अभिभावकों के लिए दैनिक शुभ मुहूर्त, राशिफल एवं सामान्य ज्ञान अपडेट्स।</p>
+                    <h3 class="font-bold text-base text-white mb-2">दैनिक पंचांग व ज्ञानवर्धक अपडेट्स</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed">अभिभावकों के लिए दैनिक पंचांग, शुभ मुहूर्त, प्रेरक विचार और उपयोगी सामान्य ज्ञान (GK) नोट्स।</p>
                 </div>
             </div>
         </div>
@@ -388,15 +414,6 @@
         </div>
     </div>
 
-    <!-- FLOATING LIVE PAYOUT TOAST CONTAINER -->
-    <div id="payout-toast" class="fixed bottom-4 left-4 z-40 bg-gradient-to-r from-gray-900 to-[#111c38] border border-amber-500/50 p-3 rounded-2xl shadow-2xl flex items-center gap-3 hidden max-w-xs">
-        <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl shrink-0 border border-amber-400"><i class="fa-solid fa-bolt"></i></div>
-        <div>
-            <p id="toast-title" class="font-bold text-xs text-amber-400">🔥 Ramesh (Patna)</p>
-            <p id="toast-desc" class="text-[11px] text-gray-200">Got ₹35 Direct Telegram Alert! (12s ago)</p>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="bg-[#080d1e] py-8 border-t border-gray-800 text-center text-xs text-gray-400 mt-auto">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -408,8 +425,33 @@
         </div>
     </footer>
 
-    <!-- INLINE GUARANTEED SCRIPT HANDLERS -->
+    <!-- INLINE JAVASCRIPT HANDLERS -->
     <script>
+        // Realtime Digital Clock Function
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // '0' को '12' में बदलें
+            const formattedHours = String(hours).padStart(2, '0');
+
+            const timeString = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('hi-IN', options);
+
+            const clockElem = document.getElementById('live-clock');
+            const dateElem = document.getElementById('live-date');
+            
+            if (clockElem) clockElem.textContent = timeString;
+            if (dateElem) dateElem.textContent = dateString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // पहली बार लोड करने के लिए
+
         function toggleMobileMenu() { 
             var m = document.getElementById("mobile-menu"); 
             if (m) m.classList.toggle("hidden"); 
@@ -451,7 +493,6 @@
             event.preventDefault();
             alert('भुगतान विवरण सबमिट हो गया है! अब आपको हमारे ऑफिशियल टेलीग्राम सपोर्ट पर रीडायरेक्ट किया जा रहा है...');
             closeModals();
-            // Open Telegram
             window.open("https://t.me/your_telegram_channel", "_blank");
         }
 
@@ -459,9 +500,10 @@
             let q1 = document.querySelector('input[name="q1"]:checked');
             let q2 = document.querySelector('input[name="q2"]:checked');
             let q3 = document.querySelector('input[name="q3"]:checked');
+            let q4 = document.querySelector('input[name="q4"]:checked');
 
-            if (!q1 || !q2 || !q3) {
-                alert("कृपया सभी प्रश्नों का उत्तर चुनें!");
+            if (!q1 || !q2 || !q3 || !q4) {
+                alert("कृपया सभी 4 प्रश्नों का उत्तर चुनें!");
                 return;
             }
 
@@ -469,8 +511,9 @@
             if (q1.value === "correct") score++;
             if (q2.value === "correct") score++;
             if (q3.value === "correct") score++;
+            if (q4.value === "correct") score++;
 
-            alert(`आपका स्कोर: ${score}/3 ! ` + (score === 3 ? "बधाई हो! आप IOIS प्लेटफॉर्म के बारे में पूरी जानकारी रखते हैं।" : "कृपया सही उत्तरों को पुनः जाँचें।"));
+            alert(`आपका स्कोर: ${score}/4 !\n` + (score === 4 ? "शानदार! आपने सभी प्रश्नों के सही उत्तर दिए हैं।" : "कुछ उत्तर गलत हैं, कृपया पुनः प्रयास करें।"));
         }
     </script>
 </body>
