@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030712">
+<meta name="description" content="IOIS Platform - Indian Online Income Supporting System. Digital resources, career tools, creator resources and membership plans.">
+<title>IOIS PLATFORM | Indian Online Income Supporting System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="live-update">
+  <span class="live-badge">LIVE UPDATE</span>
+  <div class="ticker-wrap"><div class="ticker">
+    🔥 IOIS PLATFORM — ₹10 से शुरुआत करें और Digital Resources प्राप्त करें!
+    &nbsp;&nbsp;&nbsp; 🚀 ₹49 से ₹999 तक Membership Plans उपलब्ध हैं!
+    &nbsp;&nbsp;&nbsp; 🇮🇳 IOIS — Indian Online Income Supporting System
+  </div></div>
+</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="IOIS Logo" onerror="this.style.display='none'">
+      <span>
+        <b class="tiranga-text">IOIS PLATFORM</b>
+        <small>Indian Online Income Supporting System</small>
+      </span>
+    </a>
+    <nav class="desktop-nav">
+      <a class="active" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="membership.html"><i class="fa-solid fa-layer-group"></i> 7 Plans</a>
+      <a href="#services"><i class="fa-solid fa-toolbox"></i> Services</a>
+      <a href="#examples"><i class="fa-solid fa-chart-line"></i> Examples</a>
+      <a href="news.html"><i class="fa-solid fa-newspaper"></i> समाचार</a>
+      <a href="jobs.html"><i class="fa-solid fa-briefcase"></i> Jobs</a>
+      <a href="panchang.html"><i class="fa-solid fa-calendar-days"></i> पंचांग</a>
+      <a href="chat.html"><i class="fa-solid fa-comments"></i> Chat</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn-outline" href="register.html">Register</a>
+      <button class="btn-primary" onclick="openRegistrationFlow()">Join IOIS</button>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+  </div>
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="index.html">🏠 Home</a><a href="membership.html">💳 All Membership Plans</a>
+    <a href="#services">🧰 Services</a><a href="#examples">📊 Referral Examples</a>
+    <a href="news.html">📰 समाचार</a><a href="jobs.html">💼 Jobs</a><a href="panchang.html">📅 पंचांग</a><a href="chat.html">💬 Community Chat</a>
+    <a class="btn-outline full" href="register.html">Register</a>
+    <button class="btn-primary full" onclick="openRegistrationFlow()">Join IOIS</button>
+  </div>
+</header>
+
+<main>
+<section class="section hero-section">
+  <div class="container">
+    <div class="room-wall">
+      <div class="clock-panel">
+        <div class="panel-title"><span><i class="fa-solid fa-clock"></i> IOIS Live Clock</span><i class="live-dot"></i></div>
+        <div id="digital-clock" class="digital-clock">12:00:00 AM</div>
+        <div class="analog-clock" aria-label="Live analog clock">
+          <div class="clock-number"><span class="n12">12</span><span class="n1">1</span><span class="n2">2</span><span class="n3">3</span><span class="n4">4</span><span class="n5">5</span><span class="n6">6</span><span class="n7">7</span><span class="n8">8</span><span class="n9">9</span><span class="n10">10</span><span class="n11">11</span></div>
+          <div id="clock-hour" class="clock-hand hour-hand"></div>
+          <div id="clock-min" class="clock-hand minute-hand"></div>
+          <div id="clock-sec" class="clock-hand second-hand"></div>
+          <div class="clock-center"></div>
+        </div>
+        <div id="clock-date" class="muted">तारीख लोड हो रही है...</div>
+      </div>
+
+      <div class="weather-panel">
+        <div class="satellite-label"><i class="fa-solid fa-satellite"></i> <span id="weather-location-label">GPS Location</span></div>
+        <div class="weather-scene">
+          <div class="orbit"></div>
+          <div class="weather-info">
+            <div id="weather-temp" class="weather-temp">--°C</div>
+            <div id="weather-status">☀️ मौसम जानकारी लोड हो रही है...</div>
+            <small id="weather-location">Location खोजी जा रही है...</small>
+            <small id="weather-extra">Humidity --% · Wind -- km/h</small>
+            <a href="panchang.html" class="small-primary"><i class="fa-solid fa-calendar-days"></i> पंचांग देखें</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="smart-panel">
+        <div class="panel-title"><span><i class="fa-solid fa-box-archive"></i> IOIS SMART SYSTEM</span><b>IOIS</b></div>
+        <div class="smart-content">
+          <p>✨ आज का शुभ रंग: <strong>पीला & केसरिया</strong></p>
+          <p>⏰ शुभ समय: <strong>सुबह 08:15 से 10:30</strong></p>
+          <p>IOIS Platform पर Digital Resources, Career Tools और Membership Plans उपलब्ध हैं।</p>
+        </div>
+        <a href="panchang.html" class="small-primary full">पंचांग / मौसम देखें</a>
+      </div>
+    </div>
+
+    <div class="smart-tv">
+      <div class="tv-head"><b><i class="fa-solid fa-tv"></i> IOIS Smart TV</b><div><button onclick="openVideo()">YouTube</button><button onclick="openVideo()">Browser</button></div></div>
+      <div class="tv-screen"><iframe src="https://www.youtube.com/embed/0gYd3mIxksc?autoplay=0&mute=1&loop=1&playlist=0gYd3mIxksc" title="IOIS Smart TV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+
+    <div class="hero-card">
+      <span class="eyebrow">🇮🇳 Indian Digital Platform</span>
+      <h1 class="tiranga-text">Indian Online Income<br>Supporting System</h1>
+      <p>IOIS एक digital platform है जो students, job seekers और digital creators को affordable digital resources, career tools और creator-supporting products उपलब्ध कराने के लिए बनाया गया है।</p>
+      <div class="hero-buttons"><button class="btn-gradient" onclick="openRegistrationFlow()">🚀 Join IOIS @ ₹10</button><button class="btn-outline large" onclick="scrollToPlans()">📦 View 7 Plans</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+<div class="container"><div class="section-heading"><span>ABOUT IOIS</span><h2>IOIS क्या है?</h2></div>
+<div class="two-grid">
+<div class="glass-card"><div class="icon-box amber"><i class="fa-solid fa-building"></i></div><h3>Digital Business Platform</h3><p>IOIS का उद्देश्य students, job seekers और digital promoters को affordable digital assets और practical creator resources उपलब्ध कराना है।</p></div>
+<div class="glass-card"><div class="icon-box teal"><i class="fa-solid fa-box-open"></i></div><h3 class="teal-text">Digital Products</h3><p>CV templates, cover letters, ChatGPT prompts, social media resources, useful website links, digital ID cards और AI/freelancing guides शामिल हैं।</p></div>
+</div></div>
+</section>
+
+<section class="section" id="services">
+<div class="container"><div class="section-heading"><span>MAIN SERVICES</span><h2>IOIS की मुख्य सेवाएं</h2></div>
+<div class="services-grid">
+<div class="service-card"><i class="fa-solid fa-file-lines"></i><b>CV / Resume</b></div><div class="service-card"><i class="fa-solid fa-envelope"></i><b>Cover Letters</b></div>
+<div class="service-card"><i class="fa-solid fa-robot"></i><b>AI Prompts</b></div><div class="service-card"><i class="fa-solid fa-share-nodes"></i><b>Social Media</b></div>
+<div class="service-card"><i class="fa-solid fa-id-card"></i><b>Digital ID</b></div><div class="service-card"><i class="fa-solid fa-laptop-code"></i><b>AI & Freelancing</b></div>
+</div></div>
+</section>
+
+<section class="section" id="plans">
+<div class="container"><div class="section-heading"><span>MEMBERSHIP</span><h2>IOIS 7 Master Plans</h2><p>₹10 से ₹999 तक के digital membership options</p></div>
+<div id="plans-grid" class="plans-grid"></div>
+</div>
+</section>
+
+<section class="section">
+<div class="container"><div class="section-heading"><span>REFERRAL STRUCTURE</span><h2>Direct Referral Payout Chart</h2></div>
+<div id="payout-grid" class="payout-grid"></div>
+<div class="notice"><i class="fa-solid fa-bolt"></i><h3>Cross-Level Example</h3><p>Referral payout examples plan-specific हैं। किसी भी payout को guaranteed income न मानें; actual eligibility और payment platform rules के अनुसार होगी।</p></div>
+</div>
+</section>
+
+<section class="section" id="examples">
+<div class="container narrow"><div class="section-heading"><span>PRACTICAL EXAMPLES</span><h2>21 Detailed Referral Examples</h2><p>Master presentation के practical examples</p></div>
+<div id="examples-list" class="examples-list"></div></div>
+</section>
+
+<section class="section">
+<div class="container"><div class="section-heading"><span>SIMPLE PROCESS</span><h2>IOIS कैसे काम करता है?</h2></div>
+<div class="steps-grid">
+<div class="step"><b>1</b><h3>Plan चुनें</h3><p>अपनी जरूरत के अनुसार membership plan चुनें।</p></div>
+<div class="step"><b>2</b><h3>Digital Resources</h3><p>Selected digital resources प्राप्त करें।</p></div>
+<div class="step"><b>3</b><h3>Share / Promote</h3><p>Platform और products को लोगों तक पहुँचाएँ।</p></div>
+<div class="step"><b>4</b><h3>Referral Payout</h3><p>Eligible referral होने पर applicable payout structure लागू होगा।</p></div>
+</div></div>
+</section>
+
+<section class="section"><div class="container"><div class="cta">
+<div class="cta-icon">🚀</div><h2>IOIS Platform से शुरुआत करें</h2><p>अपनी जरूरत के अनुसार digital membership plan चुनें और IOIS ecosystem का हिस्सा बनें।</p><button class="btn-gradient" onclick="openRegistrationFlow()">Join IOIS Now @ ₹10</button>
+</div></div></section>
+</main>
+
+<footer><div class="container footer-grid"><div><b class="tiranga-text footer-logo">IOIS PLATFORM</b><p>Indian Online Income Supporting System</p></div><div><h3>Quick Links</h3><a href="membership.html">Membership</a><a href="jobs.html">Jobs</a><a href="news.html">News</a><a href="chat.html">Community Chat</a></div><div><h3>IOIS</h3><p>Digital resources, creator tools and career-supporting products.</p></div></div><div class="copyright">© 2026 IOIS PLATFORM. All Rights Reserved.</div></footer>
+
+<div id="modal-overlay" class="modal-overlay" onclick="closeModals(event)">
+<div id="registration-modal" class="modal" onclick="event.stopPropagation()">
+<button class="modal-close" onclick="closeModals()">×</button><div class="modal-icon">👤</div><h2>IOIS Member Registration</h2>
+<form id="registration-form" onsubmit="handleDetailsSubmit(event)">
+<label>Select Membership Plan *</label><select id="reg-plan" required></select>
+<label>Full Name</label><input id="reg-name" type="text" placeholder="अपना पूरा नाम" required>
+<label>WhatsApp Number</label><input id="reg-phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit WhatsApp Number" required>
+<label>Referral Code (optional)</label><input id="reg-ref" type="text" placeholder="Referral code">
+<button class="btn-gradient full" type="submit">Proceed</button>
+</form></div>
+
+
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

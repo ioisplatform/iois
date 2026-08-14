@@ -1,0 +1,29 @@
+IOIS TELEGRAM SECURE SETUP
+
+Visitor Join flow:
+  Join button -> Telegram @ioisplatform
+  The selected service/plan is included in the Telegram message text.
+
+Admin notification flow:
+  Registration/payment submission -> Supabase Edge Function -> Telegram Bot -> Chat ID 964524685
+
+IMPORTANT SECURITY RULE:
+  The Telegram bot token MUST NEVER be placed in HTML, CSS, frontend JS,
+  config.js, GitHub Pages files, or any public repository.
+
+Supabase Edge Function:
+  supabase/functions/iois-registration-notification/index.ts
+
+Required Supabase Edge Function secrets:
+  TELEGRAM_BOT_TOKEN = <current bot token>
+  TELEGRAM_CHAT_ID   = 964524685
+  SUPABASE_SERVICE_ROLE_KEY = <current service-role key>
+
+Deploy:
+  supabase functions deploy iois-registration-notification
+
+The frontend calls:
+  https://hrvwzviprlnpkhrgzdrc.supabase.co/functions/v1/iois-registration-notification
+
+The function verifies the authenticated user and verifies that the submitted
+member ID belongs to that user before sending the admin notification.
