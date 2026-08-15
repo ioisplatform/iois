@@ -1,768 +1,801 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#020617">
-<meta name="description" content="IOIS Platform - Indian Online Income Supporting System. Digital resources, career tools, creator resources and membership plans.">
-<title>IOIS PLATFORM | Happy Independence Day 🇮🇳</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07130f">
+<title>IOIS — Indian Online Income Supporting System</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Poppins:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap');
+:root {
+  --bg: #030706;
+  --panel: rgba(13, 25, 20, 0.7);
+  --panel-border: rgba(255, 255, 255, 0.12);
+  --text: #f7fff9;
+  --muted: #a4b8ad;
+  --saffron: #ff8a1f;
+  --saffron-glow: rgba(255, 138, 31, 0.4);
+  --green: #10b981;
+  --green-glow: rgba(16, 185, 129, 0.4);
+  --blue: #3b82f6;
+  --blue-glow: rgba(59, 130, 246, 0.4);
+  --gold: #fbbf24;
+  --line: rgba(255, 255, 255, 0.1);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  --glow: 0 0 30px rgba(16, 185, 129, 0.15);
+}
 
-  :root {
-    --saffron: #FF9933;
-    --white: #FFFFFF;
-    --green: #138808;
-    --navy: #000080;
-    --gold: #FBBF24;
-    --dark-bg: #020617;
-  }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-  body {
-    font-family: 'Poppins', 'Tiro Devanagari Hindi', sans-serif;
-    background-color: var(--dark-bg);
-    color: #f3f4f6;
-    overflow-x: hidden;
-    position: relative;
-  }
+body {
+  margin: 0;
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(255, 138, 31, 0.15), transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(16, 185, 129, 0.15), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.1), transparent 50%),
+    var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
 
-  /* 1. एनिमेटेड तिरंगा बॉर्डर */
-  .flag-border-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 999;
-    border: 6px solid transparent;
-    border-image: linear-gradient(90deg, #FF9933, #FFFFFF, #138808, #FF9933, #FFFFFF, #138808) 1;
-    animation: borderRotate 4s linear infinite;
-    box-shadow: inset 0 0 25px rgba(255, 153, 51, 0.4);
-  }
+a { text-decoration: none; color: inherit; }
+.wrap { width: min(1200px, 92%); margin: auto; }
 
-  @keyframes borderRotate {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
-  }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+  animation: sheen 12s linear infinite;
+  z-index: -1;
+}
 
-  /* 2. स्वतंत्रता दिवस - फूलों की बारिश */
-  #flower-rain-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 998;
-    overflow: hidden;
-  }
+@keyframes sheen {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
 
-  .falling-flower {
-    position: absolute;
-    top: -50px;
-    user-select: none;
-    animation: fallDown linear infinite;
-  }
+/* Header & Nav */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(3, 7, 6, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
 
-  @keyframes fallDown {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
-  }
+.nav {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
 
-  /* 3. 3 फाइटर जेट्स मिलकर तिरंगा धुआँ (Tri-color Jet Formation) */
-  .sky-jet-wrapper {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 997;
-    overflow: hidden;
-  }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  font-size: 1.1rem;
+}
 
-  .jet-squadron {
-    position: absolute;
-    width: 100%;
-    height: 160px;
-    left: -120%;
-    animation: flyJets 8s linear infinite;
-  }
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--saffron), #ffffff, var(--green));
+  box-shadow: 0 0 20px var(--saffron-glow);
+  transition: transform 0.3s ease;
+}
 
-  @keyframes flyJets {
-    0% { left: -120%; top: 12%; }
-    100% { left: 120%; top: 38%; }
-  }
+.brand:hover .logo { transform: scale(1.05) rotate(3deg); }
 
-  .single-jet-box {
-    position: absolute;
-    display: flex;
-    align-items: center;
-  }
+.logo i {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: #06100c;
+  color: #fff;
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 900;
+}
 
-  .jet-saffron-box { top: 10px; }
-  .jet-white-box   { top: 55px; left: 25px; } /* हल्का पीछे ताकि फॉर्मेशन बने */
-  .jet-green-box   { top: 100px; }
+.join {
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, var(--saffron), #ffa500);
+  color: #0b0700;
+  font-weight: 800;
+  box-shadow: 0 8px 25px var(--saffron-glow);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .jet-icon {
-    font-size: 36px;
-    transform: rotate(20deg);
-    z-index: 5;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
-  }
+.join:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px var(--saffron-glow);
+  filter: brightness(1.1);
+}
 
-  .smoke-line {
-    position: absolute;
-    right: 28px;
-    height: 16px;
-    width: 3000px;
-    border-radius: 8px;
-    filter: blur(4px);
-    opacity: 0.95;
-  }
+/* Hero Section */
+.hero { padding: 60px 0 40px; }
 
-  .smoke-saffron { background: #FF9933; box-shadow: 0 0 25px #FF9933, 0 0 50px #FF9933; }
-  .smoke-white   { background: #FFFFFF; box-shadow: 0 0 25px #FFFFFF, 0 0 50px #FFFFFF; }
-  .smoke-green   { background: #138808; box-shadow: 0 0 25px #138808, 0 0 50px #138808; }
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
 
-  /* 4. अशोक चक्र */
-  .ashok-chakra {
-    width: 70px;
-    height: 70px;
-    border: 3px solid var(--navy);
-    border-radius: 50%;
-    position: relative;
-    display: inline-block;
-    animation: rotateChakra 8s linear infinite;
-    box-shadow: 0 0 20px rgba(0, 0, 128, 0.8);
-    background: rgba(255, 255, 255, 0.2);
-  }
+.badge {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 99px;
+  color: #eaf6ef;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
+}
 
-  .chakra-spoke {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 2px;
-    background-color: var(--navy);
-    transform-origin: center center;
-  }
+h1 {
+  font-size: clamp(38px, 5.5vw, 68px);
+  line-height: 1.05;
+  margin: 20px 0;
+  background: linear-gradient(135deg, #ffffff 30%, var(--saffron) 60%, var(--green));
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradient 8s ease infinite;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
 
-  @keyframes rotateChakra {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  /* 5. 3D TIRANGA CLOCK */
-  .clock-3d-wrapper {
-    border: 3px solid var(--gold);
-    border-radius: 2rem;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 35px rgba(251, 191, 36, 0.4);
-    background: #020617;
-    transform: perspective(1000px) rotateX(2deg);
-    transition: transform 0.3s ease;
-  }
-  .clock-3d-wrapper:hover {
-    transform: perspective(1000px) rotateX(0deg) scale(1.02);
-  }
+.lead {
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 680px;
+}
 
-  .clock-section-saffron {
-    background: linear-gradient(135deg, #FF7700 0%, #FF9933 50%, #D97706 100%);
-    padding: 16px 12px;
-    text-align: center;
-    border-bottom: 3px solid #FBBF24;
-    position: relative;
-  }
+.ctaRow {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
 
-  .digital-clock-3d {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: #FFFFFF;
-    text-shadow: 0 3px 0 #8B4500, 0 0 15px rgba(255, 255, 255, 0.9);
-    letter-spacing: 2px;
-  }
+.ghost {
+  padding: 12px 22px;
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
 
-  .clock-section-white {
-    background: radial-gradient(circle, #FFFFFF 70%, #E2E8F0 100%);
-    padding: 20px 10px;
-    text-align: center;
-    position: relative;
-  }
+.ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
 
-  .ashok-analog-3d {
-    width: 160px;
-    height: 160px;
-    border: 5px solid var(--navy);
-    border-radius: 50%;
-    margin: 0 auto;
-    position: relative;
-    background: #FFFFFF;
-    box-shadow: inset 0 0 15px rgba(0,0,128,0.25), 0 10px 20px rgba(0,0,0,0.3);
-  }
+.trust {
+  margin-top: 28px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-  .clock-num {
-    position: absolute;
-    font-size: 12px;
-    font-weight: 900;
-    color: var(--navy);
-  }
-  .n12 { top: 4px; left: 50%; transform: translateX(-50%); }
-  .n1  { top: 14px; right: 34px; }
-  .n2  { top: 36px; right: 14px; }
-  .n3  { top: 50%; right: 6px; transform: translateY(-50%); }
-  .n4  { bottom: 36px; right: 14px; }
-  .n5  { bottom: 14px; right: 34px; }
-  .n6  { bottom: 4px; left: 50%; transform: translateX(-50%); }
-  .n7  { bottom: 14px; left: 34px; }
-  .n8  { bottom: 36px; left: 14px; }
-  .n9  { top: 50%; left: 6px; transform: translateY(-50%); }
-  .n10 { top: 36px; left: 14px; }
-  .n11 { top: 14px; left: 34px; }
+.trust span {
+  font-size: 12px;
+  color: #d7e7df;
+  padding: 8px 14px;
+  border-radius: 99px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  backdrop-filter: blur(4px);
+  font-weight: 600;
+}
 
-  .hand-3d {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform-origin: bottom center;
-    border-radius: 4px;
-    z-index: 10;
-  }
-  .hand-hour   { width: 5px; height: 42px; background: var(--navy); }
-  .hand-minute { width: 3.5px; height: 60px; background: var(--navy); }
-  .hand-second { width: 2px; height: 66px; background: var(--saffron); }
-  .hand-center { width: 14px; height: 14px; background: var(--navy); border: 3px solid #FFF; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 12; }
+/* Clock Styles */
+.clockBox {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 350px;
+}
 
-  .clock-section-green {
-    background: linear-gradient(135deg, #138808 0%, #0B5304 100%);
-    padding: 12px;
-    text-align: center;
-    border-top: 3px solid #FBBF24;
-  }
+.clockHalo {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: conic-gradient(var(--saffron), #ffffff 33%, var(--green) 66%, var(--blue));
+  filter: blur(25px);
+  opacity: 0.25;
+  animation: spin 20s linear infinite;
+}
 
-  .tiranga-3d-text {
-    background: linear-gradient(180deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(2px 3px 0px rgba(0,0,0,0.9));
-    font-weight: 900;
-  }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .glass-card {
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 153, 51, 0.3);
-  }
+.clock {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #0d1a14 0%, #050b08 100%);
+  border: 4px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.8),
+    inset 0 0 25px rgba(0, 0, 0, 0.9),
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(16, 185, 129, 0.15);
+}
 
-  .plan-card-3d {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
-    border: 2px solid rgba(251, 191, 36, 0.3);
-  }
-  .plan-card-3d:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: #FBBF24;
-    box-shadow: 0 20px 30px rgba(255, 153, 51, 0.25);
-  }
+.clock::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
 
-  .ticker-wrap { overflow: hidden; white-space: nowrap; }
-  .ticker { display: inline-block; animation: marquee 22s linear infinite; }
-  @keyframes marquee { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+.tick { position: absolute; inset: 0; }
+.tick b {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #a4b8ad;
+  font-weight: 700;
+}
+
+.tick:nth-child(2) { transform: rotate(30deg); }
+.tick:nth-child(3) { transform: rotate(60deg); }
+.tick:nth-child(4) { transform: rotate(90deg); }
+.tick:nth-child(5) { transform: rotate(120deg); }
+.tick:nth-child(6) { transform: rotate(150deg); }
+.tick:nth-child(2) b, .tick:nth-child(4) b, .tick:nth-child(6) b { transform: translateX(-50%) rotate(-30deg); }
+
+.hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform-origin: 50% 100%;
+  border-radius: 10px;
+  z-index: 5;
+}
+
+.hour { width: 6px; height: 52px; background: #ffffff; box-shadow: 0 0 8px rgba(255,255,255,0.5); }
+.minute { width: 4px; height: 75px; background: var(--blue); box-shadow: 0 0 10px var(--blue-glow); }
+.second {
+  width: 2px;
+  height: 88px;
+  background: var(--saffron);
+  box-shadow: 0 0 10px var(--saffron-glow);
+  animation: sec 60s steps(60) infinite;
+}
+
+.pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  left: calc(50% - 7px);
+  top: calc(50% - 7px);
+  z-index: 8;
+  box-shadow: 0 0 15px var(--gold);
+  border: 2px solid #fff;
+}
+
+.clockText {
+  position: absolute;
+  bottom: -10px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  background: rgba(7, 19, 15, 0.8);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+
+.clockText strong { display: block; font-size: 17px; color: #fff; font-family: monospace; letter-spacing: 1px; }
+
+/* Sections & Cards */
+.section { padding: 65px 0; }
+.section h2 { font-size: clamp(28px, 4vw, 44px); margin: 0 0 10px; font-weight: 800; letter-spacing: -0.5px; }
+.sub { color: var(--muted); line-height: 1.6; font-size: 1.05rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.card {
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -100% 50% auto -100%;
+  height: 200px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
+  transform: rotate(-30deg);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.card:hover::before { transform: rotate(-30deg) translate(100%, 100%); }
+
+.role { cursor: pointer; }
+.role:hover {
+  transform: translateY(-8px);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.icon { font-size: 36px; margin-bottom: 8px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+.card h3 { margin: 12px 0 8px; font-size: 1.25rem; font-weight: 700; }
+.card p { color: var(--muted); line-height: 1.6; margin: 0; font-size: 0.95rem; }
+
+/* Quiz Styles */
+.quiz { margin-top: 28px; max-width: 850px; }
+.q { display: none; }
+.q.active { display: block; animation: up 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.q h3 { font-size: 22px; margin-bottom: 18px; }
+.options { display: grid; gap: 12px; }
+
+.opt {
+  border: 1px solid var(--panel-border);
+  background: rgba(13, 25, 20, 0.9);
+  color: #fff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.opt:hover {
+  border-color: var(--blue);
+  background: rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+  transform: translateX(4px);
+}
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result {
+  display: none;
+  margin-top: 20px;
+  padding: 24px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 138, 31, 0.15), rgba(16, 185, 129, 0.15));
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+/* Plans Grid */
+.planGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 340px;
+}
+
+.plan:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 138, 31, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 138, 31, 0.15);
+}
+
+.price {
+  font-size: 38px;
+  font-weight: 900;
+  margin: 12px 0 4px;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.payout { color: #6ee7b7; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; }
+.plan ul { padding-left: 18px; color: #c8d5cf; line-height: 1.7; margin-bottom: 20px; flex-grow: 1; font-size: 0.92rem; }
+.plan .join { width: 100%; margin-top: auto; }
+
+/* Flag Section */
+.flagCard {
+  margin-top: 30px;
+  border-radius: 32px;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff8a1f 0%, #ffffff 50%, #10b981 100%);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+}
+
+.flagInner {
+  background: rgba(6, 15, 12, 0.85);
+  border-radius: 22px;
+  padding: 35px 20px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chakra {
+  width: 80px;
+  height: 80px;
+  margin: 10px auto 16px;
+  border-radius: 50%;
+  border: 4px solid #1d4ed8;
+  position: relative;
+  box-shadow: 0 0 25px rgba(29, 78, 216, 0.6);
+  animation: spin 20s linear infinite;
+}
+
+.chakra::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 2px solid #1d4ed8;
+}
+
+.chakra::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: #1d4ed8;
+  transform: translateX(-50%);
+  clip-path: polygon(40% 0, 60% 0, 60% 45%, 100% 50%, 60% 55%, 60% 100%, 40% 100%, 40% 55%, 0 50%, 40% 45%);
+}
+
+.flowers { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.flower { position: absolute; top: -30px; animation: fall linear infinite; opacity: 0.8; font-size: 20px; }
+.flower:nth-child(1) { left: 8%; animation-duration: 7s; }
+.flower:nth-child(2) { left: 24%; animation-duration: 9s; }
+.flower:nth-child(3) { left: 48%; animation-duration: 6s; }
+.flower:nth-child(4) { left: 72%; animation-duration: 8s; }
+.flower:nth-child(5) { left: 90%; animation-duration: 10s; }
+
+@keyframes fall {
+  to { transform: translateY(650px) rotate(500deg); opacity: 0; }
+}
+
+/* Tools Zone */
+.tools {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.tool {
+  padding: 20px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.tool:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.25); }
+.live { font-weight: 850; font-size: 1.1rem; color: #fff; }
+.small { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ID Card Section */
+.idcard {
+  margin-top: 28px;
+  max-width: 580px;
+  border-radius: 24px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.05), rgba(255,255,255,0.2));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  transform: perspective(1000px) rotateX(2deg);
+  transition: transform 0.5s ease;
+}
+
+.idcard:hover { transform: perspective(1000px) rotateX(0deg) scale(1.01); }
+
+.idinner {
+  border-radius: 22px;
+  background: linear-gradient(135deg, #0d1914, #050b08);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.idinner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.08) 50%, transparent 65%);
+  animation: cardshine 6s infinite;
+}
+
+@keyframes cardshine {
+  from { transform: translateX(-150%); }
+  to { transform: translateX(150%); }
+}
+
+.idtop { display: flex; justify-content: space-between; align-items: center; }
+.miniLogo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--saffron), #fff, var(--green));
+  display: grid;
+  place-items: center;
+  color: #07110d;
+  font-weight: 900;
+  font-size: 12px;
+  box-shadow: 0 0 15px rgba(255, 138, 31, 0.3);
+}
+
+.idbody { display: flex; gap: 20px; align-items: center; margin-top: 24px; }
+
+.avatar {
+  width: 90px;
+  height: 110px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #1a2e25, #0a100d);
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+}
+
+.idtext b { display: block; font-size: 22px; letter-spacing: 0.5px; }
+.idtext span { display: block; color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+
+/* Footer & Notice */
+.footer {
+  padding: 50px 0 80px;
+  color: var(--muted);
+  text-align: center;
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+  font-size: 0.95rem;
+}
+
+.notice { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 20px; opacity: 0.8; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.show { opacity: 1; transform: translateY(0); }
+
+/* Responsive adjustments */
+@media(max-width: 960px) {
+  .heroGrid { grid-template-columns: 1fr; }
+  .grid, .planGrid { grid-template-columns: repeat(2, 1fr); }
+  .tools { grid-template-columns: repeat(3, 1fr); }
+  .clockBox { min-height: 300px; }
+}
+
+@media(max-width: 600px) {
+  .nav { height: 65px; }
+  .brand small { display: none; }
+  .hero { padding-top: 25px; }
+  .clock { width: 190px; height: 190px; }
+  .clockHalo { width: 240px; height: 240px; }
+  .hour { height: 42px; }
+  .minute { height: 60px; }
+  .second { height: 72px; }
+  .grid, .planGrid { grid-template-columns: 1fr; }
+  .tools { grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 45px 0; }
+  .card { padding: 20px; }
+  h1 { font-size: 38px; }
+  .join { padding: 11px 18px; }
+}
 </style>
 </head>
-<body class="min-h-screen">
+<body>
+<header class="top"><div class="wrap nav">
+  <a class="brand" href="#"><span class="logo"><i>IOIS</i></span><span>IOIS <small>Platform</small></span></a>
+  <a class="join" href="https://t.me/ioisplatform" target="_blank" rel="noopener">🚀 JOIN IOIS</a>
+</div></header>
 
-<!-- 1. तिरंगा बॉर्डर -->
-<div class="flag-border-container"></div>
-
-<!-- 2. फूलों की बारिश कंटेनर -->
-<div id="flower-rain-container"></div>
-
-<!-- 3. 3 फाइटर जेट्स मिलकर तिरंगा धुआँ -->
-<div class="sky-jet-wrapper">
-  <div class="jet-squadron">
-    <div class="single-jet-box jet-saffron-box">
-      <div class="smoke-line smoke-saffron"></div>
-      <div class="jet-icon">✈️</div>
-    </div>
-    <div class="single-jet-box jet-white-box">
-      <div class="smoke-line smoke-white"></div>
-      <div class="jet-icon">✈️</div>
-    </div>
-    <div class="single-jet-box jet-green-box">
-      <div class="smoke-line smoke-green"></div>
-      <div class="jet-icon">✈️</div>
-    </div>
+<main>
+<section class="hero"><div class="wrap heroGrid">
+  <div>
+    <span class="badge">🇮🇳 15 अगस्त 2026 • 80वां स्वतंत्रता दिवस समारोह</span>
+    <h1>शिक्षा • सुविधा • डिजिटल ग्रोथ</h1>
+    <p class="lead">IOIS — Indian Online Income Supporting System. एक single-page digital hub जहाँ free study resources, useful utilities, daily information और digital growth resources एक ही जगह मिलते हैं।</p>
+    <div class="ctaRow"><a class="join" href="https://t.me/ioisplatform" target="_blank" rel="noopener">📲 Telegram पर Join करें</a><a class="ghost" href="#plans">💎 Plans देखें</a></div>
+    <div class="trust"><span>✓ Mobile Friendly</span><span>✓ Student & Family Friendly</span><span>✓ Clear Information</span></div>
   </div>
+  <div class="clockBox">
+    <div class="clockHalo"></div>
+    <div class="clock" aria-label="Live analog clock">
+      <div class="tick"><b>12</b></div><div class="tick"><b>1</b></div><div class="tick"><b>2</b></div><div class="tick"><b>3</b></div><div class="tick"><b>4</b></div><div class="tick"><b>5</b></div>
+      <div class="tick" style="transform:rotate(180deg)"><b style="transform:translateX(-50%) rotate(-180deg)">6</b></div>
+      <div class="tick" style="transform:rotate(210deg)"><b style="transform:translateX(-50%) rotate(-210deg)">7</b></div>
+      <div class="tick" style="transform:rotate(240deg)"><b style="transform:translateX(-50%) rotate(-240deg)">8</b></div>
+      <div class="tick" style="transform:rotate(270deg)"><b style="transform:translateX(-50%) rotate(-270deg)">9</b></div>
+      <div class="tick" style="transform:rotate(300deg)"><b style="transform:translateX(-50%) rotate(-300deg)">10</b></div>
+      <div class="tick" style="transform:rotate(330deg)"><b style="transform:translateX(-50%) rotate(-330deg)">11</b></div>
+      <div class="hand hour" id="hour"></div><div class="hand minute" id="minute"></div><div class="hand second" id="second"></div><div class="pin"></div>
+    </div>
+    <div class="clockText"><strong id="digitalTime">--:--:--</strong><span id="liveDate">--</span></div>
+  </div>
+</div></section>
+
+<section class="section reveal"><div class="wrap">
+<h2>आप IOIS पर किसके लिए आए हैं?</h2><p class="sub">अपनी जरूरत चुनें — बाकी पूरा platform भी आपके सामने खुला रहेगा।</p>
+<div class="grid">
+ <div class="card role"><div class="icon">👨‍👩‍👧‍👦</div><h3>Parent / Family</h3><p>बच्चों की पढ़ाई, useful tools और family information.</p></div>
+ <div class="card role"><div class="icon">🎓</div><h3>Student</h3><p>Class 1–12 study resources, practice और guidance.</p></div>
+ <div class="card role"><div class="icon">💼</div><h3>Job / Skill Seeker</h3><p>Digital skills, templates और growth resources.</p></div>
+ <div class="card role"><div class="icon">🚀</div><h3>Explorer</h3><p>पूरे IOIS ecosystem को एक जगह explore करें.</p></div>
 </div>
+</div></section>
 
-<!-- 4. LIVE TICKER -->
-<div class="bg-gradient-to-r from-[#FF9933] via-slate-950 to-[#138808] text-white text-xs font-bold py-2 border-b border-amber-500/40">
-  <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-    <span class="bg-amber-400 text-black px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase shrink-0 shadow-md animate-pulse">
-      🇮🇳 स्वतंत्रता दिवस विशेषांक
-    </span>
-    <div class="ticker-wrap w-full ml-3 text-xs text-amber-200">
-      <div class="ticker">
-        🇮🇳 IOIS PLATFORM — ₹10 बाल विकास सेवा से शुरुआत करें और Digital Resources प्राप्त करें!
-        &nbsp;&nbsp;&nbsp; 🚀 ऑल 7 'Access' मेम्बरशिप प्लांस (₹10 से ₹999) उपलब्ध हैं!
-        &nbsp;&nbsp;&nbsp; 🇮🇳 स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ — जय हिंद, जय भारत!
-      </div>
-    </div>
-  </div>
+<section class="section reveal"><div class="wrap"><h2>🧠 2-Minute IOIS Interactive Quiz</h2><p class="sub">एक-एक सवाल का जवाब दें और platform आपके लिए relevant next step दिखाएगा।</p>
+<div class="card quiz">
+ <div class="q active" data-q="1"><h3>Q1. आप IOIS पर सबसे पहले क्या देखना चाहते हैं?</h3><div class="options"><button class="opt" onclick="answer(1,'study')">📚 Free Study & Books</button><button class="opt" onclick="answer(1,'tools')">🛠️ Daily Tools & Utilities</button><button class="opt" onclick="answer(1,'growth')">💼 Digital Growth & Plans</button></div></div>
+ <div class="q" data-q="2"><h3>Q2. आपके लिए सबसे जरूरी क्या है?</h3><div class="options"><button class="opt" onclick="answer(2,'mobile')">📱 Mobile-friendly experience</button><button class="opt" onclick="answer(2,'simple')">✨ Simple & clear guidance</button><button class="opt" onclick="answer(2,'all')">🌐 All-in-one platform</button></div></div>
+ <div class="q" data-q="3"><h3>Q3. आप अगला कदम क्या रखना चाहेंगे?</h3><div class="options"><button class="opt" onclick="answer(3,'explore')">🔎 पहले पूरा platform देखना</button><button class="opt" onclick="answer(3,'join')">🚀 Telegram पर Join करना</button><button class="opt" onclick="answer(3,'plans')">💎 Plans समझना</button></div></div>
+ <div class="result" id="result"><strong id="resultTitle">आपके लिए IOIS तैयार है.</strong><p id="resultText">आप अपने पसंदीदा section से शुरुआत कर सकते हैं।</p><a class="join" href="https://t.me/ioisplatform" target="_blank" rel="noopener">📲 IOIS Telegram Join</a></div>
+</div></div></section>
+
+<section class="section reveal"><div class="wrap"><h2>🇮🇳 15 अगस्त Special — Live Indian Celebration</h2>
+<div class="flagCard">
+ <div class="flowers"><span class="flower">🌼</span><span class="flower">🌸</span><span class="flower">🌼</span><span class="flower">🌸</span><span class="flower">🌼</span></div>
+ <div class="flagInner"><div class="chakra"></div><h2 style="margin:0">वन्दे मातरम् • जय हिन्द</h2><p>80वां स्वतंत्रता दिवस समारोह — भारत के तिरंगे को समर्पित।</p><strong id="today"></strong></div>
 </div>
+<p class="notice">तारीख और समय device clock से live लिए जाते हैं। 15 अगस्त भारत का स्वतंत्रता दिवस है; 2026 में यह स्वतंत्रता की 80वीं वर्षगांठ का समारोह है।</p>
+</div></section>
 
-<!-- 5. HEADER -->
-<header class="sticky top-0 z-50 bg-[#080d1e]/90 backdrop-blur-md border-b border-amber-500/30">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full border-2 border-amber-400 p-0.5 shadow-lg bg-slate-900 flex items-center justify-center">
-        <img src="assets/logo.png" alt="IOIS Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://cdn-icons-png.flaticon.com/512/206/206626.png'">
-      </div>
-      <div>
-        <b class="tiranga-3d-text text-lg block leading-none">IOIS PLATFORM</b>
-        <small class="text-[9px] text-amber-300 tracking-wider block font-semibold">Indian Online Income Supporting System</small>
-      </div>
-    </a>
+<section class="section reveal"><div class="wrap"><h2>📚 Free Study & Family Hub</h2><p class="sub">Content links आप बाद में अपने verified resources से जोड़ सकते हैं। यहाँ structure ready है।</p>
+<div class="grid">
+ <div class="card"><div class="icon">📘</div><h3>Class 1–5</h3><p>Basic learning, worksheets, practice और parent-friendly resources.</p></div>
+ <div class="card"><div class="icon">📙</div><h3>Class 6–8</h3><p>Math, Science, GK और practice material hub.</p></div>
+ <div class="card"><div class="icon">📕</div><h3>Class 9–12</h3><p>Board preparation, revision और career guidance structure.</p></div>
+ <div class="card"><div class="icon">👨‍👩‍👧</div><h3>Parents Corner</h3><p>Family tools, daily information और student guidance.</p></div>
+</div></div></section>
 
-    <nav class="hidden lg:flex items-center gap-5 text-xs font-bold text-gray-300">
-      <a class="text-amber-400 flex items-center gap-1.5" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="#plans-section"><i class="fa-solid fa-layer-group"></i> 7 Access Plans</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="#services"><i class="fa-solid fa-toolbox"></i> Services</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="news.html"><i class="fa-solid fa-newspaper"></i> समाचार</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="jobs.html"><i class="fa-solid fa-briefcase"></i> Jobs</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="panchang.html"><i class="fa-solid fa-calendar-days"></i> पंचांग</a>
-    </nav>
+<section class="section reveal"><div class="wrap"><h2>🛠️ Live Utility Zone</h2><p class="sub">नीचे time live है; बाकी modules के लिए verified API/data source जोड़ने की जगह तैयार है।</p>
+<div class="tools">
+ <div class="tool"><div class="live" id="uTime">--</div><div class="small">Live Time</div></div>
+ <div class="tool"><div class="live" id="uDate">--</div><div class="small">Live Date</div></div>
+ <div class="tool"><div class="live">🌦️ Weather</div><div class="small">API-ready module</div></div>
+ <div class="tool"><div class="live">🕉️ Panchang</div><div class="small">Live-data module</div></div>
+ <div class="tool"><div class="live">📰 News</div><div class="small">Verified feed module</div></div>
+</div></div></section>
 
-    <div class="hidden sm:flex items-center gap-3">
-      <button class="px-4 py-2 border border-amber-500/50 hover:bg-amber-500/10 text-amber-400 rounded-xl text-xs font-bold transition">Login</button>
-      <button class="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-extrabold rounded-xl text-xs shadow-lg transition">Join IOIS</button>
-    </div>
-  </div>
-</header>
+<section class="section reveal" id="plans"><div class="wrap"><h2>💎 IOIS 7 Master Plans</h2><p class="sub">नीचे वही plan structure रखा गया है। Payout figures को illustrative referral examples की तरह देखें; वास्तविक eligibility/terms को platform rules से स्पष्ट करें।</p>
+<div class="planGrid">
+<script>
+const plans=[
+['01','Alpha Starter Pass','₹10','₹7',['Digital ID Pass','3 CV Templates','2 Cover Letters','10 ChatGPT Prompts','Helpful Links']],
+['02','Nexus Pro Creator Kit','₹49','₹35',['Pro Creator Badge','15+ Bio-data','50+ Social Posts','Website Guide']],
+['03','Apex Executive Pass','₹99','₹70',['Business Pass','100+ Branding Templates','Logos','Business Cards']],
+['04','Zenith VIP Creator','₹199','₹120',['VIP Creator Card','Mobile Design Masterclass','300+ Marketing Banners']],
+['05','Govt Exam & Student','₹299','₹220',['Student ID Card','Govt Job Alert Sheet','GK & Exam Notes']],
+['06','Diamond Business Agency','₹499','₹375',['Diamond Agency Card','1000+ Graphic Assets','Video Assets','Agency Manual']],
+['07','VIP Mastermind & AI','₹999','₹750',['VIP Elite Card','ChatGPT / Canva AI Mastery','Freelancing Blueprint']]
+];
+document.write(plans.map(p=>`<article class="card plan"><span class="badge">PLAN ${p[0]}</span><h3>${p[1]}</h3><div class="price">${p[2]}</div><div class="payout">Illustrative direct payout: ${p[3]}</div><ul>${p[4].map(x=>`<li>${x}</li>`).join('')}</ul><a class="join" href="https://t.me/ioisplatform" target="_blank" rel="noopener">JOIN / ASK ON TELEGRAM</a></article>`).join(''));
+</script>
+</div>
+</div></section>
 
-<main class="space-y-12 py-8 relative z-10">
+<section class="section reveal"><div class="wrap"><h2>🪪 Premium IOIS Digital ID</h2><p class="sub">Platinum-inspired physical-card style, अब तिरंगा accent और IOIS branding के साथ।</p>
+<div class="idcard"><div class="idinner">
+ <div class="idtop"><div class="brand"><span class="miniLogo">IOIS</span><b>IOIS DIGITAL ID</b></div><span style="color:#9db0a6">INDIA</span></div>
+ <div class="idbody"><div class="avatar">👤</div><div class="idtext"><b>MEMBER NAME</b><span>IOIS MEMBER</span><span>ID: IOIS-XXXX-XXXX</span><span>Digital • Verified after approval</span></div></div>
+</div></div>
+</div></section>
 
-  <!-- BANNER -->
-  <section class="max-w-7xl mx-auto px-4 text-center">
-    <div class="glass-card p-6 rounded-3xl border-2 border-amber-400 relative overflow-hidden">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-        <div class="ashok-chakra" id="ashok-chakra-box"></div>
-        <div>
-          <h1 class="text-3xl sm:text-5xl font-extrabold text-[#000080] drop-shadow-[0_2px_10px_rgba(255,255,255,0.9)] tracking-wide">
-            HAPPY INDEPENDENCE DAY 🇮🇳
-          </h1>
-          <p class="text-xs sm:text-sm text-amber-300 font-bold mt-1">15 अगस्त स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ — जय हिंद, जय भारत!</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- UTILITY & 3D CLOCK -->
-  <section class="max-w-7xl mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      
-      <!-- 🌟 ULTRA PREMIUM 3D TIRANGA CLOCK -->
-      <div class="clock-3d-wrapper">
-        <div class="clock-section-saffron">
-          <div class="text-[10px] font-black text-slate-950 uppercase tracking-widest mb-1 flex items-center justify-center gap-1">
-            <span>🇮🇳</span> IOIS LIVE DIGITAL CLOCK
-          </div>
-          <div id="digital-clock" class="digital-clock-3d">12:00:00 AM</div>
-        </div>
-
-        <div class="clock-section-white">
-          <div class="ashok-analog-3d">
-            <span class="clock-num n12">12</span>
-            <span class="clock-num n1">1</span>
-            <span class="clock-num n2">2</span>
-            <span class="clock-num n3">3</span>
-            <span class="clock-num n4">4</span>
-            <span class="clock-num n5">5</span>
-            <span class="clock-num n6">6</span>
-            <span class="clock-num n7">7</span>
-            <span class="clock-num n8">8</span>
-            <span class="clock-num n9">9</span>
-            <span class="clock-num n10">10</span>
-            <span class="clock-num n11">11</span>
-
-            <div id="clock-hour" class="hand-3d hand-hour"></div>
-            <div id="clock-min" class="hand-3d hand-minute"></div>
-            <div id="clock-sec" class="hand-3d hand-second"></div>
-            <div class="hand-center"></div>
-          </div>
-        </div>
-
-        <div class="clock-section-green">
-          <div id="clock-date" class="text-xs text-amber-200 font-black tracking-wide drop-shadow-md">
-            🗓️ तारीख लोड हो रही है...
-          </div>
-        </div>
-      </div>
-
-      <!-- Weather Panel -->
-      <div class="glass-card p-5 rounded-3xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between text-xs font-bold text-teal-400 mb-2">
-            <span><i class="fa-solid fa-satellite"></i> Location Weather</span>
-          </div>
-          <div class="text-center my-2">
-            <div id="weather-temp" class="text-3xl font-black text-white">28°C</div>
-            <div id="weather-status" class="text-xs text-amber-300 mt-1">☀️ पटना, बिहार - मौसम साफ़ है</div>
-          </div>
-        </div>
-        <a href="panchang.html" class="block text-center py-2 bg-teal-500/20 text-teal-300 text-xs font-bold rounded-xl border border-teal-500/40">
-          <i class="fa-solid fa-calendar-days"></i> पंचांग देखें
-        </a>
-      </div>
-
-      <!-- IOIS Smart Panel -->
-      <div class="glass-card p-5 rounded-3xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between text-xs font-bold text-orange-400 mb-2">
-            <span><i class="fa-solid fa-box-archive"></i> IOIS SMART SYSTEM</span>
-            <b class="text-amber-400">IOIS</b>
-          </div>
-          <div class="space-y-1.5 text-xs text-gray-300 bg-slate-950/70 p-3 rounded-2xl border border-amber-500/20">
-            <p>✨ आज का शुभ रंग: <strong class="text-amber-400">केसरिया & नीला</strong></p>
-            <p>⏰ शुभ समय: <strong class="text-green-400">सुबह 08:15 से 10:30</strong></p>
-            <p class="text-[10px] text-gray-400">IOIS Platform पर Digital Resources, Career Tools और 7 Access Plans उपलब्ध हैं।</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- IOIS ALL 7 MEMBERSHIP PLANS -->
-  <section id="plans-section" class="max-w-7xl mx-auto px-4">
-    <div class="text-center max-w-3xl mx-auto mb-10">
-      <span class="bg-gradient-to-r from-orange-500 via-white to-green-600 text-black text-[10px] font-black px-3.5 py-1 rounded-full uppercase shadow">
-        🇮🇳 IOIS Official Plans
-      </span>
-      <h2 class="tiranga-3d-text text-3xl sm:text-4xl mt-3">
-        IOIS All 7 Access Membership Plans
-      </h2>
-      <p class="text-xs sm:text-sm text-gray-300 mt-2">
-        अपनी आवश्यकता के अनुसार उपयुक्त प्लान चुनें और डिजिटल रिसोर्सेज, जॉब अपडेट्स, डिजिटल टूलकिट और सपोर्ट प्राप्त करें।
-      </p>
-    </div>
-
-    <!-- 7 Plans Grid Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-      
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 1</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Bal Vikas Access</h3>
-          <div class="text-2xl font-black text-amber-400 mb-3">₹10 <span class="text-xs text-gray-400 font-normal">/ Standard</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> बेसिक डिजिटल गाइड्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> WhatsApp ग्रुप सपोर्ट</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> बाल विकास रिसोर्सेज</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹10</button>
-      </div>
-
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 2</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Youth Skill Access</h3>
-          <div class="text-2xl font-black text-amber-400 mb-3">₹49 <span class="text-xs text-gray-400 font-normal">/ Skill Pack</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> बेसिक स्किल्स ट्यूटोरियल्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> फ्री पोस्टर टम्प्लेट्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> कम्युनिटी एक्सेस</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹49</button>
-      </div>
-
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between border-amber-400 shadow-lg">
-        <div>
-          <span class="bg-amber-400 text-black text-[9px] font-black px-2 py-0.5 rounded-full uppercase float-right">Popular</span>
-          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 3</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Career & Job Access</h3>
-          <div class="text-2xl font-black text-amber-400 mb-3">₹99 <span class="text-xs text-gray-400 font-normal">/ Career</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> जॉब अलर्ट्स & बायोडाटा मेकर्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑनलाइन वर्क गाइड्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> डायरेक्ट कॉल सपोर्ट</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹99</button>
-      </div>
-
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 4</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Family VIP Access</h3>
-          <div class="text-2xl font-black text-amber-400 mb-3">₹199 <span class="text-xs text-gray-400 font-normal">/ VIP Pack</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> फैमिली पंचांग & टूल्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑल इन वन डिजिटल पास</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> प्रायोरिटी सपोर्ट</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹199</button>
-      </div>
-
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 5</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Student Access</h3>
-          <div class="text-2xl font-black text-amber-400 mb-3">₹299 <span class="text-xs text-gray-400 font-normal">/ Student Pro</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> परीक्षा तैयारी ई-बुक्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> डिजिटल सर्टिफिकेट मेकर</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑनलाइन मॉक टेस्ट लिंक्स</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹299</button>
-      </div>
-
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 6</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Reseller Access</h3>
-          <div class="text-2xl font-black text-amber-400 mb-3">₹499 <span class="text-xs text-gray-400 font-normal">/ Agency</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> रिसेलिंग राइट्स & टूल्स</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> कस्टम पोस्टर मेकिंग सर्विस</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> 24/7 स्पेशल मैनेजर</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹499</button>
-      </div>
-
-      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between border-green-500 sm:col-span-2 lg:col-span-1">
-        <div>
-          <span class="bg-green-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase float-right">Master</span>
-          <span class="text-[10px] font-extrabold text-green-400 uppercase tracking-widest block mb-1">Level 7</span>
-          <h3 class="text-lg font-bold text-white mb-2">IOIS Master Access</h3>
-          <div class="text-2xl font-black text-green-400 mb-3">₹999 <span class="text-xs text-gray-400 font-normal">/ Lifetime VIP</span></div>
-          <ul class="text-xs text-gray-300 space-y-2 mb-4">
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑल 6 प्लांस के सभी फायदे</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> पर्सनल ब्रांडिंग & वेबसाइट सपोर्ट</li>
-            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> लाइफटाइम मास्टर मेंबरशिप</li>
-          </ul>
-        </div>
-        <button class="w-full py-2.5 bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹999</button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 3D TIRANGA ID CARD GENERATOR -->
-  <section class="max-w-7xl mx-auto px-4">
-    <div class="glass-card p-6 sm:p-8 rounded-3xl border-2 border-amber-500/50">
-      <div class="text-center max-w-2xl mx-auto mb-8">
-        <span class="bg-gradient-to-r from-orange-500 via-white to-green-600 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase shadow">
-          🇮🇳 3D Digital Pass Generator
-        </span>
-        <h2 class="tiranga-3d-text text-2xl sm:text-3xl mt-2">
-          Downloadable 3D Premium Tiranga ID Card
-        </h2>
-        <p class="text-xs text-gray-300 mt-1">अपनी जानकारी दर्ज करें, अपनी प्रोफाइल फ़ोटो अपलोड करें और **"Download ID Card"** बटन पर क्लिक करें!</p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-5 space-y-3 bg-slate-950/80 p-5 rounded-2xl border border-amber-500/30 text-xs">
-          <div>
-            <label class="block font-bold text-amber-400 mb-1">आपका नाम (Full Name)</label>
-            <input type="text" id="id-card-name" value="प्रियंशु कुमार" class="w-full bg-slate-900 border border-amber-500/40 rounded-xl p-2.5 text-white outline-none" oninput="drawCanvasCard()">
-          </div>
-          <div>
-            <label class="block font-bold text-amber-400 mb-1">स्थान / राज्य (City, State)</label>
-            <input type="text" id="id-card-state" value="पटना, बिहार" class="w-full bg-slate-900 border border-amber-500/40 rounded-xl p-2.5 text-white outline-none" oninput="drawCanvasCard()">
-          </div>
-          <div>
-            <label class="block font-bold text-amber-400 mb-1">7 में से एक्सेस प्लान चुनें</label>
-            <select id="id-card-plan" class="w-full bg-slate-900 border border-amber-500/40 rounded-xl p-2.5 text-white outline-none" onchange="drawCanvasCard()">
-              <option value="1. IOIS Bal Vikas Access (₹10)">1. IOIS Bal Vikas Access / बाल विकास (₹10)</option>
-              <option value="2. IOIS Youth Skill Access (₹49)">2. IOIS Youth Skill Access / युवा कौशल (₹49)</option>
-              <option value="3. IOIS Career & Job Access (₹99)">3. IOIS Career & Job Access / करियर सेवा (₹99)</option>
-              <option value="4. IOIS Family VIP Access (₹199)">4. IOIS Family VIP Access / परिवार VIP (₹199)</option>
-              <option value="5. IOIS Student Access (₹299)">5. IOIS Student Access / परीक्षा सेवा (₹299)</option>
-              <option value="6. IOIS Reseller Access (₹499)">6. IOIS Reseller Access / एजेंसी सेवा (₹499)</option>
-              <option value="7. IOIS Master Access (₹999)">7. IOIS Master Access / मास्टर सेवा (₹999)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-amber-400 mb-1">अपनी फ़ोटो अपलोड करें</label>
-            <input type="file" id="id-card-photo" accept="image/*" class="w-full bg-slate-900 border border-amber-500/40 rounded-xl p-2 text-gray-300 outline-none" onchange="handlePhotoUpload(event)">
-          </div>
-
-          <button onclick="downloadIDCard()" class="w-full py-3 mt-2 bg-gradient-to-r from-amber-400 via-orange-500 to-green-600 text-black font-black rounded-xl text-xs shadow-xl hover:scale-105 transition">
-            📥 Download Premium ID Card (HD)
-          </button>
-        </div>
-
-        <div class="lg:col-span-7 flex justify-center">
-          <canvas id="idCardCanvas" width="400" height="250" class="w-full max-w-md rounded-2xl border-2 border-amber-400 shadow-2xl"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-
+<section class="section reveal"><div class="wrap"><div class="card" style="text-align:center;padding:34px">
+<h2>🚀 अगला कदम आपका है</h2><p class="sub">पहले platform को समझें, अपनी जरूरत के resources देखें और फिर Telegram पर IOIS team से Join / plan details पूछें।</p>
+<a class="join" href="https://t.me/ioisplatform" target="_blank" rel="noopener">📲 @ioisplatform पर Join करें</a>
+<p class="notice">कोई भी income example guarantee नहीं है। Referral payout केवल लागू नियम, eligibility और सफल referral की शर्तों के अनुसार होना चाहिए।</p>
+</div></div></section>
 </main>
-
-<footer class="bg-slate-950 border-t border-gray-800 text-xs py-8 relative z-10">
-  <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-[11px]">
-    © 2026 IOIS PLATFORM. All Rights Reserved. | स्वतंत्रता दिवस विशेषांक 🇮🇳
-  </div>
-</footer>
+<footer class="footer"><div class="wrap">© <span id="year"></span> IOIS — Indian Online Income Supporting System • Built as a responsive single-page experience.</div></footer>
 
 <script>
-  // 1. Dynamic Flower Rain Generator
-  function createFlowerRain() {
-    const container = document.getElementById('flower-rain-container');
-    if(!container) return;
-    const flowers = ['🌸', '🌼', '🌺', '🌹', '🌻'];
-    for (let i = 0; i < 35; i++) {
-      const flower = document.createElement('div');
-      flower.className = 'falling-flower';
-      flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-      flower.style.left = Math.random() * 100 + 'vw';
-      flower.style.animationDuration = (Math.random() * 5 + 4) + 's';
-      flower.style.animationDelay = (Math.random() * 5) + 's';
-      flower.style.fontSize = (Math.random() * 15 + 15) + 'px';
-      container.appendChild(flower);
-    }
-  }
-  createFlowerRain();
+function updateClock(){
+ const d=new Date(), pad=n=>String(n).padStart(2,'0');
+ const h=d.getHours(),m=d.getMinutes(),s=d.getSeconds();
+ document.getElementById('digitalTime').textContent=`${pad(h)}:${pad(m)}:${pad(s)}`;
+ document.getElementById('uTime').textContent=`${pad(h)}:${pad(m)}:${pad(s)}`;
+ document.getElementById('liveDate').textContent=d.toLocaleDateString('hi-IN',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+ document.getElementById('uDate').textContent=d.toLocaleDateString('en-IN');
+ document.getElementById('today').textContent=d.toLocaleDateString('hi-IN',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+ document.getElementById('year').textContent=d.getFullYear();
+ const degH=(h%12)*30+m*.5,degM=m*6+s*.1,degS=s*6;
+ document.getElementById('hour').style.transform=`translateX(-50%) rotate(${degH}deg)`;
+ document.getElementById('minute').style.transform=`translateX(-50%) rotate(${degM}deg)`;
+ document.getElementById('second').style.transform=`translateX(-50%) rotate(${degS}deg)`;
+}
+updateClock();setInterval(updateClock,1000);
 
-  // 2. Ashok Chakra 24 Spokes
-  const chakraBox = document.getElementById('ashok-chakra-box');
-  if(chakraBox) {
-    for(let i=0; i<12; i++) {
-      const spoke = document.createElement('div');
-      spoke.className = 'chakra-spoke';
-      spoke.style.transform = `translate(-50%, -50%) rotate(${i * 15}deg)`;
-      chakraBox.appendChild(spoke);
-    }
-  }
-
-  // 3. ID Card Canvas Generator
-  let uploadedImg = new Image();
-  uploadedImg.src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-  uploadedImg.onload = drawCanvasCard;
-
-  function handlePhotoUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        uploadedImg = new Image();
-        uploadedImg.onload = drawCanvasCard;
-        uploadedImg.src = e.target.result;
-      }
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function drawCanvasCard() {
-    const canvas = document.getElementById('idCardCanvas');
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    const name = document.getElementById('id-card-name').value || 'प्रियंशु कुमार';
-    const state = document.getElementById('id-card-state').value || 'पटना, बिहार';
-    const plan = document.getElementById('id-card-plan').value || '1. IOIS Bal Vikas Access (₹10)';
-
-    const bgGrad = ctx.createLinearGradient(0, 0, 400, 250);
-    bgGrad.addColorStop(0, '#020617');
-    bgGrad.addColorStop(1, '#0f172a');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, 400, 250);
-
-    ctx.fillStyle = '#FF9933'; ctx.fillRect(0, 0, 133, 8);
-    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(133, 0, 134, 8);
-    ctx.fillStyle = '#138808'; ctx.fillRect(267, 0, 133, 8);
-
-    ctx.strokeStyle = '#FBBF24';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(4, 4, 392, 242);
-
-    ctx.fillStyle = '#FF9933';
-    ctx.font = 'bold 16px Poppins, sans-serif';
-    ctx.fillText('IOIS PLATFORM 🇮🇳', 20, 35);
-
-    ctx.fillStyle = '#FBBF24';
-    ctx.font = '10px Poppins, sans-serif';
-    ctx.fillText('Indian Digital ID Pass 2026', 20, 50);
-
-    ctx.strokeStyle = '#FBBF24';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(20, 65, 80, 95);
-    ctx.drawImage(uploadedImg, 22, 67, 76, 91);
-
-    ctx.fillStyle = '#9CA3AF';
-    ctx.font = '10px Poppins, sans-serif';
-    ctx.fillText('सदस्य का नाम:', 115, 75);
-
-    ctx.fillStyle = '#FBBF24';
-    ctx.font = 'bold 14px Poppins, sans-serif';
-    ctx.fillText(name, 115, 93);
-
-    ctx.fillStyle = '#9CA3AF';
-    ctx.font = '10px Poppins, sans-serif';
-    ctx.fillText('स्थान / शहर:', 115, 115);
-
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 12px Poppins, sans-serif';
-    ctx.fillText(state, 115, 132);
-
-    ctx.fillStyle = 'rgba(255, 153, 51, 0.15)';
-    ctx.fillRect(20, 170, 360, 35);
-    ctx.strokeStyle = 'rgba(251, 191, 36, 0.4)';
-    ctx.strokeRect(20, 170, 360, 35);
-
-    ctx.fillStyle = '#9CA3AF';
-    ctx.font = '9px Poppins, sans-serif';
-    ctx.fillText('एक्सेस प्लान:', 30, 183);
-
-    ctx.fillStyle = '#4ADE80';
-    ctx.font = 'bold 11px Poppins, sans-serif';
-    ctx.fillText(plan, 30, 198);
-
-    ctx.fillStyle = '#6B7280';
-    ctx.font = '9px Poppins, sans-serif';
-    ctx.fillText('ID Code: IOIS-2026-IND', 20, 225);
-    ctx.fillText('Status: Verified Member 🇮🇳', 260, 225);
-  }
-
-  function downloadIDCard() {
-    const canvas = document.getElementById('idCardCanvas');
-    const link = document.createElement('a');
-    link.download = 'IOIS-Tiranga-ID-Card.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  }
-
-  // 4. Clock Logic
-  function updateClocks() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' });
-    const dateStr = now.toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Kolkata' });
-
-    if(document.getElementById('digital-clock')) document.getElementById('digital-clock').innerText = timeStr;
-    if(document.getElementById('clock-date')) document.getElementById('clock-date').innerText = "🗓️ " + dateStr;
-
-    const sec = now.getSeconds();
-    const min = now.getMinutes();
-    const hr = now.getHours();
-
-    const secDeg = (sec / 60) * 360;
-    const minDeg = (min / 60) * 360 + (sec / 60) * 6;
-    const hrDeg = ((hr % 12) / 12) * 360 + (min / 60) * 30;
-
-    if(document.getElementById('clock-sec')) document.getElementById('clock-sec').style.transform = `rotate(${secDeg}deg)`;
-    if(document.getElementById('clock-min')) document.getElementById('clock-min').style.transform = `rotate(${minDeg}deg)`;
-    if(document.getElementById('clock-hour')) document.getElementById('clock-hour').style.transform = `rotate(${hrDeg}deg)`;
-  }
-
-  setInterval(updateClocks, 1000);
-  updateClocks();
+let answers=[];
+function answer(n,v){
+ answers[n-1]=v;
+ document.querySelector(`[data-q="${n}"]`).classList.remove('active');
+ if(n<3) document.querySelector(`[data-q="${n+1}"]`).classList.add('active');
+ else{
+  const r=document.getElementById('result');r.style.display='block';
+  const t=document.getElementById('resultTitle'),x=document.getElementById('resultText');
+  if(answers.includes('study')){t.textContent='📚 Study-first recommendation';x.textContent='Free Study Hub से शुरुआत करें और फिर बाकी IOIS sections explore करें।'}
+  else if(answers.includes('growth')){t.textContent='💼 Growth-first recommendation';x.textContent='Plans और digital resources देखें, फिर Telegram पर details पूछें।'}
+  else {t.textContent='🌐 All-in-one recommendation';x.textContent='आपके लिए पूरा IOIS single-page experience खुला है — Study, Tools और Growth सब देखें।'}
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+ }
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
 </script>
 </body>
 </html>
