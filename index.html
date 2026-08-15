@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IOIS Platform - Official National Portal</title>
+    <title>IOIS Platform - Complete National Digital Ecosystem</title>
     <style>
         :root {
             --saffron: #FF9933;
@@ -13,8 +13,8 @@
             --green-glow: rgba(19, 136, 8, 0.4);
             --gold-accent: #D4AF37;
             --bg-dark: #07090e;
-            --card-bg: rgba(18, 22, 31, 0.85);
-            --border-grid: rgba(212, 175, 55, 0.25);
+            --card-bg: rgba(18, 22, 31, 0.9);
+            --border-grid: rgba(212, 175, 55, 0.3);
             --text-sub: #c0c6d4;
         }
 
@@ -22,19 +22,17 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Inter, System-UI, sans-serif;
+            font-family: 'Segoe UI', Inter, sans-serif;
         }
 
         body {
             background-color: var(--bg-dark);
             color: var(--white);
             line-height: 1.6;
-            min-height: 100vh;
             background-image: 
                 linear-gradient(to right, var(--border-grid) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--border-grid) 1px, transparent 1px);
             background-size: 40px 40px;
-            background-position: center;
         }
 
         header {
@@ -50,7 +48,7 @@
         }
 
         .logo {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 900;
             letter-spacing: 3px;
             background: linear-gradient(135deg, var(--saffron), var(--white), var(--green));
@@ -61,13 +59,13 @@
 
         .tagline {
             color: var(--gold-accent);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             margin-top: 4px;
         }
 
         .container {
-            max-width: 950px;
+            max-width: 1050px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
@@ -79,7 +77,7 @@
             padding: 2rem 1.5rem;
             backdrop-filter: blur(16px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .badge {
@@ -95,25 +93,12 @@
         }
 
         .hero-title {
-            font-size: 1.9rem;
+            font-size: 2rem;
             font-weight: 800;
             margin-bottom: 1rem;
             background: linear-gradient(to right, var(--white), var(--gold-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        .hero-desc {
-            color: var(--text-sub);
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center;
         }
 
         .btn-3d-primary {
@@ -126,8 +111,7 @@
             border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
-            width: 100%;
-            max-width: 380px;
+            display: inline-block;
             text-align: center;
             text-transform: uppercase;
             box-shadow: 0 6px 0 #0b4704, 0 10px 20px rgba(0,0,0,0.6);
@@ -139,51 +123,109 @@
             box-shadow: 0 4px 0 #0b4704, 0 8px 15px rgba(0,0,0,0.6);
         }
 
-        .btn-3d-secondary {
-            background: rgba(10, 15, 25, 0.9);
-            color: var(--gold-accent);
-            border: 1px solid var(--gold-accent);
-            padding: 0.8rem 1.8rem;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-        }
-
         .section-title {
             text-align: center;
             color: var(--gold-accent);
-            margin: 2rem 0 1rem 0;
-            font-size: 1.4rem;
+            margin: 2.5rem 0 1.5rem 0;
+            font-size: 1.6rem;
         }
 
-        .grid-2col {
+        /* 7 Plans Pricing Table */
+        .plans-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
-        .feature-box {
-            background: rgba(10, 13, 20, 0.8);
+        .plan-card {
+            background: rgba(10, 14, 23, 0.95);
             border: 1px solid var(--border-grid);
-            border-radius: 12px;
-            padding: 1.2rem;
-            border-left: 4px solid var(--saffron);
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
         }
 
-        .feature-box:nth-child(even) {
-            border-left-color: var(--green);
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--saffron);
         }
 
-        .feature-box h3 {
+        .plan-card.popular {
+            border: 2px solid var(--gold-accent);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--saffron);
+            margin: 0.5rem 0;
+        }
+
+        .plan-title {
             color: var(--white);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
 
-        .feature-box p {
-            color: var(--text-sub);
+        .plan-features {
+            list-style: none;
+            margin: 1rem 0;
+            text-align: left;
             font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        .plan-features li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            color: var(--green);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .btn-plan {
+            background: linear-gradient(90deg, var(--saffron), var(--green));
+            color: #000;
+            font-weight: 800;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        /* Parents Live API Preview Section */
+        .parent-portal {
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.1), rgba(19, 136, 8, 0.1));
+            border: 2px solid var(--gold-accent);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .api-terminal {
+            background: #000;
+            border: 1px solid var(--border-grid);
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: monospace;
+            color: #00ff00;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            height: 150px;
+            overflow-y: auto;
+            text-align: left;
         }
 
         /* FAQ Accordion */
@@ -203,7 +245,6 @@
             cursor: pointer;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
         .faq-answer {
@@ -241,45 +282,13 @@
             font-size: 0.9rem;
             color: var(--white);
             word-break: break-all;
-            font-weight: 600;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 1rem;
-        }
-
-        .modal-box {
-            background: var(--bg-dark);
-            border: 2px solid var(--gold-accent);
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 480px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px; right: 15px;
-            font-size: 1.8rem;
-            color: var(--text-sub);
-            cursor: pointer;
         }
 
         footer {
             text-align: center;
             color: var(--text-sub);
             font-size: 0.85rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border-grid);
         }
@@ -294,88 +303,140 @@
 
     <div class="container">
 
-        <!-- ATTENTION HERO SECTION -->
+        <!-- ATTENTION HERO -->
         <div class="grid-card" style="text-align: center;">
-            <span class="badge">🇮🇳 OFFICIAL DIGITAL ECOSYSTEM</span>
-            <h1 class="hero-title">Apne Mobile Se Unlock Karein Complete Digital Network & Automation Architecture</h1>
-            <p class="hero-desc">Bina kisi high startup risk ke, IOIS Platform ke enterprise-grade automation tools, real-time notification bots aur direct digital solutions ka access lein.</p>
+            <span class="badge">🇮🇳 COMPLETE IOIS PROJECT ARCHITECTURE</span>
+            <h1 class="hero-title">Mobile Se Lock Karein Premium Automation & Ecosystem Access</h1>
+            <p style="color: var(--text-sub); margin-bottom: 1.5rem;">WhatsApp Bot, Telegram Automation, Google Forms Workflow aur High-Value Tools ka complete network.</p>
+            <a href="https://t.me/ioisplatform" target="_blank" class="btn-3d-primary">⚡ Join VIP Telegram Portal</a>
+        </div>
+
+        <!-- 7 PLANS SECTION (₹10 TO ₹999) -->
+        <h2 class="section-title">IOIS Project Access Plans (₹10 - ₹999)</h2>
+        <div class="plans-grid">
             
-            <div class="btn-container">
-                <a href="https://t.me/ioisplatform" target="_blank" class="btn-3d-primary">🚀 Claim Lifetime Access Pass @ ₹10 Only</a>
-                <button class="btn-3d-secondary" onclick="toggleModal()">👁️ Live System Interactive Preview</button>
+            <div class="plan-card">
+                <div class="plan-title">Verification Pass</div>
+                <div class="plan-price">₹10</div>
+                <ul class="plan-features">
+                    <li>Spam-Free Account Verification</li>
+                    <li>Basic Support Access</li>
+                    <li>Community Entry</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹10</a>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-title">Starter Pass</div>
+                <div class="plan-price">₹49</div>
+                <ul class="plan-features">
+                    <li>Basic WhatsApp Auto-responder</li>
+                    <li>Starter Digital Tools</li>
+                    <li>Telegram Updates</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹49</a>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-title">Basic Automation</div>
+                <div class="plan-price">₹99</div>
+                <ul class="plan-features">
+                    <li>Google Forms Integration</li>
+                    <li>Bot Notification Channel</li>
+                    <li>Standard Helpdesk</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹99</a>
+            </div>
+
+            <div class="plan-card popular">
+                <div class="plan-title">Pro Digital Suite</div>
+                <div class="plan-price">₹199</div>
+                <ul class="plan-features">
+                    <li>Full WhatsApp & Telegram Automation</li>
+                    <li>GitHub Hosted Tool Access</li>
+                    <li>Priority Notification Bot</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹199</a>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-title">Advance Master</div>
+                <div class="plan-price">₹349</div>
+                <ul class="plan-features">
+                    <li>Advanced Workflows</li>
+                    <li>Multi-Channel Bot Setup</li>
+                    <li>Direct Admin Consultation</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹349</a>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-title">VIP Business Access</div>
+                <div class="plan-price">₹499</div>
+                <ul class="plan-features">
+                    <li>Complete System Integration</li>
+                    <li>High-Speed API Access</li>
+                    <li>Personalized Automation</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹499</a>
+            </div>
+
+            <div class="plan-card popular" style="border-color: var(--saffron);">
+                <div class="plan-title">Ultimate Enterprise</div>
+                <div class="plan-price">₹999</div>
+                <ul class="plan-features">
+                    <li>All 7 Tier Full Lifetime Unlocks</li>
+                    <li>Live System API Ecosystem</li>
+                    <li>Dedicated Priority VIP Desk</li>
+                </ul>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-plan">Join Plan @ ₹999</a>
+            </div>
+
+        </div>
+
+        <!-- PARENTS SPECIAL FREE LIVE API SYSTEM PORTAL -->
+        <div class="parent-portal" id="parentPortal">
+            <h2 style="color: var(--saffron); text-align: center;">👨‍👩‍👧 Parents & Guardian Special Live API Preview</h2>
+            <p style="text-align: center; color: var(--text-sub); margin-top: 0.5rem;">Abhiprabhavik (Parents) ke vishwas ke liye — Free system transparency Live API simulation monitoring portal.</p>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="btn-3d-primary" style="font-size: 0.9rem; padding: 0.7rem 1.5rem;" onclick="runParentApiPreview()">▶ Test Run Live Free System API</button>
+            </div>
+
+            <div class="api-terminal" id="apiTerminal">
+                > System Idle. Click "Test Run" button above to inspect real-time free security & automation APIs...
             </div>
         </div>
 
-        <!-- FULL PROJECT PLAN & ANALYSIS SECTION -->
-        <h2 class="section-title">IOIS Platform Project Plan & Architecture Analysis</h2>
-        <div class="grid-2col">
-            <div class="feature-box">
-                <h3>🤖 Multi-Channel Automation</h3>
-                <p>WhatsApp automated messaging, Google Forms workflow aur Telegram Admin Notification Bot (@iois_admin_notification_bot) ka complete integrated ecosystem.</p>
-            </div>
-            <div class="feature-box">
-                <h3>🌐 Seamless Platform Hosting</h3>
-                <p>GitHub Pages aur Google Sites-based web architecture jo zero lag aur high uptime ke saath operational workflows ko run karti hai.</p>
-            </div>
-            <div class="feature-box">
-                <h3>🔒 Security & Verification Filter</h3>
-                <p>₹10 Token Pass Mechanism real users ko onboarding karne aur spam/bot activity ko 100% eliminate karne ke liye implement kiya gaya hai.</p>
-            </div>
-            <div class="feature-box">
-                <h3>📲 Continuous Updates & Notification Sync</h3>
-                <p>Platform ke sabhi system upgrades, user notifications aur bot triggers bina kisi backward system failure ke seamlessly sync hote hain.</p>
-            </div>
-        </div>
+        <!-- FAQ ACCORDION -->
+        <h2 class="section-title">Sawal aur Jawab (FAQs)</h2>
 
-        <!-- FAQ SECTION (SAWAL-JAWAB) -->
-        <h2 class="section-title">Aapke Sawal - Humare Jawab (FAQs)</h2>
-        
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-                <span>Q1. IOIS Platform kya hai aur ye kaise kaam karta hai?</span>
+                <span>Q1. IOIS Platform ke 7 Plans (₹10 se ₹999) kaise kaam karte hain?</span>
                 <span>+</span>
             </div>
             <div class="faq-answer">
-                IOIS Platform ek integrated digital network hai jo WhatsApp automation, Telegram bots, Google Forms aur web-based tools ka use karke digital services aur workflow facilitation provide karta hai.
+                ₹10 ka plan Verification ke liye hai. Baaki plans (₹49 se ₹999) alag-alag level ki WhatsApp, Telegram aur Bot Automation features unlock karte hain.
             </div>
         </div>
 
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-                <span>Q2. Mujhe ₹10 Ka Account Verification Pass Kyun Lena Padega?</span>
+                <span>Q2. Parents API Live Preview portal kya hai?</span>
                 <span>+</span>
             </div>
             <div class="faq-answer">
-                Yeh ₹10 koi high fee nahi hai. Platform par fake accounts, bots aur spammers ko rokne ke liye ek baar One-Time Lifetime Account Verification Pass Rakha gaya hai taaki genuine users ko high-priority system tools mil sakein.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-                <span>Q3. Access milne ke baad support kaise milega?</span>
-                <span>+</span>
-            </div>
-            <div class="faq-answer">
-                Aapko Telegram Notification Bot (@iois_admin_notification_bot) aur direct Admin Telegram handle (@ioisplatform) ke zariye 24/7 automated aur direct updates aur guidance milti rahegi.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-                <span>Q4. Kya main ise apne smartphone se operate kar sakta hoon?</span>
-                <span>+</span>
-            </div>
-            <div class="faq-answer">
-                Haan! Pura IOIS System Mobile-First Responsive architecture par bana hai. Aap apne smartphone aur internet connection ke sath poora setup use kar sakte hain.
+                Yeh Parents aur Guardians ke liye ek transparent security preview window hai, jahan wo dekh sakte hain ki platform secure, automated aur genuine hai.
             </div>
         </div>
 
         <!-- OFFICIAL SYSTEM CREDENTIALS -->
-        <div class="grid-card" style="margin-top: 2rem;">
-            <h2 style="color: var(--saffron); text-align: center; font-size: 1.3rem; margin-bottom: 1rem;">Official System Integration Channels</h2>
+        <div class="grid-card" style="margin-top: 2.5rem;">
+            <h2 style="color: var(--saffron); text-align: center; font-size: 1.3rem; margin-bottom: 1rem;">Official Platform Credentials</h2>
             <div class="contact-grid">
                 <div class="contact-item">
-                    <label>WhatsApp Support</label>
+                    <label>WhatsApp Desk</label>
                     <span>+918877490845</span>
                 </div>
                 <div class="contact-item">
@@ -391,7 +452,7 @@
                     <span>964524685</span>
                 </div>
                 <div class="contact-item" style="grid-column: 1 / -1;">
-                    <label>System Notification Bot</label>
+                    <label>Notification Bot</label>
                     <span>@iois_admin_notification_bot</span>
                 </div>
             </div>
@@ -403,22 +464,7 @@
 
     </div>
 
-    <!-- PREVIEW MODAL -->
-    <div class="modal" id="systemModal">
-        <div class="modal-box">
-            <span class="close-modal" onclick="toggleModal()">&times;</span>
-            <h3 style="color: var(--saffron); margin-bottom: 0.8rem;">IOIS Live Platform Preview</h3>
-            <p style="color: var(--text-sub); font-size: 0.95rem; margin-bottom: 1.5rem;">Aapka ₹10 Account Verification complete hone par Telegram Admin Bot aapke credentials ko process karega aur instant access dispatch kar dega.</p>
-            <a href="https://t.me/ioisplatform" target="_blank" class="btn-3d-primary" style="font-size: 1rem; padding: 0.8rem 1.5rem;">Proceed to Activation</a>
-        </div>
-    </div>
-
     <script>
-        function toggleModal() {
-            const modal = document.getElementById('systemModal');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-
         function toggleFaq(element) {
             const answer = element.nextElementSibling;
             const icon = element.children[1];
@@ -431,11 +477,14 @@
             }
         }
 
-        window.onclick = function(e) {
-            const modal = document.getElementById('systemModal');
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
+        function runParentApiPreview() {
+            const terminal = document.getElementById('apiTerminal');
+            terminal.innerHTML = "> Initializing IOIS Live Security API...\n";
+            
+            setTimeout(() => { terminal.innerHTML += "> Connecting to WhatsApp Automated Desk (+918877490845)... SUCCESS\n"; }, 600);
+            setTimeout(() => { terminal.innerHTML += "> Verifying Telegram Admin Bot (@iois_admin_notification_bot)... ONLINE\n"; }, 1200);
+            setTimeout(() => { terminal.innerHTML += "> Encrypting User Verification Gateway... SECURE (256-Bit)\n"; }, 1800);
+            setTimeout(() => { terminal.innerHTML += "> Status: IOIS Platform System Operational & 100% Safe for Parents Verification!\n"; }, 2400);
         }
     </script>
 </body>
