@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IOIS Platform - Official National Digital Portal</title>
+    <title>IOIS Platform - Official National Portal</title>
     <style>
         :root {
             --saffron: #FF9933;
@@ -11,7 +11,6 @@
             --white: #FFFFFF;
             --green: #138808;
             --green-glow: rgba(19, 136, 8, 0.4);
-            --navy-blue: #000080;
             --gold-accent: #D4AF37;
             --bg-dark: #07090e;
             --card-bg: rgba(18, 22, 31, 0.85);
@@ -26,7 +25,6 @@
             font-family: 'Segoe UI', Inter, System-UI, sans-serif;
         }
 
-        /* 3D Gridline Perspective Background */
         body {
             background-color: var(--bg-dark);
             color: var(--white);
@@ -36,22 +34,11 @@
                 linear-gradient(to right, var(--border-grid) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--border-grid) 1px, transparent 1px);
             background-size: 40px 40px;
-            background-position: center center;
-            position: relative;
-            overflow-x: hidden;
+            background-position: center;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 50% 20%, rgba(255, 153, 51, 0.12), rgba(19, 136, 8, 0.12), transparent 70%);
-            pointer-events: none;
-        }
-
-        /* Header Layout */
         header {
-            background: rgba(7, 9, 14, 0.9);
+            background: rgba(7, 9, 14, 0.95);
             backdrop-filter: blur(12px);
             border-bottom: 2px solid;
             border-image: linear-gradient(to right, var(--saffron), var(--white), var(--green)) 1;
@@ -63,13 +50,12 @@
         }
 
         .logo {
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             background: linear-gradient(135deg, var(--saffron), var(--white), var(--green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px var(--saffron-glow);
             text-transform: uppercase;
         }
 
@@ -77,7 +63,6 @@
             color: var(--gold-accent);
             font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: 1px;
             margin-top: 4px;
         }
 
@@ -87,50 +72,31 @@
             padding: 2rem 1rem;
         }
 
-        /* 3D Card with Grid Borders */
         .grid-card {
             background: var(--card-bg);
             border: 1px solid var(--border-grid);
             border-radius: 16px;
-            padding: 2.5rem 1.8rem;
+            padding: 2rem 1.5rem;
             backdrop-filter: blur(16px);
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.9),
-                inset 0 0 15px rgba(255, 255, 255, 0.03);
-            position: relative;
-            margin-bottom: 2.5rem;
-            transform-style: preserve-3d;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+            margin-bottom: 2rem;
         }
 
-        .grid-card::after {
-            content: '';
-            position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--saffron), transparent, var(--green));
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        /* Hook & Hero Section */
         .badge {
             background: linear-gradient(90deg, var(--saffron), var(--green));
             color: #000;
             font-weight: 800;
             font-size: 0.8rem;
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 30px;
             display: inline-block;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 1rem;
         }
 
         .hero-title {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 800;
-            line-height: 1.3;
             margin-bottom: 1rem;
             background: linear-gradient(to right, var(--white), var(--gold-accent));
             -webkit-background-clip: text;
@@ -139,24 +105,23 @@
 
         .hero-desc {
             color: var(--text-sub);
-            font-size: 1.05rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* 3D Premium Buttons */
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1rem;
             align-items: center;
         }
 
         .btn-3d-primary {
             background: linear-gradient(135deg, var(--saffron) 0%, #e67e22 50%, var(--green) 100%);
             color: #ffffff;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
-            padding: 1.2rem 2.5rem;
+            padding: 1rem 2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -165,124 +130,111 @@
             max-width: 380px;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 
-                0 8px 0 #0b4704,
-                0 15px 25px rgba(0,0,0,0.6),
-                inset 0 2px 3px rgba(255,255,255,0.4);
+            box-shadow: 0 6px 0 #0b4704, 0 10px 20px rgba(0,0,0,0.6);
             transition: all 0.2s ease;
-            position: relative;
-            top: 0;
         }
 
         .btn-3d-primary:hover {
-            top: 3px;
-            box-shadow: 
-                0 5px 0 #0b4704,
-                0 10px 20px rgba(0,0,0,0.6),
-                inset 0 2px 3px rgba(255,255,255,0.4);
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #0b4704, 0 8px 15px rgba(0,0,0,0.6);
         }
 
         .btn-3d-secondary {
             background: rgba(10, 15, 25, 0.9);
             color: var(--gold-accent);
             border: 1px solid var(--gold-accent);
-            padding: 0.9rem 2rem;
+            padding: 0.8rem 1.8rem;
             font-size: 0.95rem;
             font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .btn-3d-secondary:hover {
-            background: rgba(212, 175, 55, 0.15);
-            color: var(--white);
+        .section-title {
+            text-align: center;
+            color: var(--gold-accent);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.4rem;
         }
 
-        /* Value & Benefit Grid */
-        .grid-3col {
+        .grid-2col {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
         }
 
         .feature-box {
-            background: rgba(10, 13, 20, 0.7);
+            background: rgba(10, 13, 20, 0.8);
             border: 1px solid var(--border-grid);
             border-radius: 12px;
-            padding: 1.5rem;
-            position: relative;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            padding: 1.2rem;
+            border-left: 4px solid var(--saffron);
         }
 
-        .feature-box:hover {
-            transform: translateY(-5px);
-            border-color: var(--saffron);
+        .feature-box:nth-child(even) {
+            border-left-color: var(--green);
         }
 
         .feature-box h3 {
-            color: var(--saffron);
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
+            color: var(--white);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
         }
 
         .feature-box p {
             color: var(--text-sub);
-            font-size: 0.92rem;
-        }
-
-        /* Verification Box (No Free Mention) */
-        .verification-card {
-            background: linear-gradient(135deg, rgba(255, 153, 51, 0.08), rgba(19, 136, 8, 0.08));
-            border: 1px dashed var(--gold-accent);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .verification-card h3 {
-            color: var(--white);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .verification-card p {
-            color: var(--text-sub);
             font-size: 0.9rem;
         }
 
-        /* Contact Section Grid */
+        /* FAQ Accordion */
+        .faq-item {
+            background: rgba(10, 13, 20, 0.8);
+            border: 1px solid var(--border-grid);
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1rem;
+            background: rgba(20, 25, 35, 0.6);
+            color: var(--gold-accent);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            color: var(--text-sub);
+            font-size: 0.92rem;
+            display: none;
+            border-top: 1px solid var(--border-grid);
+        }
+
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 1.2rem;
+            margin-top: 1rem;
         }
 
         .contact-item {
             background: rgba(15, 20, 30, 0.9);
+            border: 1px solid var(--border-grid);
             border-left: 4px solid var(--saffron);
-            padding: 1rem;
+            padding: 0.9rem;
             border-radius: 8px;
-            border-top: 1px solid var(--border-grid);
-            border-right: 1px solid var(--border-grid);
-            border-bottom: 1px solid var(--border-grid);
-        }
-
-        .contact-item:nth-child(even) {
-            border-left-color: var(--green);
         }
 
         .contact-item label {
             display: block;
             font-size: 0.75rem;
             color: var(--gold-accent);
-            text-transform: uppercase;
             font-weight: 700;
+            text-transform: uppercase;
         }
 
         .contact-item span {
@@ -292,7 +244,6 @@
             font-weight: 600;
         }
 
-        /* Modal Preview */
         .modal {
             display: none;
             position: fixed;
@@ -313,13 +264,12 @@
             max-width: 480px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
             position: relative;
         }
 
         .close-modal {
             position: absolute;
-            top: 12px; right: 18px;
+            top: 10px; right: 15px;
             font-size: 1.8rem;
             color: var(--text-sub);
             cursor: pointer;
@@ -329,8 +279,8 @@
             text-align: center;
             color: var(--text-sub);
             font-size: 0.85rem;
-            margin-top: 3rem;
-            padding: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
             border-top: 1px solid var(--border-grid);
         }
     </style>
@@ -339,52 +289,93 @@
 
     <header>
         <div class="logo">IOIS PLATFORM</div>
-        <div class="tagline">NATIONAL DIGITAL AUTOMATION & SERVICES NETWORK</div>
+        <div class="tagline">NATIONAL DIGITAL AUTOMATION & ECOSYSTEM PORTAL</div>
     </header>
 
     <div class="container">
 
-        <!-- HERO ATTENTION SECTION -->
+        <!-- ATTENTION HERO SECTION -->
         <div class="grid-card" style="text-align: center;">
             <span class="badge">🇮🇳 OFFICIAL DIGITAL ECOSYSTEM</span>
-            <h1 class="hero-title">Apne Mobile Se Unlock Karein Premium Automation & Digital Income Systems</h1>
-            <p class="hero-desc">Bina kisi high startup investment ke, IOIS Platform ke enterprise-grade automation tools, Telegram bots aur direct digital solutions ka access paayein.</p>
+            <h1 class="hero-title">Apne Mobile Se Unlock Karein Complete Digital Network & Automation Architecture</h1>
+            <p class="hero-desc">Bina kisi high startup risk ke, IOIS Platform ke enterprise-grade automation tools, real-time notification bots aur direct digital solutions ka access lein.</p>
             
             <div class="btn-container">
-                <a href="https://t.me/ioisplatform" target="_blank" class="btn-3d-primary">🚀 Activate Pass @ ₹10 Only</a>
+                <a href="https://t.me/ioisplatform" target="_blank" class="btn-3d-primary">🚀 Claim Lifetime Access Pass @ ₹10 Only</a>
                 <button class="btn-3d-secondary" onclick="toggleModal()">👁️ Live System Interactive Preview</button>
             </div>
         </div>
 
-        <!-- VALUE & SERVICES SECTION -->
-        <h2 style="text-align: center; color: var(--gold-accent); margin-bottom: 1rem; font-size: 1.5rem;">Core Platform Infrastructure</h2>
-        <div class="grid-3col">
+        <!-- FULL PROJECT PLAN & ANALYSIS SECTION -->
+        <h2 class="section-title">IOIS Platform Project Plan & Architecture Analysis</h2>
+        <div class="grid-2col">
             <div class="feature-box">
-                <h3>⚡ Automated Bot Operations</h3>
-                <p>Telegram notification bots aur automated tools ke zariye apne daily tasks aur workflow ko fast banayein.</p>
+                <h3>🤖 Multi-Channel Automation</h3>
+                <p>WhatsApp automated messaging, Google Forms workflow aur Telegram Admin Notification Bot (@iois_admin_notification_bot) ka complete integrated ecosystem.</p>
             </div>
             <div class="feature-box">
-                <h3>📲 Multi-Channel Integration</h3>
-                <p>WhatsApp, Telegram, Google Forms aur GitHub architecture ka full ecosystem ek hi jagah managed.</p>
+                <h3>🌐 Seamless Platform Hosting</h3>
+                <p>GitHub Pages aur Google Sites-based web architecture jo zero lag aur high uptime ke saath operational workflows ko run karti hai.</p>
             </div>
             <div class="feature-box">
-                <h3>🛡️ VIP Admin Community</h3>
-                <p>Direct admin guidance, instant operational updates aur dedicated continuous system support.</p>
+                <h3>🔒 Security & Verification Filter</h3>
+                <p>₹10 Token Pass Mechanism real users ko onboarding karne aur spam/bot activity ko 100% eliminate karne ke liye implement kiya gaya hai.</p>
+            </div>
+            <div class="feature-box">
+                <h3>📲 Continuous Updates & Notification Sync</h3>
+                <p>Platform ke sabhi system upgrades, user notifications aur bot triggers bina kisi backward system failure ke seamlessly sync hote hain.</p>
             </div>
         </div>
 
-        <!-- POSITIONING & CONTROL BOX (NO FREE WORD) -->
-        <div class="verification-card">
-            <h3>🔒 Strict Security & Nominal Verification Pass</h3>
-            <p>Syllabus, tools aur resources completely unlocked rahenge. <strong>₹10 ka Token Charge</strong> sirf system spam, bot accounts aur un-verified users ko filter out karne ke liye ek baar liya jaata hai.</p>
+        <!-- FAQ SECTION (SAWAL-JAWAB) -->
+        <h2 class="section-title">Aapke Sawal - Humare Jawab (FAQs)</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Q1. IOIS Platform kya hai aur ye kaise kaam karta hai?</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                IOIS Platform ek integrated digital network hai jo WhatsApp automation, Telegram bots, Google Forms aur web-based tools ka use karke digital services aur workflow facilitation provide karta hai.
+            </div>
         </div>
 
-        <!-- OFFICIAL SYSTEM CONTACT INTEGRATION -->
-        <div class="grid-card" style="margin-top: 2.5rem;">
-            <h2 style="color: var(--saffron); text-align: center; font-size: 1.3rem; margin-bottom: 1rem;">Official Platform Credentials</h2>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Q2. Mujhe ₹10 Ka Account Verification Pass Kyun Lena Padega?</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Yeh ₹10 koi high fee nahi hai. Platform par fake accounts, bots aur spammers ko rokne ke liye ek baar One-Time Lifetime Account Verification Pass Rakha gaya hai taaki genuine users ko high-priority system tools mil sakein.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Q3. Access milne ke baad support kaise milega?</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Aapko Telegram Notification Bot (@iois_admin_notification_bot) aur direct Admin Telegram handle (@ioisplatform) ke zariye 24/7 automated aur direct updates aur guidance milti rahegi.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Q4. Kya main ise apne smartphone se operate kar sakta hoon?</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                Haan! Pura IOIS System Mobile-First Responsive architecture par bana hai. Aap apne smartphone aur internet connection ke sath poora setup use kar sakte hain.
+            </div>
+        </div>
+
+        <!-- OFFICIAL SYSTEM CREDENTIALS -->
+        <div class="grid-card" style="margin-top: 2rem;">
+            <h2 style="color: var(--saffron); text-align: center; font-size: 1.3rem; margin-bottom: 1rem;">Official System Integration Channels</h2>
             <div class="contact-grid">
                 <div class="contact-item">
-                    <label>WhatsApp Desk</label>
+                    <label>WhatsApp Support</label>
                     <span>+918877490845</span>
                 </div>
                 <div class="contact-item">
@@ -407,17 +398,17 @@
         </div>
 
         <footer>
-            <p>&copy; 2026 IOIS Platform. Empowering Digital India. All Rights Reserved.</p>
+            <p>&copy; 2026 IOIS Platform. National Digital Infrastructure. All Rights Reserved.</p>
         </footer>
 
     </div>
 
-    <!-- SYSTEM INTERACTIVE PREVIEW MODAL -->
+    <!-- PREVIEW MODAL -->
     <div class="modal" id="systemModal">
         <div class="modal-box">
             <span class="close-modal" onclick="toggleModal()">&times;</span>
-            <h3 style="color: var(--saffron); margin-bottom: 0.8rem;">IOIS Live Architecture</h3>
-            <p style="color: var(--text-sub); font-size: 0.95rem; margin-bottom: 1.5rem;">Aapka ₹10 Account Verification complete hote hi, Telegram Admin Bot aapko VIP Credentials aur Automation Suite ka access turant dispatch kar dega.</p>
+            <h3 style="color: var(--saffron); margin-bottom: 0.8rem;">IOIS Live Platform Preview</h3>
+            <p style="color: var(--text-sub); font-size: 0.95rem; margin-bottom: 1.5rem;">Aapka ₹10 Account Verification complete hone par Telegram Admin Bot aapke credentials ko process karega aur instant access dispatch kar dega.</p>
             <a href="https://t.me/ioisplatform" target="_blank" class="btn-3d-primary" style="font-size: 1rem; padding: 0.8rem 1.5rem;">Proceed to Activation</a>
         </div>
     </div>
@@ -426,6 +417,18 @@
         function toggleModal() {
             const modal = document.getElementById('systemModal');
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.children[1];
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                icon.textContent = '+';
+            } else {
+                answer.style.display = 'block';
+                icon.textContent = '-';
+            }
         }
 
         window.onclick = function(e) {
@@ -437,4 +440,3 @@
     </script>
 </body>
 </html>
-
