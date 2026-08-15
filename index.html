@@ -28,7 +28,7 @@
     position: relative;
   }
 
-  /* 1. चारों तरफ घूमता हुआ इंडियन फ्लैग एनिमेटेड बॉर्डर */
+  /* 1. एनिमेटेड तिरंगा बॉर्डर */
   .flag-border-container {
     position: fixed;
     inset: 0;
@@ -45,8 +45,8 @@
     100% { filter: hue-rotate(360deg); }
   }
 
-  /* 2. फूलों की बारिश (Flower Rain) */
-  .flower-rain-container {
+  /* 2. स्वतंत्रता दिवस - फूलों की बारिश */
+  #flower-rain-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -57,20 +57,19 @@
     overflow: hidden;
   }
 
-  .flower {
+  .falling-flower {
     position: absolute;
-    top: -10%;
-    font-size: 18px;
+    top: -50px;
     user-select: none;
-    animation: fall linear infinite;
+    animation: fallDown linear infinite;
   }
 
-  @keyframes fall {
-    0% { transform: translateY(0vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
+  @keyframes fallDown {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
   }
 
-  /* 3. 3 एयरोप्लेन और तिरंगा धुएँ का एनिमेटेड फ़ॉर्मेशन */
+  /* 3. 3 फाइटर जेट्स मिलकर तिरंगा धुआँ (Tri-color Jet Formation) */
   .sky-jet-wrapper {
     position: fixed;
     inset: 0;
@@ -79,44 +78,51 @@
     overflow: hidden;
   }
 
-  .jet-group {
+  .jet-squadron {
     position: absolute;
     width: 100%;
-    height: 120px;
-    left: -100%;
-    animation: jetFlyOver 10s linear infinite;
+    height: 160px;
+    left: -120%;
+    animation: flyJets 8s linear infinite;
   }
 
-  @keyframes jetFlyOver {
-    0% { left: -100%; top: 15%; opacity: 0.8; }
-    50% { opacity: 1; }
-    100% { left: 100%; top: 40%; opacity: 0.8; }
+  @keyframes flyJets {
+    0% { left: -120%; top: 12%; }
+    100% { left: 120%; top: 38%; }
   }
 
-  .jet {
+  .single-jet-box {
     position: absolute;
-    font-size: 28px;
-    transform: rotate(15deg);
+    display: flex;
+    align-items: center;
   }
-  .jet-saffron { top: 10px; }
-  .jet-white   { top: 45px; }
-  .jet-green   { top: 80px; }
 
-  /* एयरोप्लेन से निकलने वाला लगातार तिरंगा धुआँ */
-  .smoke-trail {
+  .jet-saffron-box { top: 10px; }
+  .jet-white-box   { top: 55px; left: 25px; } /* हल्का पीछे ताकि फॉर्मेशन बने */
+  .jet-green-box   { top: 100px; }
+
+  .jet-icon {
+    font-size: 36px;
+    transform: rotate(20deg);
+    z-index: 5;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
+  }
+
+  .smoke-line {
     position: absolute;
-    height: 10px;
-    left: -2000px;
-    width: 2000px;
-    border-radius: 10px;
+    right: 28px;
+    height: 16px;
+    width: 3000px;
+    border-radius: 8px;
     filter: blur(4px);
-    opacity: 0.9;
+    opacity: 0.95;
   }
-  .trail-saffron { top: 22px; background: rgba(255, 153, 51, 0.95); box-shadow: 0 0 15px #FF9933; }
-  .trail-white   { top: 57px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 0 15px #FFFFFF; }
-  .trail-green   { top: 92px; background: rgba(19, 136, 8, 0.95); box-shadow: 0 0 15px #138808; }
 
-  /* 4. घूमता हुआ अशोक चक्र Header Banner में */
+  .smoke-saffron { background: #FF9933; box-shadow: 0 0 25px #FF9933, 0 0 50px #FF9933; }
+  .smoke-white   { background: #FFFFFF; box-shadow: 0 0 25px #FFFFFF, 0 0 50px #FFFFFF; }
+  .smoke-green   { background: #138808; box-shadow: 0 0 25px #138808, 0 0 50px #138808; }
+
+  /* 4. अशोक चक्र */
   .ashok-chakra {
     width: 70px;
     height: 70px;
@@ -126,7 +132,7 @@
     display: inline-block;
     animation: rotateChakra 8s linear infinite;
     box-shadow: 0 0 20px rgba(0, 0, 128, 0.8);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
   }
 
   .chakra-spoke {
@@ -144,77 +150,75 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* 5. 3D TIRANGA CLOCK SYSTEM (केसरिया, सफेद, हरा लेआउट) */
-  .tiranga-clock-card {
-    border: 2px solid var(--gold);
-    border-radius: 1.5rem;
+  /* 5. 3D TIRANGA CLOCK */
+  .clock-3d-wrapper {
+    border: 3px solid var(--gold);
+    border-radius: 2rem;
     overflow: hidden;
-    box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 35px rgba(251, 191, 36, 0.4);
     background: #020617;
+    transform: perspective(1000px) rotateX(2deg);
+    transition: transform 0.3s ease;
+  }
+  .clock-3d-wrapper:hover {
+    transform: perspective(1000px) rotateX(0deg) scale(1.02);
   }
 
-  /* (Upar Kesariya Block) - Digital Clock Grid Effect */
-  .clock-top-saffron {
-    background: linear-gradient(135deg, #FF9933 0%, #D97706 100%);
-    padding: 12px;
+  .clock-section-saffron {
+    background: linear-gradient(135deg, #FF7700 0%, #FF9933 50%, #D97706 100%);
+    padding: 16px 12px;
     text-align: center;
+    border-bottom: 3px solid #FBBF24;
     position: relative;
-    border-bottom: 2px solid #FBBF24;
-    background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-    background-size: 10px 10px;
   }
 
-  .digital-clock-glow {
+  .digital-clock-3d {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 900;
     color: #FFFFFF;
-    text-shadow: 0 0 8px #000000, 0 0 15px #FFFFFF;
+    text-shadow: 0 3px 0 #8B4500, 0 0 15px rgba(255, 255, 255, 0.9);
     letter-spacing: 2px;
   }
 
-  /* (Bich me White Block) - Ashok Chakra Analog Clock */
-  .clock-mid-white {
-    background: #FFFFFF;
-    padding: 15px 10px;
+  .clock-section-white {
+    background: radial-gradient(circle, #FFFFFF 70%, #E2E8F0 100%);
+    padding: 20px 10px;
     text-align: center;
     position: relative;
   }
 
-  .ashok-analog-clock {
-    width: 150px;
-    height: 150px;
-    border: 4px solid var(--navy);
+  .ashok-analog-3d {
+    width: 160px;
+    height: 160px;
+    border: 5px solid var(--navy);
     border-radius: 50%;
     margin: 0 auto;
     position: relative;
-    background: radial-gradient(circle, #ffffff 60%, rgba(0, 0, 128, 0.1) 100%);
-    box-shadow: inset 0 0 10px rgba(0,0,128,0.3), 0 0 15px rgba(0,0,128,0.4);
+    background: #FFFFFF;
+    box-shadow: inset 0 0 15px rgba(0,0,128,0.25), 0 10px 20px rgba(0,0,0,0.3);
   }
 
-  .clock-num-12 {
+  .clock-num {
     position: absolute;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
     color: var(--navy);
   }
-  .num12 { top: 4px; left: 50%; transform: translateX(-50%); }
-  .num1  { top: 12px; right: 32px; }
-  .num2  { top: 34px; right: 12px; }
-  .num3  { top: 50%; right: 6px; transform: translateY(-50%); }
-  .num4  { bottom: 34px; right: 12px; }
-  .num5  { bottom: 12px; right: 32px; }
-  .num6  { bottom: 4px; left: 50%; transform: translateX(-50%); }
-  .num7  { bottom: 12px; left: 32px; }
-  .num8  { bottom: 34px; left: 12px; }
-  .num9  { top: 50%; left: 6px; transform: translateY(-50%); }
-  .num10 { top: 34px; left: 12px; }
-  .num11 { top: 12px; left: 32px; }
+  .n12 { top: 4px; left: 50%; transform: translateX(-50%); }
+  .n1  { top: 14px; right: 34px; }
+  .n2  { top: 36px; right: 14px; }
+  .n3  { top: 50%; right: 6px; transform: translateY(-50%); }
+  .n4  { bottom: 36px; right: 14px; }
+  .n5  { bottom: 14px; right: 34px; }
+  .n6  { bottom: 4px; left: 50%; transform: translateX(-50%); }
+  .n7  { bottom: 14px; left: 34px; }
+  .n8  { bottom: 36px; left: 14px; }
+  .n9  { top: 50%; left: 6px; transform: translateY(-50%); }
+  .n10 { top: 36px; left: 14px; }
+  .n11 { top: 14px; left: 34px; }
 
-  /* अशोक चक्र की सुइयाँ (Navy Blue & Saffron) */
-  .ashok-hand {
+  .hand-3d {
     position: absolute;
     bottom: 50%;
     left: 50%;
@@ -222,17 +226,16 @@
     border-radius: 4px;
     z-index: 10;
   }
-  .ashok-hour   { width: 4px; height: 40px; background: var(--navy); }
-  .ashok-minute { width: 3px; height: 56px; background: var(--navy); }
-  .ashok-second { width: 1.5px; height: 62px; background: var(--saffron); }
-  .ashok-center { width: 12px; height: 12px; background: var(--navy); border: 2px solid #FFF; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 12; }
+  .hand-hour   { width: 5px; height: 42px; background: var(--navy); }
+  .hand-minute { width: 3.5px; height: 60px; background: var(--navy); }
+  .hand-second { width: 2px; height: 66px; background: var(--saffron); }
+  .hand-center { width: 14px; height: 14px; background: var(--navy); border: 3px solid #FFF; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 12; }
 
-  /* (Niche Hara Block) - Live Date */
-  .clock-bottom-green {
-    background: linear-gradient(135deg, #138808 0%, #064e03 100%);
-    padding: 10px;
+  .clock-section-green {
+    background: linear-gradient(135deg, #138808 0%, #0B5304 100%);
+    padding: 12px;
     text-align: center;
-    border-top: 2px solid #FBBF24;
+    border-top: 3px solid #FBBF24;
   }
 
   .tiranga-3d-text {
@@ -246,7 +249,18 @@
   .glass-card {
     background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 153, 51, 0.25);
+    border: 1px solid rgba(255, 153, 51, 0.3);
+  }
+
+  .plan-card-3d {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
+    border: 2px solid rgba(251, 191, 36, 0.3);
+  }
+  .plan-card-3d:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: #FBBF24;
+    box-shadow: 0 20px 30px rgba(255, 153, 51, 0.25);
   }
 
   .ticker-wrap { overflow: hidden; white-space: nowrap; }
@@ -256,33 +270,31 @@
 </head>
 <body class="min-h-screen">
 
-<!-- 1. चारों तरफ घूमता हुआ तिरंगा बॉर्डर -->
+<!-- 1. तिरंगा बॉर्डर -->
 <div class="flag-border-container"></div>
 
-<!-- 2. फूलों की बारिश (Flower Rain) -->
-<div class="flower-rain-container">
-  <div class="flower" style="left: 5%; animation-duration: 6s; animation-delay: 0s;">🌸</div>
-  <div class="flower" style="left: 15%; animation-duration: 8s; animation-delay: 1s;">🌼</div>
-  <div class="flower" style="left: 25%; animation-duration: 5s; animation-delay: 2s;">🌺</div>
-  <div class="flower" style="left: 35%; animation-duration: 7s; animation-delay: 0.5s;">🌹</div>
-  <div class="flower" style="left: 45%; animation-duration: 9s; animation-delay: 1.5s;">🌸</div>
-  <div class="flower" style="left: 55%; animation-duration: 6s; animation-delay: 3s;">🌻</div>
-  <div class="flower" style="left: 65%; animation-duration: 8s; animation-delay: 0.2s;">🌺</div>
-  <div class="flower" style="left: 75%; animation-duration: 5.5s; animation-delay: 2.2s;">🌼</div>
-  <div class="flower" style="left: 85%; animation-duration: 7.5s; animation-delay: 1.1s;">🌹</div>
-  <div class="flower" style="left: 95%; animation-duration: 6.5s; animation-delay: 2.8s;">🌸</div>
-</div>
+<!-- 2. फूलों की बारिश कंटेनर -->
+<div id="flower-rain-container"></div>
 
-<!-- 3. 3 एयरोप्लेन और तिरंगा धुआँ फ़ॉर्मेशन -->
+<!-- 3. 3 फाइटर जेट्स मिलकर तिरंगा धुआँ -->
 <div class="sky-jet-wrapper">
-  <div class="jet-group">
-    <div class="jet jet-saffron">✈️<div class="smoke-trail trail-saffron"></div></div>
-    <div class="jet jet-white">✈️<div class="smoke-trail trail-white"></div></div>
-    <div class="jet jet-green">✈️<div class="smoke-trail trail-green"></div></div>
+  <div class="jet-squadron">
+    <div class="single-jet-box jet-saffron-box">
+      <div class="smoke-line smoke-saffron"></div>
+      <div class="jet-icon">✈️</div>
+    </div>
+    <div class="single-jet-box jet-white-box">
+      <div class="smoke-line smoke-white"></div>
+      <div class="jet-icon">✈️</div>
+    </div>
+    <div class="single-jet-box jet-green-box">
+      <div class="smoke-line smoke-green"></div>
+      <div class="jet-icon">✈️</div>
+    </div>
   </div>
 </div>
 
-<!-- 4. LIVE TICKER BANNER -->
+<!-- 4. LIVE TICKER -->
 <div class="bg-gradient-to-r from-[#FF9933] via-slate-950 to-[#138808] text-white text-xs font-bold py-2 border-b border-amber-500/40">
   <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
     <span class="bg-amber-400 text-black px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase shrink-0 shadow-md animate-pulse">
@@ -298,7 +310,7 @@
   </div>
 </div>
 
-<!-- 5. SITE HEADER -->
+<!-- 5. HEADER -->
 <header class="sticky top-0 z-50 bg-[#080d1e]/90 backdrop-blur-md border-b border-amber-500/30">
   <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-3">
@@ -313,31 +325,26 @@
 
     <nav class="hidden lg:flex items-center gap-5 text-xs font-bold text-gray-300">
       <a class="text-amber-400 flex items-center gap-1.5" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="membership.html"><i class="fa-solid fa-layer-group"></i> 7 Access Plans</a>
+      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="#plans-section"><i class="fa-solid fa-layer-group"></i> 7 Access Plans</a>
       <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="#services"><i class="fa-solid fa-toolbox"></i> Services</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="#examples"><i class="fa-solid fa-chart-line"></i> Examples</a>
       <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="news.html"><i class="fa-solid fa-newspaper"></i> समाचार</a>
       <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="jobs.html"><i class="fa-solid fa-briefcase"></i> Jobs</a>
       <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="panchang.html"><i class="fa-solid fa-calendar-days"></i> पंचांग</a>
-      <a class="hover:text-amber-400 transition flex items-center gap-1.5" href="chat.html"><i class="fa-solid fa-comments"></i> Chat</a>
     </nav>
 
     <div class="hidden sm:flex items-center gap-3">
-      <button class="px-4 py-2 border border-amber-500/50 hover:bg-amber-500/10 text-amber-400 rounded-xl text-xs font-bold transition" onclick="openLoginModal()">Login</button>
-      <button class="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-extrabold rounded-xl text-xs shadow-lg transition" onclick="openRegistrationFlow()">Join IOIS</button>
+      <button class="px-4 py-2 border border-amber-500/50 hover:bg-amber-500/10 text-amber-400 rounded-xl text-xs font-bold transition">Login</button>
+      <button class="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-extrabold rounded-xl text-xs shadow-lg transition">Join IOIS</button>
     </div>
-
-    <button class="lg:hidden text-amber-400 text-xl p-2" onclick="toggleMobileMenu()" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
   </div>
 </header>
 
 <main class="space-y-12 py-8 relative z-10">
 
-  <!-- 6. CELEBRATION BANNER WITH ASHOK CHAKRA & HAPPY INDEPENDENCE DAY -->
+  <!-- BANNER -->
   <section class="max-w-7xl mx-auto px-4 text-center">
     <div class="glass-card p-6 rounded-3xl border-2 border-amber-400 relative overflow-hidden">
       <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-        <!-- Ashok Chakra Animation -->
         <div class="ashok-chakra" id="ashok-chakra-box"></div>
         <div>
           <h1 class="text-3xl sm:text-5xl font-extrabold text-[#000080] drop-shadow-[0_2px_10px_rgba(255,255,255,0.9)] tracking-wide">
@@ -349,44 +356,45 @@
     </div>
   </section>
 
-  <!-- 7. UTILITY SECTION (प्रीमियम तिरंगा 3-लेयर घड़ी + मौसम + स्मार्ट पैनल) -->
+  <!-- UTILITY & 3D CLOCK -->
   <section class="max-w-7xl mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       
-      <!-- 🌟 3-LAYER TIRANGA PREMIER CLOCK -->
-      <div class="tiranga-clock-card">
-        <!-- UPAR KESARIYA: Digital Clock with Grid Lines -->
-        <div class="clock-top-saffron">
-          <div class="text-[10px] font-black text-black uppercase tracking-wider mb-0.5">🇮🇳 IOIS LIVE DIGITAL CLOCK</div>
-          <div id="digital-clock" class="digital-clock-glow">12:00:00 AM</div>
+      <!-- 🌟 ULTRA PREMIUM 3D TIRANGA CLOCK -->
+      <div class="clock-3d-wrapper">
+        <div class="clock-section-saffron">
+          <div class="text-[10px] font-black text-slate-950 uppercase tracking-widest mb-1 flex items-center justify-center gap-1">
+            <span>🇮🇳</span> IOIS LIVE DIGITAL CLOCK
+          </div>
+          <div id="digital-clock" class="digital-clock-3d">12:00:00 AM</div>
         </div>
 
-        <!-- BICH ME WHITE: Ashok Chakra Analog Clock with 1-12 Numbers -->
-        <div class="clock-mid-white">
-          <div class="ashok-analog-clock" aria-label="Ashok Chakra Analog Clock">
-            <span class="clock-num-12 num12">12</span>
-            <span class="clock-num-12 num1">1</span>
-            <span class="clock-num-12 num2">2</span>
-            <span class="clock-num-12 num3">3</span>
-            <span class="clock-num-12 num4">4</span>
-            <span class="clock-num-12 num5">5</span>
-            <span class="clock-num-12 num6">6</span>
-            <span class="clock-num-12 num7">7</span>
-            <span class="clock-num-12 num8">8</span>
-            <span class="clock-num-12 num9">9</span>
-            <span class="clock-num-12 num10">10</span>
-            <span class="clock-num-12 num11">11</span>
+        <div class="clock-section-white">
+          <div class="ashok-analog-3d">
+            <span class="clock-num n12">12</span>
+            <span class="clock-num n1">1</span>
+            <span class="clock-num n2">2</span>
+            <span class="clock-num n3">3</span>
+            <span class="clock-num n4">4</span>
+            <span class="clock-num n5">5</span>
+            <span class="clock-num n6">6</span>
+            <span class="clock-num n7">7</span>
+            <span class="clock-num n8">8</span>
+            <span class="clock-num n9">9</span>
+            <span class="clock-num n10">10</span>
+            <span class="clock-num n11">11</span>
 
-            <div id="clock-hour" class="ashok-hand ashok-hour"></div>
-            <div id="clock-min" class="ashok-hand ashok-minute"></div>
-            <div id="clock-sec" class="ashok-hand ashok-second"></div>
-            <div class="ashok-center"></div>
+            <div id="clock-hour" class="hand-3d hand-hour"></div>
+            <div id="clock-min" class="hand-3d hand-minute"></div>
+            <div id="clock-sec" class="hand-3d hand-second"></div>
+            <div class="hand-center"></div>
           </div>
         </div>
 
-        <!-- NICHE HARA: Live Date Banner -->
-        <div class="clock-bottom-green">
-          <div id="clock-date" class="text-xs text-white font-extrabold tracking-wide">तारीख लोड हो रही है...</div>
+        <div class="clock-section-green">
+          <div id="clock-date" class="text-xs text-amber-200 font-black tracking-wide drop-shadow-md">
+            🗓️ तारीख लोड हो रही है...
+          </div>
         </div>
       </div>
 
@@ -394,13 +402,11 @@
       <div class="glass-card p-5 rounded-3xl flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between text-xs font-bold text-teal-400 mb-2">
-            <span><i class="fa-solid fa-satellite"></i> <span id="weather-location-label">GPS Location</span></span>
+            <span><i class="fa-solid fa-satellite"></i> Location Weather</span>
           </div>
           <div class="text-center my-2">
-            <div id="weather-temp" class="text-3xl font-black text-white">--°C</div>
-            <div id="weather-status" class="text-xs text-amber-300 mt-1">☀️ मौसम जानकारी लोड हो रही है...</div>
-            <small id="weather-location" class="text-[10px] text-gray-400 block mt-1">Location खोजी जा रही है...</small>
-            <small id="weather-extra" class="text-[10px] text-gray-400 block">Humidity --% · Wind -- km/h</small>
+            <div id="weather-temp" class="text-3xl font-black text-white">28°C</div>
+            <div id="weather-status" class="text-xs text-amber-300 mt-1">☀️ पटना, बिहार - मौसम साफ़ है</div>
           </div>
         </div>
         <a href="panchang.html" class="block text-center py-2 bg-teal-500/20 text-teal-300 text-xs font-bold rounded-xl border border-teal-500/40">
@@ -421,51 +427,132 @@
             <p class="text-[10px] text-gray-400">IOIS Platform पर Digital Resources, Career Tools और 7 Access Plans उपलब्ध हैं।</p>
           </div>
         </div>
-        <a href="panchang.html" class="block text-center py-2 bg-orange-500/20 text-orange-300 text-xs font-bold rounded-xl border border-orange-500/40 mt-3">
-          पंचांग / मौसम देखें
-        </a>
       </div>
 
-    </div>
-
-    <!-- Hero Card & TV Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-      <div class="lg:col-span-7 glass-card p-6 sm:p-8 rounded-3xl border border-amber-500/40">
-        <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-[11px] font-extrabold mb-3">
-          🇮🇳 Indian Digital Platform
-        </span>
-        <h1 class="tiranga-3d-text text-3xl sm:text-5xl mb-4 leading-tight">
-          Indian Online Income<br>Supporting System
-        </h1>
-        <p class="text-xs sm:text-sm text-gray-300 leading-relaxed mb-6">
-          IOIS एक digital platform है जो students, job seekers और digital creators को affordable digital resources, career tools और creator-supporting products उपलब्ध कराने के लिए बनाया गया है।
-        </p>
-        <div class="flex flex-wrap gap-3">
-          <button class="px-6 py-3 bg-gradient-to-r from-amber-400 via-white to-green-600 text-black font-black rounded-xl text-xs sm:text-sm shadow-xl" onclick="openRegistrationFlow()">
-            🚀 Join IOIS @ ₹10 (बाल विकास सेवा)
-          </button>
-          <button class="px-6 py-3 border border-amber-400/60 text-amber-300 font-bold rounded-xl text-xs sm:text-sm" onclick="scrollToPlans()">
-            📦 View 7 Plans
-          </button>
-        </div>
-      </div>
-
-      <div class="lg:col-span-5 glass-card p-4 rounded-3xl border border-amber-500/40">
-        <div class="flex items-center justify-between text-xs font-bold text-amber-400 mb-2 px-2">
-          <span><i class="fa-solid fa-tv text-red-500"></i> IOIS Smart TV</span>
-          <div class="space-x-1">
-            <button class="px-2 py-0.5 bg-red-600 text-white rounded text-[10px]" onclick="openVideo()">YouTube</button>
-            <button class="px-2 py-0.5 bg-slate-800 text-gray-300 rounded text-[10px]" onclick="openVideo()">Browser</button>
-          </div>
-        </div>
-        <div class="w-full aspect-video rounded-2xl overflow-hidden border border-slate-700 bg-black">
-          <iframe class="w-full h-full" src="https://www.youtube.com/embed/0gYd3mIxksc?autoplay=0&mute=1&loop=1&playlist=0gYd3mIxksc" title="IOIS Smart TV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- 8. DOWNLOADABLE 3D PREMIUM TIRANGA ID CARD GENERATOR -->
+  <!-- IOIS ALL 7 MEMBERSHIP PLANS -->
+  <section id="plans-section" class="max-w-7xl mx-auto px-4">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <span class="bg-gradient-to-r from-orange-500 via-white to-green-600 text-black text-[10px] font-black px-3.5 py-1 rounded-full uppercase shadow">
+        🇮🇳 IOIS Official Plans
+      </span>
+      <h2 class="tiranga-3d-text text-3xl sm:text-4xl mt-3">
+        IOIS All 7 Access Membership Plans
+      </h2>
+      <p class="text-xs sm:text-sm text-gray-300 mt-2">
+        अपनी आवश्यकता के अनुसार उपयुक्त प्लान चुनें और डिजिटल रिसोर्सेज, जॉब अपडेट्स, डिजिटल टूलकिट और सपोर्ट प्राप्त करें।
+      </p>
+    </div>
+
+    <!-- 7 Plans Grid Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+      
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 1</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Bal Vikas Access</h3>
+          <div class="text-2xl font-black text-amber-400 mb-3">₹10 <span class="text-xs text-gray-400 font-normal">/ Standard</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> बेसिक डिजिटल गाइड्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> WhatsApp ग्रुप सपोर्ट</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> बाल विकास रिसोर्सेज</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹10</button>
+      </div>
+
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 2</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Youth Skill Access</h3>
+          <div class="text-2xl font-black text-amber-400 mb-3">₹49 <span class="text-xs text-gray-400 font-normal">/ Skill Pack</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> बेसिक स्किल्स ट्यूटोरियल्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> फ्री पोस्टर टम्प्लेट्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> कम्युनिटी एक्सेस</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹49</button>
+      </div>
+
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between border-amber-400 shadow-lg">
+        <div>
+          <span class="bg-amber-400 text-black text-[9px] font-black px-2 py-0.5 rounded-full uppercase float-right">Popular</span>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 3</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Career & Job Access</h3>
+          <div class="text-2xl font-black text-amber-400 mb-3">₹99 <span class="text-xs text-gray-400 font-normal">/ Career</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> जॉब अलर्ट्स & बायोडाटा मेकर्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑनलाइन वर्क गाइड्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> डायरेक्ट कॉल सपोर्ट</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹99</button>
+      </div>
+
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 4</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Family VIP Access</h3>
+          <div class="text-2xl font-black text-amber-400 mb-3">₹199 <span class="text-xs text-gray-400 font-normal">/ VIP Pack</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> फैमिली पंचांग & टूल्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑल इन वन डिजिटल पास</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> प्रायोरिटी सपोर्ट</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹199</button>
+      </div>
+
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 5</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Student Access</h3>
+          <div class="text-2xl font-black text-amber-400 mb-3">₹299 <span class="text-xs text-gray-400 font-normal">/ Student Pro</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> परीक्षा तैयारी ई-बुक्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> डिजिटल सर्टिफिकेट मेकर</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑनलाइन मॉक टेस्ट लिंक्स</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹299</button>
+      </div>
+
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest block mb-1">Level 6</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Reseller Access</h3>
+          <div class="text-2xl font-black text-amber-400 mb-3">₹499 <span class="text-xs text-gray-400 font-normal">/ Agency</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> रिसेलिंग राइट्स & टूल्स</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> कस्टम पोस्टर मेकिंग सर्विस</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> 24/7 स्पेशल मैनेजर</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹499</button>
+      </div>
+
+      <div class="plan-card-3d p-5 rounded-2xl flex flex-col justify-between border-green-500 sm:col-span-2 lg:col-span-1">
+        <div>
+          <span class="bg-green-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase float-right">Master</span>
+          <span class="text-[10px] font-extrabold text-green-400 uppercase tracking-widest block mb-1">Level 7</span>
+          <h3 class="text-lg font-bold text-white mb-2">IOIS Master Access</h3>
+          <div class="text-2xl font-black text-green-400 mb-3">₹999 <span class="text-xs text-gray-400 font-normal">/ Lifetime VIP</span></div>
+          <ul class="text-xs text-gray-300 space-y-2 mb-4">
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> ऑल 6 प्लांस के सभी फायदे</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> पर्सनल ब्रांडिंग & वेबसाइट सपोर्ट</li>
+            <li><i class="fa-solid fa-check text-green-400 mr-1.5"></i> लाइफटाइम मास्टर मेंबरशिप</li>
+          </ul>
+        </div>
+        <button class="w-full py-2.5 bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 text-black font-extrabold rounded-xl text-xs shadow-md">Join @ ₹999</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3D TIRANGA ID CARD GENERATOR -->
   <section class="max-w-7xl mx-auto px-4">
     <div class="glass-card p-6 sm:p-8 rounded-3xl border-2 border-amber-500/50">
       <div class="text-center max-w-2xl mx-auto mb-8">
@@ -475,11 +562,10 @@
         <h2 class="tiranga-3d-text text-2xl sm:text-3xl mt-2">
           Downloadable 3D Premium Tiranga ID Card
         </h2>
-        <p class="text-xs text-gray-300 mt-1">अपनी जानकारी दर्ज करें, अपनी प्रोफाइल फ़ोटो अपलोड करें और **"Download ID Card"** बटन पर क्लिक करके कार्ड डाउनलोड करें!</p>
+        <p class="text-xs text-gray-300 mt-1">अपनी जानकारी दर्ज करें, अपनी प्रोफाइल फ़ोटो अपलोड करें और **"Download ID Card"** बटन पर क्लिक करें!</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <!-- Form Controls -->
         <div class="lg:col-span-5 space-y-3 bg-slate-950/80 p-5 rounded-2xl border border-amber-500/30 text-xs">
           <div>
             <label class="block font-bold text-amber-400 mb-1">आपका नाम (Full Name)</label>
@@ -511,7 +597,6 @@
           </button>
         </div>
 
-        <!-- Live Canvas Preview -->
         <div class="lg:col-span-7 flex justify-center">
           <canvas id="idCardCanvas" width="400" height="250" class="w-full max-w-md rounded-2xl border-2 border-amber-400 shadow-2xl"></canvas>
         </div>
@@ -527,10 +612,26 @@
   </div>
 </footer>
 
-<!-- JS SCRIPT -->
-<script src="script.js"></script>
 <script>
-  // 1. Ashok Chakra 24 Spokes Generator (Top Header Banner)
+  // 1. Dynamic Flower Rain Generator
+  function createFlowerRain() {
+    const container = document.getElementById('flower-rain-container');
+    if(!container) return;
+    const flowers = ['🌸', '🌼', '🌺', '🌹', '🌻'];
+    for (let i = 0; i < 35; i++) {
+      const flower = document.createElement('div');
+      flower.className = 'falling-flower';
+      flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+      flower.style.left = Math.random() * 100 + 'vw';
+      flower.style.animationDuration = (Math.random() * 5 + 4) + 's';
+      flower.style.animationDelay = (Math.random() * 5) + 's';
+      flower.style.fontSize = (Math.random() * 15 + 15) + 'px';
+      container.appendChild(flower);
+    }
+  }
+  createFlowerRain();
+
+  // 2. Ashok Chakra 24 Spokes
   const chakraBox = document.getElementById('ashok-chakra-box');
   if(chakraBox) {
     for(let i=0; i<12; i++) {
@@ -541,7 +642,7 @@
     }
   }
 
-  // 2. Downloadable Canvas ID Card Generator
+  // 3. ID Card Canvas Generator
   let uploadedImg = new Image();
   uploadedImg.src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
   uploadedImg.onload = drawCanvasCard;
@@ -568,24 +669,20 @@
     const state = document.getElementById('id-card-state').value || 'पटना, बिहार';
     const plan = document.getElementById('id-card-plan').value || '1. IOIS Bal Vikas Access (₹10)';
 
-    // Card Background Gradient
     const bgGrad = ctx.createLinearGradient(0, 0, 400, 250);
     bgGrad.addColorStop(0, '#020617');
     bgGrad.addColorStop(1, '#0f172a');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, 400, 250);
 
-    // Top Tiranga Bar
     ctx.fillStyle = '#FF9933'; ctx.fillRect(0, 0, 133, 8);
     ctx.fillStyle = '#FFFFFF'; ctx.fillRect(133, 0, 134, 8);
     ctx.fillStyle = '#138808'; ctx.fillRect(267, 0, 133, 8);
 
-    // Card Golden Border
     ctx.strokeStyle = '#FBBF24';
     ctx.lineWidth = 3;
     ctx.strokeRect(4, 4, 392, 242);
 
-    // Header Title
     ctx.fillStyle = '#FF9933';
     ctx.font = 'bold 16px Poppins, sans-serif';
     ctx.fillText('IOIS PLATFORM 🇮🇳', 20, 35);
@@ -594,13 +691,11 @@
     ctx.font = '10px Poppins, sans-serif';
     ctx.fillText('Indian Digital ID Pass 2026', 20, 50);
 
-    // Profile Photo Box
     ctx.strokeStyle = '#FBBF24';
     ctx.lineWidth = 2;
     ctx.strokeRect(20, 65, 80, 95);
     ctx.drawImage(uploadedImg, 22, 67, 76, 91);
 
-    // User Details Text
     ctx.fillStyle = '#9CA3AF';
     ctx.font = '10px Poppins, sans-serif';
     ctx.fillText('सदस्य का नाम:', 115, 75);
@@ -617,7 +712,6 @@
     ctx.font = 'bold 12px Poppins, sans-serif';
     ctx.fillText(state, 115, 132);
 
-    // Plan Box
     ctx.fillStyle = 'rgba(255, 153, 51, 0.15)';
     ctx.fillRect(20, 170, 360, 35);
     ctx.strokeStyle = 'rgba(251, 191, 36, 0.4)';
@@ -631,7 +725,6 @@
     ctx.font = 'bold 11px Poppins, sans-serif';
     ctx.fillText(plan, 30, 198);
 
-    // Footer Info
     ctx.fillStyle = '#6B7280';
     ctx.font = '9px Poppins, sans-serif';
     ctx.fillText('ID Code: IOIS-2026-IND', 20, 225);
@@ -646,7 +739,7 @@
     link.click();
   }
 
-  // 3. Exact Tiranga Clock Logic (Digital IST + Analog 1-12 Ashok Clock + Live Date)
+  // 4. Clock Logic
   function updateClocks() {
     const now = new Date();
     const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' });
