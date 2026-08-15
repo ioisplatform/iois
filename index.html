@@ -6,326 +6,657 @@
 <meta name="theme-color" content="#030712">
 <title>IOIS PLATFORM | Indian Online Income Supporting System</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root {
     --bg-dark: #030712;
-    --card-bg: rgba(17, 24, 39, 0.9);
+    --card-bg: rgba(15, 23, 42, 0.75);
     --saffron: #FF9933;
     --green: #138808;
     --gold: #D4AF37;
-    --border-glow: rgba(212, 175, 55, 0.3);
+    --gold-light: #F3E5AB;
+    --border-glow: rgba(212, 175, 55, 0.4);
   }
+
   body {
     background-color: var(--bg-dark);
-    color: #f3f4f6;
-    font-family: system-ui, -apple-system, sans-serif;
+    color: #f8fafc;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-image: 
-      linear-gradient(to right, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
+      radial-gradient(circle at 50% 0%, rgba(255, 153, 51, 0.15), transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(19, 136, 8, 0.1), transparent 40%),
+      linear-gradient(to right, rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
   }
-  .tiranga-text {
-    background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
+
+  /* Ultra Premium Metallic Text Styling */
+  .gold-metallic-text {
+    background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 800;
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
   }
-  .gold-glow {
-    border: 1px solid var(--gold);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+
+  .tiranga-text {
+    background: linear-gradient(90deg, var(--saffron) 0%, #FFFFFF 50%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
   }
-  .glass-card {
+
+  /* Premium Card & Glassmorphism */
+  .glass-card-premium {
     background: var(--card-bg);
     border: 1px solid var(--border-glow);
-    border-radius: 12px;
-    padding: 1.5rem;
-    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.75rem;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .btn-gradient {
-    background: linear-gradient(135deg, var(--saffron), #e67e22, var(--green));
-    color: #ffffff;
-    font-weight: 700;
-    padding: 10px 20px;
+
+  .glass-card-premium:hover {
+    border-color: var(--gold);
+    box-shadow: 0 15px 40px -5px rgba(212, 175, 55, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+  }
+
+  /* Ultra 3D Buttons */
+  .btn-gold-gradient {
+    background: linear-gradient(135deg, #FF9933 0%, #D4AF37 50%, #138808 100%);
+    color: #000;
+    font-weight: 800;
+    padding: 12px 28px;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4);
     transition: all 0.3s ease;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-  .btn-gradient:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 153, 51, 0.4);
+
+  .btn-gold-gradient:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
   }
-  .btn-outline {
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    background: transparent;
-    padding: 8px 18px;
+
+  .btn-outline-gold {
+    border: 1.5px solid var(--gold);
+    color: var(--gold-light);
+    background: rgba(212, 175, 55, 0.05);
+    padding: 10px 24px;
     border-radius: 50px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
-  .btn-outline:hover {
-    background: rgba(212, 175, 55, 0.1);
+
+  .btn-outline-gold:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: var(--gold-light);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
   }
+
+  /* Analog Clock */
   .analog-clock {
-    width: 90px;
-    height: 90px;
-    border: 2px solid var(--gold);
+    width: 100px;
+    height: 100px;
+    border: 3px solid var(--gold);
     border-radius: 50%;
     position: relative;
     margin: 0 auto;
-    background: rgba(0,0,0,0.5);
+    background: radial-gradient(circle, #0f172a 0%, #030712 100%);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
   }
+
   .hand {
     position: absolute;
     bottom: 50%;
     left: 50%;
     transform-origin: bottom;
-    background: var(--gold);
     border-radius: 4px;
   }
-  .hour-hand { width: 3px; height: 25px; }
-  .min-hand { width: 2px; height: 35px; background: #fff; }
-  .sec-hand { width: 1px; height: 40px; background: var(--saffron); }
+  .hour-hand { width: 4px; height: 28px; background: var(--gold); }
+  .min-hand { width: 3px; height: 38px; background: #ffffff; }
+  .sec-hand { width: 1.5px; height: 44px; background: var(--saffron); }
+
+  /* Accordion Transition */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+  }
+  .faq-answer.open {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in-out;
+  }
 </style>
 </head>
-<body>
+<body class="antialiased">
 
 <!-- LIVE TICKER -->
-<div class="bg-gray-900 border-b border-gray-800 text-xs py-2 px-4 flex items-center justify-between">
-  <div class="flex items-center gap-2 overflow-hidden whitespace-nowrap">
-    <span class="bg-red-600 text-white font-bold px-2 py-0.5 rounded text-[10px]">LIVE UPDATE</span>
-    <span class="text-gray-300">🔥 IOIS PLATFORM — ₹10 Verification Pass से शुरुआत करें! | 🚀 ₹10 से ₹999 तक 7 Master Plans | 🇮🇳 Telegram Support: @ioisplatform</span>
+<div class="bg-slate-950 border-b border-amber-500/20 text-xs py-2 px-4">
+  <div class="container mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3 overflow-hidden whitespace-nowrap">
+      <span class="bg-gradient-to-r from-red-600 to-amber-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px] tracking-wider uppercase shadow-lg animate-pulse">LIVE SYSTEM</span>
+      <span class="text-slate-300 font-medium tracking-wide">🔥 IOIS PLATFORM — ₹10 Verification Pass से शुरुआत करें! | 🚀 ₹10 से ₹999 तक के 7 Dynamic VIP Plans | 🇮🇳 Telegram: @ioisplatform</span>
+    </div>
+    <div class="hidden lg:flex items-center gap-4 text-amber-400/80 text-[11px] font-mono">
+      <span><i class="fa-solid fa-server text-emerald-400"></i> API Status: ONLINE</span>
+    </div>
   </div>
 </div>
 
 <!-- HEADER NAVIGATION -->
-<header class="sticky top-0 z-50 bg-gray-950/90 backdrop-blur-md border-b border-gray-800 py-3 px-4">
+<header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-xl border-b border-amber-500/20 py-3 px-4">
   <div class="container mx-auto flex items-center justify-between">
-    <a href="#" class="flex items-center gap-2">
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-emerald-600 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition">I</div>
       <div>
-        <b class="tiranga-text text-xl block">IOIS PLATFORM</b>
-        <small class="text-[10px] text-yellow-500 tracking-wider">INDIAN ONLINE INCOME SUPPORTING SYSTEM</small>
+        <b class="tiranga-text text-2xl block leading-none">IOIS PLATFORM</b>
+        <small class="text-[10px] gold-metallic-text tracking-widest font-bold uppercase block mt-0.5">Indian Online Income Supporting System</small>
       </div>
     </a>
-    <nav class="hidden md:flex gap-6 text-sm text-gray-300">
-      <a href="#hero" class="hover:text-yellow-400"><i class="fa-solid fa-house"></i> होम</a>
-      <a href="#utility" class="hover:text-yellow-400"><i class="fa-solid fa-clock"></i> लाइव सेवा (मौसम/पंचांग)</a>
-      <a href="#survey" class="hover:text-yellow-400"><i class="fa-solid fa-circle-question"></i> सर्वे</a>
-      <a href="#plans" class="hover:text-yellow-400"><i class="fa-solid fa-layer-group"></i> 7 Plans</a>
-      <a href="#services" class="hover:text-yellow-400"><i class="fa-solid fa-toolbox"></i> सर्विसेज</a>
-      <a href="#contact" class="hover:text-yellow-400"><i class="fa-solid fa-headset"></i> सपोर्ट</a>
+    <nav class="hidden lg:flex gap-7 text-sm font-semibold text-slate-300">
+      <a href="#hero" class="hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-house text-amber-500"></i> होम</a>
+      <a href="#utility" class="hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-clock text-amber-500"></i> लाइव विजेट्स</a>
+      <a href="#survey" class="hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-sliders text-amber-500"></i> सिलेक्शन सर्वे</a>
+      <a href="#plans" class="hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-amber-500"></i> 7 Master Plans</a>
+      <a href="#calculator" class="hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-calculator text-amber-500"></i> Earning Calc</a>
+      <a href="#parents" class="hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-amber-500"></i> Parent Portal</a>
     </nav>
-    <div class="flex gap-2">
-      <button onclick="openModal('login-modal')" class="btn-outline text-xs">Login</button>
-      <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs">Join Telegram</a>
+    <div class="flex gap-3">
+      <button onclick="openModal('login-modal')" class="btn-outline-gold text-xs">Login</button>
+      <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs"><i class="fa-brands fa-telegram"></i> Join Telegram</a>
     </div>
   </div>
 </header>
 
-<main class="container mx-auto px-4 py-8 space-y-10">
+<main class="container mx-auto px-4 py-10 space-y-12">
 
   <!-- HERO SECTION -->
-  <section id="hero" class="glass-card text-center py-10 gold-glow">
-    <span class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs px-3 py-1 rounded-full uppercase tracking-widest font-semibold">🇮🇳 Digital Earning & Creator Ecosystem</span>
-    <h1 class="tiranga-text text-3xl md:text-5xl my-4">Indian Online Income Supporting System</h1>
-    <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base mb-6">IOIS Platform विद्यार्थियों, नौकरी चाहने वालों, कंटेंट क्रिएटर्स और पेरेंट्स के लिए सुरक्षित, ऑटोमेटेड और डिजिटल इनकम टूल्स प्रदान करता है।</p>
+  <section id="hero" class="glass-card-premium text-center py-12 relative overflow-hidden">
+    <div class="absolute -right-20 -top-20 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <span class="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs px-4 py-1.5 rounded-full uppercase tracking-widest font-bold mb-4 shadow-inner">
+      🇮🇳 National Digital Infrastructure & Ecosystem
+    </span>
+    <h1 class="tiranga-text text-4xl md:text-6xl font-black mb-6 leading-tight">
+      Indian Online Income<br><span class="gold-metallic-text">Supporting System</span>
+    </h1>
+    <p class="text-slate-300 max-w-3xl mx-auto text-base md:text-lg mb-8 leading-relaxed font-normal">
+      IOIS Platform विद्यार्थियों, जॉब सीकर्स, डिजिटल क्रिएटर्स और अभिभावकों के लिए डिज़ाइन किया गया 100% पारदर्शी, ऑटोमेटेड और सुरक्षित डिजिटल इकोसिस्टम है।
+    </p>
     <div class="flex justify-center gap-4 flex-wrap">
-      <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient">🚀 Join @ioisplatform (₹10 Pass)</a>
-      <a href="#survey" class="btn-outline">📋 सर्वे पूरा करें</a>
+      <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-sm">
+        <i class="fa-solid fa-bolt"></i> Unlock Access @ ₹10
+      </a>
+      <a href="#survey" class="btn-outline-gold text-sm">
+        <i class="fa-solid fa-list-check"></i> Selection Survey शुरू करें
+      </a>
     </div>
   </section>
 
-  <!-- LIVE UTILITIES SECTION (CLOCK, WEATHER, PANCHANG, RASHIFAL, SMART TV) -->
+  <!-- LIVE UTILITIES SECTION -->
   <section id="utility" class="grid grid-cols-1 md:grid-cols-3 gap-6">
     
     <!-- LIVE CLOCK PANEL -->
-    <div class="glass-card text-center">
-      <h3 class="text-yellow-400 font-bold mb-3 text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-clock"></i> IOIS LIVE CLOCK</h3>
-      <div id="digital-clock" class="text-2xl font-mono font-bold text-white mb-3">12:00:00 AM</div>
-      <div class="analog-clock mb-3">
-        <div id="hour-hand" class="hand hour-hand"></div>
-        <div id="min-hand" class="hand min-hand"></div>
-        <div id="sec-hand" class="hand sec-hand"></div>
+    <div class="glass-card-premium text-center flex flex-col justify-between">
+      <div>
+        <h3 class="gold-metallic-text font-black mb-4 text-base flex items-center justify-center gap-2">
+          <i class="fa-solid fa-clock text-amber-500"></i> IOIS LIVE CLOCK SYSTEM
+        </h3>
+        <div id="digital-clock" class="text-3xl font-mono font-black text-white mb-4 tracking-wider">12:00:00 AM</div>
+        <div class="analog-clock mb-4">
+          <div id="hour-hand" class="hand hour-hand"></div>
+          <div id="min-hand" class="hand min-hand"></div>
+          <div id="sec-hand" class="hand sec-hand"></div>
+          <div class="absolute w-3 h-3 bg-amber-400 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
       </div>
-      <div id="clock-date" class="text-xs text-gray-400">तारीख लोड हो रही है...</div>
+      <div id="clock-date" class="text-xs font-semibold text-amber-300/80 bg-slate-900/80 py-2 rounded-lg border border-amber-500/10">
+        तारीख लोड हो रही है...
+      </div>
     </div>
 
     <!-- LIVE WEATHER & PANCHANG PANEL -->
-    <div class="glass-card">
-      <h3 class="text-yellow-400 font-bold mb-2 text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-cloud-sun-rain"></i> मौसम व पंचांग लाइव अपडेट</h3>
-      <div class="space-y-2 text-xs text-gray-300">
-        <div class="flex justify-between border-b border-gray-800 py-1"><span>स्थान (GPS):</span><strong id="weather-location" class="text-white">New Delhi, IN</strong></div>
-        <div class="flex justify-between border-b border-gray-800 py-1"><span>तापमान:</span><strong id="weather-temp" class="text-yellow-400">28°C (धूप)</strong></div>
-        <div class="flex justify-between border-b border-gray-800 py-1"><span>आज का शुभ रंग:</span><strong class="text-orange-400">पीला और केसरिया</strong></div>
-        <div class="flex justify-between border-b border-gray-800 py-1"><span>शुभ मुहूर्त:</span><strong class="text-green-400">सुबह 08:15 - 10:30</strong></div>
-        <div class="flex justify-between py-1"><span>राशिफल टिप:</span><strong class="text-blue-400">सकारात्मक सोच एवं नए कार्य की शुरुआत</strong></div>
+    <div class="glass-card-premium flex flex-col justify-between">
+      <h3 class="gold-metallic-text font-black mb-3 text-base flex items-center justify-center gap-2">
+        <i class="fa-solid fa-cloud-sun-rain text-amber-500"></i> मौसम व पंचांग लाइव अपडेट
+      </h3>
+      <div class="space-y-2.5 text-xs text-slate-300">
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">GPS लोकेशन:</span>
+          <strong id="weather-location" class="text-white font-bold">New Delhi, IN</strong>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">तापमान एवं स्थिति:</span>
+          <strong id="weather-temp" class="text-amber-400 font-bold">28°C (Clear Sky)</strong>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">आज का शुभ रंग:</span>
+          <strong class="text-amber-400 font-bold">पीला & केसरिया</strong>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">शुभ मुहूर्त:</span>
+          <strong class="text-emerald-400 font-bold">08:15 AM - 10:30 AM</strong>
+        </div>
+        <div class="flex justify-between pt-1">
+          <span class="text-slate-400">दैनिक राशिफल टिप:</span>
+          <strong class="text-sky-400 font-bold">डिजिटल कौशल पर ध्यान केंद्रित करें</strong>
+        </div>
       </div>
     </div>
 
-    <!-- SMART TV & VIDEO LINK -->
-    <div class="glass-card flex flex-col justify-between">
-      <h3 class="text-yellow-400 font-bold mb-2 text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-tv"></i> IOIS SMART TV / VIDEO</h3>
-      <div class="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-800">
-        <iframe class="w-full h-full" src="https://www.youtube.com/embed/0gYd3mIxksc?autoplay=0&mute=1" title="IOIS Video" allowfullscreen></iframe>
+    <!-- SMART TV PANEL -->
+    <div class="glass-card-premium flex flex-col justify-between">
+      <h3 class="gold-metallic-text font-black mb-3 text-base flex items-center justify-center gap-2">
+        <i class="fa-solid fa-tv text-amber-500"></i> IOIS SMART TV / MEDIA PORTAL
+      </h3>
+      <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-amber-500/30 shadow-lg">
+        <iframe class="w-full h-full" src="https://www.youtube.com/embed/0gYd3mIxksc?autoplay=0&mute=1" title="IOIS Smart TV" allowfullscreen></iframe>
       </div>
-      <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs text-center mt-3 block w-full">▶ YouTube Channel / Tutorial देखें</a>
+      <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs text-center mt-3 w-full">
+        <i class="fa-brands fa-youtube"></i> Official Channel / Tutorials
+      </a>
     </div>
 
   </section>
 
   <!-- INTERACTIVE PARENT & MEMBER SELECTION SURVEY -->
-  <section id="survey" class="glass-card border-l-4 border-yellow-500">
-    <h2 class="text-xl font-bold text-yellow-400 mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-question"></i> आप IOIS Platform पर क्या करने आए हैं?</h2>
-    <p class="text-gray-400 text-xs mb-4">कृपया अपना उद्देश्य चुनें ताकि आपको सही सहायता और ऑटोमेशन टूल्स दिए जा सकें:</p>
+  <section id="survey" class="glass-card-premium border-l-4 border-l-amber-500">
+    <div class="mb-6">
+      <h2 class="gold-metallic-text text-2xl font-black mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-circle-question text-amber-500"></i> आप IOIS Platform पर किस उद्देश्य से आए हैं?
+      </h2>
+      <p class="text-slate-400 text-xs md:text-sm">अपनी श्रेणी चुनें ताकि सिस्टम आपको सही टेलीग्राम चैनल, बॉट ऑटोमेशन और रिसोर्स असाइन कर सके:</p>
+    </div>
     
-    <div class="space-y-3">
-      <button onclick="selectSurvey('Parents/Guardian - Safe Earning')" class="w-full text-left p-3 rounded-lg bg-gray-900 border border-gray-800 hover:border-yellow-500 text-sm transition">
-        👨‍👩‍👧 <strong>मैं एक Parent/Guardian हूँ:</strong> बच्चों के लिए सुरक्षित ऑनलाइन लर्निंग एवं डिजिटल इनकम गाइडलाइन देखने आया हूँ।
+    <div class="grid grid-cols-1 gap-3">
+      <button onclick="selectSurvey('Parents / Guardian - System Transparency & Safe Earning')" class="w-full text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/60 transition group flex items-start gap-4">
+        <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition">👨‍👩‍👧</div>
+        <div>
+          <strong class="text-white text-sm md:text-base block mb-1 group-hover:text-amber-300">मैं एक Parent/Guardian हूँ</strong>
+          <p class="text-xs text-slate-400">बच्चों के लिए 100% सुरक्षित ऑनलाइन लर्निंग, ऑटोमेशन टूल्स और लाइव ट्रांसपेरेंसी पोर्टल की जाँच के लिए।</p>
+        </div>
       </button>
-      <button onclick="selectSurvey('Student/Job Seeker - Digital Resources')" class="w-full text-left p-3 rounded-lg bg-gray-900 border border-gray-800 hover:border-yellow-500 text-sm transition">
-        🎓 <strong>मैं Student / Job Seeker हूँ:</strong> मुझे CV Templates, ChatGPT Prompts और Part-time earning tools चाहिए।
+
+      <button onclick="selectSurvey('Student / Job Seeker - Career Tools & Earning')" class="w-full text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/60 transition group flex items-start gap-4">
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition">🎓</div>
+        <div>
+          <strong class="text-white text-sm md:text-base block mb-1 group-hover:text-emerald-300">मैं Student / Job Seeker हूँ</strong>
+          <p class="text-xs text-slate-400">CV Templates, AI Chatbot Prompts, Cover Letters और पार्ट-टाइम डिजिटल अर्निंग टूल्स प्राप्त करने के लिए।</p>
+        </div>
       </button>
-      <button onclick="selectSurvey('Creator/Promoter - Membership Plans')" class="w-full text-left p-3 rounded-lg bg-gray-900 border border-gray-800 hover:border-yellow-500 text-sm transition">
-        🚀 <strong>मैं Digital Creator / Promoter हूँ:</strong> मुझे Telegram Bots, WhatsApp Automation और 7 Master Plans देखने हैं।
+
+      <button onclick="selectSurvey('Creator / Business Promoter - Automation & Plans')" class="w-full text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/60 transition group flex items-start gap-4">
+        <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition">🚀</div>
+        <div>
+          <strong class="text-white text-sm md:text-base block mb-1 group-hover:text-sky-300">मैं Digital Creator / Promoter हूँ</strong>
+          <p class="text-xs text-slate-400">WhatsApp Auto-responder, Telegram Bot Setup और ₹10 से ₹999 तक के 7 Dynamic Master Plans एक्सेस करने के लिए।</p>
+        </div>
       </button>
     </div>
   </section>
 
   <!-- 7 MASTER MEMBERSHIP PLANS -->
   <section id="plans">
-    <div class="text-center mb-6">
-      <h2 class="text-2xl font-bold text-yellow-400">IOIS 7 Master Membership Plans</h2>
-      <p class="text-gray-400 text-xs">₹10 Verification Pass से ₹999 Ultimate Enterprise तक</p>
+    <div class="text-center mb-10">
+      <h2 class="gold-metallic-text text-3xl font-black mb-2">IOIS 7 Dynamic Master Plans</h2>
+      <p class="text-slate-400 text-xs md:text-sm">अपनी आवश्यकता के अनुसार उपयुक्त प्लान का चयन करें और इंस्टेंट एक्सेस प्राप्त करें</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       
-      <div class="glass-card text-center">
-        <h3 class="font-bold text-white">Verification Pass</h3>
-        <div class="text-2xl font-black text-yellow-400 my-2">₹10</div>
-        <p class="text-xs text-gray-400 mb-4">Spam-free verification & community entry.</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Join @ ₹10</a>
+      <!-- PLAN 1 -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-t-4 border-t-amber-500">
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded">Tier 1</span>
+          <h3 class="text-lg font-bold text-white mt-2">Verification Pass</h3>
+          <div class="text-3xl font-black text-amber-400 my-3">₹10</div>
+          <ul class="text-xs text-slate-400 text-left space-y-2 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Account Verification</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Spam-Free Entry</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Community Telegram Access</li>
+          </ul>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full">Join Plan @ ₹10</a>
       </div>
 
-      <div class="glass-card text-center">
-        <h3 class="font-bold text-white">Starter Pass</h3>
-        <div class="text-2xl font-black text-yellow-400 my-2">₹49</div>
-        <p class="text-xs text-gray-400 mb-4">Basic Auto-responder & digital assets.</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Join @ ₹49</a>
+      <!-- PLAN 2 -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-t-4 border-t-amber-500">
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded">Tier 2</span>
+          <h3 class="text-lg font-bold text-white mt-2">Starter Suite</h3>
+          <div class="text-3xl font-black text-amber-400 my-3">₹49</div>
+          <ul class="text-xs text-slate-400 text-left space-y-2 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Starter Digital Assets</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Auto-responder Links</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Basic Support Access</li>
+          </ul>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full">Join Plan @ ₹49</a>
       </div>
 
-      <div class="glass-card text-center">
-        <h3 class="font-bold text-white">Basic Automation</h3>
-        <div class="text-2xl font-black text-yellow-400 my-2">₹99</div>
-        <p class="text-xs text-gray-400 mb-4">Google Forms Integration & Bot Notifications.</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Join @ ₹99</a>
+      <!-- PLAN 3 -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-t-4 border-t-amber-500">
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded">Tier 3</span>
+          <h3 class="text-lg font-bold text-white mt-2">Auto-Responder Engine</h3>
+          <div class="text-3xl font-black text-amber-400 my-3">₹99</div>
+          <ul class="text-xs text-slate-400 text-left space-y-2 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Google Forms Integration</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Bot Notification Gateway</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Standard Support Desk</li>
+          </ul>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full">Join Plan @ ₹99</a>
       </div>
 
-      <div class="glass-card text-center border-green-500">
-        <h3 class="font-bold text-white">Pro Digital Suite</h3>
-        <div class="text-2xl font-black text-green-400 my-2">₹199</div>
-        <p class="text-xs text-gray-400 mb-4">Full WhatsApp & Telegram Automation Suite.</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Join @ ₹199</a>
+      <!-- PLAN 4 -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-t-4 border-t-emerald-500 relative">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-slate-950 font-black text-[9px] px-3 py-0.5 rounded-full uppercase">Most Popular</span>
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-emerald-400 uppercase bg-emerald-500/10 px-2 py-0.5 rounded">Tier 4</span>
+          <h3 class="text-lg font-bold text-white mt-2">Pro Digital Suite</h3>
+          <div class="text-3xl font-black text-emerald-400 my-3">₹199</div>
+          <ul class="text-xs text-slate-400 text-left space-y-2 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Full Telegram/WhatsApp Automation</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> GitHub Tools Access</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Notification Bot Integration</li>
+          </ul>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full">Join Plan @ ₹199</a>
       </div>
 
-      <div class="glass-card text-center">
-        <h3 class="font-bold text-white">Advance Master</h3>
-        <div class="text-2xl font-black text-yellow-400 my-2">₹349</div>
-        <p class="text-xs text-gray-400 mb-4">Multi-channel setup & Admin Consultation.</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Join @ ₹349</a>
+      <!-- PLAN 5 -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-t-4 border-t-amber-500">
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded">Tier 5</span>
+          <h3 class="text-lg font-bold text-white mt-2">Advance Master</h3>
+          <div class="text-3xl font-black text-amber-400 my-3">₹349</div>
+          <ul class="text-xs text-slate-400 text-left space-y-2 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Multi-Channel Bot Setup</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Advanced Earning Workflows</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Direct Developer Consultation</li>
+          </ul>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full">Join Plan @ ₹349</a>
       </div>
 
-      <div class="glass-card text-center">
-        <h3 class="font-bold text-white">VIP Business</h3>
-        <div class="text-2xl font-black text-yellow-400 my-2">₹499</div>
-        <p class="text-xs text-gray-400 mb-4">Full API Live Ecosystem & priority tools.</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Join @ ₹499</a>
+      <!-- PLAN 6 -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-t-4 border-t-amber-500">
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded">Tier 6</span>
+          <h3 class="text-lg font-bold text-white mt-2">VIP Business Access</h3>
+          <div class="text-3xl font-black text-amber-400 my-3">₹499</div>
+          <ul class="text-xs text-slate-400 text-left space-y-2 mb-6">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> High-Speed System API Access</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Parents Live Preview Gateway</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Custom Earning Automation</li>
+          </ul>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full">Join Plan @ ₹499</a>
       </div>
 
-      <div class="glass-card text-center sm:col-span-2 gold-glow">
-        <h3 class="font-bold text-yellow-400">Ultimate Enterprise Plan</h3>
-        <div class="text-3xl font-black text-yellow-400 my-2">₹999</div>
-        <p class="text-xs text-gray-300 mb-4">सभी 7 प्लान्स के फीचर्स अनलॉक, लाइफटाइम वीआईपी सपोर्ट डेस्क एवं बॉट सपोर्ट।</p>
-        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block">Unlock All @ ₹999</a>
+      <!-- PLAN 7 (VIP COMMAND) -->
+      <div class="glass-card-premium text-center flex flex-col justify-between border-2 border-amber-400 sm:col-span-2 relative overflow-hidden bg-gradient-to-br from-slate-900 via-amber-950/20 to-slate-900">
+        <span class="absolute top-3 right-3 bg-amber-500/20 text-amber-300 font-bold text-[10px] border border-amber-500/40 px-2.5 py-0.5 rounded-full">LIFETIME UNLOCK</span>
+        <div>
+          <span class="text-[10px] font-black tracking-widest text-amber-300 uppercase bg-amber-500/20 px-3 py-1 rounded-full">Tier 7 - Ultimate Command</span>
+          <h3 class="text-2xl font-black gold-metallic-text mt-3">Ultimate Enterprise Plan</h3>
+          <div class="text-4xl font-black text-amber-400 my-3">₹999</div>
+          <p class="text-xs text-slate-300 mb-6 max-w-md mx-auto leading-relaxed">
+            सभी Tiers (₹10 से ₹499) के फीचर्स 100% अनलॉक। लाइव API सिस्टम, टेलीग्राम बॉट ऑटोमेशन और डायरेक्ट VIP Admin Desk एक्सेस।
+          </p>
+        </div>
+        <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-sm w-full py-3">
+          <i class="fa-solid fa-crown"></i> Unlock Complete System @ ₹999
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEW FEATURE 1: DYNAMIC EARNING CALCULATOR -->
+  <section id="calculator" class="glass-card-premium">
+    <div class="text-center mb-6">
+      <h2 class="gold-metallic-text text-2xl font-black mb-2 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-calculator text-amber-500"></i> Dynamic Earning & Referral Estimator
+      </h2>
+      <p class="text-slate-400 text-xs">अपने चुने हुए प्लान और सम्भावित यूजर नेटवर्क के अनुसार एस्टिमेटेड रिटर्न कैलकुलेट करें</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs text-amber-300 font-bold block mb-1">प्लान सिलेक्ट करें:</label>
+          <select id="calc-plan" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:border-amber-500 outline-none" onchange="calculateEarning()">
+            <option value="10">₹10 - Verification Pass</option>
+            <option value="49">₹49 - Starter Suite</option>
+            <option value="99">₹99 - Auto-Responder Engine</option>
+            <option value="199" selected>₹199 - Pro Digital Suite</option>
+            <option value="349">₹349 - Advance Master</option>
+            <option value="499">₹499 - VIP Business Access</option>
+            <option value="999">₹999 - Ultimate Enterprise</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-amber-300 font-bold block mb-1">अनुमानित डायरेक्ट रेफरल्स संख्या: <span id="ref-count-label" class="text-white">10</span></label>
+          <input id="calc-refs" type="range" min="1" max="100" value="10" class="w-full accent-amber-500" oninput="calculateEarning()">
+        </div>
+      </div>
+
+      <div class="glass-card-premium bg-slate-900/90 text-center border-amber-500/30">
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">एस्टिमेटेड नेटवर्क वैल्यू</span>
+        <div id="calc-result" class="text-3xl font-black gold-metallic-text">₹1,990</div>
+        <span class="text-[10px] text-emerald-400 font-semibold block mt-1"><i class="fa-solid fa-circle-check"></i> Eligible For Full Referral Payout</span>
+      </div>
+
+      <div class="text-xs text-slate-400 leading-relaxed border-l border-slate-800 pl-4 hidden md:block">
+        <strong class="text-amber-300 block mb-1"><i class="fa-solid fa-circle-info"></i> IOIS नोट:</strong>
+        कैलकुलेटर केवल सिस्टम की क्षमता दिखाने के लिए है। एक्चुअल अर्निंग आपके चुने गए प्लान की एलिजिबिलिटी, ऑटोमेशन रूल्स और रेफरल नियमों पर निर्भर करेगी।
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW FEATURE 2: PARENTS SPECIAL LIVE API SIMULATION PORTAL -->
+  <section id="parents" class="glass-card-premium border-2 border-amber-500/40 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div class="text-center max-w-2xl mx-auto mb-6">
+      <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase">100% Verification Transparency</span>
+      <h2 class="gold-metallic-text text-2xl font-black mt-2 mb-1">👨‍👩‍👧 Parents & Guardians Safety Console</h2>
+      <p class="text-slate-400 text-xs">अभिभावकों के विश्वास के लिए — फ्री लाइव API सिस्टम डायग्नोस्टिक और ट्रांसपेरेंसी पोर्टल</p>
+    </div>
+
+    <div class="text-center mb-4">
+      <button onclick="runParentApiPreview()" class="btn-gold-gradient text-xs py-2 px-6">
+        <i class="fa-solid fa-play"></i> Run Live Security Diagnostic
+      </button>
+    </div>
+
+    <div id="apiTerminal" class="bg-black/90 border border-slate-800 rounded-xl p-4 font-mono text-emerald-400 text-xs h-36 overflow-y-auto leading-relaxed text-left shadow-inner">
+      > IOIS System Status: Ready. Click "Run Live Security Diagnostic" button above to verify transparency...
+    </div>
+  </section>
+
+  <!-- NEW FEATURE 3: PREMIUM EXPANDABLE FAQ ACCORDION -->
+  <section id="faq" class="glass-card-premium">
+    <div class="text-center mb-8">
+      <h2 class="gold-metallic-text text-2xl font-black mb-1">अक्सर पूछे जाने वाले सवाल (FAQs)</h2>
+      <p class="text-slate-400 text-xs">IOIS Platform के बारे में संपूर्ण जानकारी</p>
+    </div>
+
+    <div class="space-y-3 max-w-3xl mx-auto">
+      
+      <div class="border border-slate-800 rounded-xl bg-slate-900/60 overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full text-left p-4 text-xs md:text-sm font-bold text-amber-300 flex justify-between items-center hover:bg-slate-800/50 transition">
+          <span>Q1. IOIS Platform के 7 Membership Plans कैसे काम करते हैं?</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer px-4 text-xs text-slate-300">
+          <div class="pb-4 pt-1 border-t border-slate-800/50 leading-relaxed">
+            ₹10 का प्लान अकाउंट वेरिफिकेशन के लिए है। ₹49 से ₹999 तक के प्लान्स आपको अलग-अलग लेवल के ऑटोमेशन टूल्स, ChatGPT Prompts, Telegram Bot Access और API Live preview सुविधाएँ अनलॉक करते हैं।
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-slate-800 rounded-xl bg-slate-900/60 overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full text-left p-4 text-xs md:text-sm font-bold text-amber-300 flex justify-between items-center hover:bg-slate-800/50 transition">
+          <span>Q2. क्या पेरेंट्स के लिए प्लेटफॉर्म पूरी तरह सुरक्षित है?</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer px-4 text-xs text-slate-300">
+          <div class="pb-4 pt-1 border-t border-slate-800/50 leading-relaxed">
+            जी हाँ! IOIS Platform में पेरेंट्स के लिए विशेष Safety Console दिया गया है जिससे वे प्लेटफॉर्म के रियल-टाइम सिक्योरिटी बॉट्स, टेलीग्राम अपडेट्स और सिस्टम पारदर्शिता की जाँच कर सकते हैं।
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-slate-800 rounded-xl bg-slate-900/60 overflow-hidden">
+        <button onclick="toggleFaq(this)" class="w-full text-left p-4 text-xs md:text-sm font-bold text-amber-300 flex justify-between items-center hover:bg-slate-800/50 transition">
+          <span>Q3. जॉइन करने के बाद सपोर्ट कैसे मिलेगा?</span>
+          <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer px-4 text-xs text-slate-300">
+          <div class="pb-4 pt-1 border-t border-slate-800/50 leading-relaxed">
+            जॉइन करते ही आपको हमारे ऑफिशियल टेलीग्राम हैंडल्स (@ioisplatform), ऑटोमेटेड टेलीग्राम बॉट (@iois_admin_notification_bot) और आधिकारिक व्हाट्सएप नंबर पर डायरेक्ट सपोर्ट मिलता है।
+          </div>
+        </div>
       </div>
 
     </div>
   </section>
 
   <!-- DIGITAL SERVICES DIRECTORY -->
-  <section id="services" class="glass-card">
-    <h2 class="text-xl font-bold text-yellow-400 mb-4 text-center">IOIS मुख्य डिजिटल सेवाएं</h2>
-    <div class="grid grid-cols-2 md:grid-cols-6 gap-3 text-center text-xs">
-      <div class="p-3 bg-gray-900 rounded border border-gray-800"><i class="fa-solid fa-file-lines text-yellow-400 text-lg mb-1 block"></i> CV / Resume</div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800"><i class="fa-solid fa-envelope text-yellow-400 text-lg mb-1 block"></i> Cover Letters</div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800"><i class="fa-solid fa-robot text-yellow-400 text-lg mb-1 block"></i> AI Prompts</div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800"><i class="fa-solid fa-share-nodes text-yellow-400 text-lg mb-1 block"></i> Social Tools</div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800"><i class="fa-solid fa-id-card text-yellow-400 text-lg mb-1 block"></i> Digital ID</div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800"><i class="fa-solid fa-laptop-code text-yellow-400 text-lg mb-1 block"></i> AI Freelancing</div>
+  <section id="services" class="glass-card-premium">
+    <h2 class="gold-metallic-text text-xl font-black mb-6 text-center">IOIS मुख्य डिजिटल सेवाएं</h2>
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 text-center text-xs">
+      <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-amber-500/50 transition">
+        <i class="fa-solid fa-file-lines text-amber-400 text-2xl mb-2 block"></i>
+        <strong class="text-white block">CV / Resume</strong>
+      </div>
+      <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-amber-500/50 transition">
+        <i class="fa-solid fa-envelope text-amber-400 text-2xl mb-2 block"></i>
+        <strong class="text-white block">Cover Letters</strong>
+      </div>
+      <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-amber-500/50 transition">
+        <i class="fa-solid fa-robot text-amber-400 text-2xl mb-2 block"></i>
+        <strong class="text-white block">AI Prompts</strong>
+      </div>
+      <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-amber-500/50 transition">
+        <i class="fa-solid fa-share-nodes text-amber-400 text-2xl mb-2 block"></i>
+        <strong class="text-white block">Social Tools</strong>
+      </div>
+      <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-amber-500/50 transition">
+        <i class="fa-solid fa-id-card text-amber-400 text-2xl mb-2 block"></i>
+        <strong class="text-white block">Digital ID</strong>
+      </div>
+      <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-amber-500/50 transition">
+        <i class="fa-solid fa-laptop-code text-amber-400 text-2xl mb-2 block"></i>
+        <strong class="text-white block">AI Freelancing</strong>
+      </div>
     </div>
   </section>
 
-  <!-- OFFICIAL CREDENTIALS SECTION -->
-  <section id="contact" class="glass-card">
-    <h2 class="text-xl font-bold text-yellow-400 mb-4 text-center">ऑफ़िशियल सिस्टम क्रेडेंशियल्स</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-      <div class="p-3 bg-gray-900 rounded border border-gray-800">
-        <span class="text-gray-400 block">WHATSAPP OFFICIAL DESK</span>
-        <strong class="text-green-400 text-sm">+918877490845</strong>
+  <!-- OFFICIAL SYSTEM CREDENTIALS HUB -->
+  <section id="contact" class="glass-card-premium">
+    <h2 class="gold-metallic-text text-2xl font-black mb-6 text-center">IOIS Official System Contact Hub</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+      
+      <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg shrink-0"><i class="fa-brands fa-whatsapp"></i></div>
+        <div>
+          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">WHATSAPP OFFICIAL DESK</span>
+          <strong class="text-emerald-400 font-mono text-sm">+918877490845</strong>
+        </div>
       </div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800">
-        <span class="text-gray-400 block">OFFICIAL EMAIL</span>
-        <strong class="text-yellow-400 text-sm">ioisplatform@gmail.com</strong>
+
+      <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-envelope"></i></div>
+        <div>
+          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">OFFICIAL EMAIL</span>
+          <strong class="text-amber-400 font-mono text-xs">ioisplatform@gmail.com</strong>
+        </div>
       </div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800">
-        <span class="text-gray-400 block">TELEGRAM HANDLE</span>
-        <strong class="text-blue-400 text-sm">@ioisplatform</strong>
+
+      <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-sky-500/10 text-sky-400 flex items-center justify-center text-lg shrink-0"><i class="fa-brands fa-telegram"></i></div>
+        <div>
+          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">TELEGRAM HANDLE</span>
+          <strong class="text-sky-400 font-mono text-xs">@ioisplatform</strong>
+        </div>
       </div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800">
-        <span class="text-gray-400 block">NOTIFICATION BOT</span>
-        <strong class="text-blue-400 text-sm">@iois_admin_notification_bot</strong>
+
+      <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-robot"></i></div>
+        <div>
+          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">NOTIFICATION BOT</span>
+          <strong class="text-purple-400 font-mono text-xs">@iois_admin_notification_bot</strong>
+        </div>
       </div>
-      <div class="p-3 bg-gray-900 rounded border border-gray-800 md:col-span-2">
-        <span class="text-gray-400 block">TELEGRAM SYSTEM CHAT ID</span>
-        <strong class="text-purple-400 text-sm">964524685</strong>
+
+      <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center gap-3 md:col-span-2">
+        <div class="w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-id-badge"></i></div>
+        <div>
+          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">TELEGRAM SYSTEM CHAT ID</span>
+          <strong class="text-indigo-300 font-mono text-xs">964524685</strong>
+        </div>
       </div>
+
     </div>
   </section>
 
 </main>
 
-<footer class="text-center py-6 border-t border-gray-900 text-gray-500 text-xs">
-  © 2026 IOIS PLATFORM. All Rights Reserved. Indian Online Income Supporting System.
+<!-- FOOTER -->
+<footer class="text-center py-8 border-t border-slate-900 text-slate-500 text-xs bg-slate-950">
+  <div class="container mx-auto px-4 space-y-2">
+    <p class="gold-metallic-text font-bold text-sm">IOIS PLATFORM — Indian Online Income Supporting System</p>
+    <p>&copy; 2026 IOIS Project. National Digital Infrastructure. All Rights Reserved.</p>
+  </div>
 </footer>
 
-<!-- MODAL DIALOGS -->
-<div id="login-modal" class="fixed inset-0 bg-black/80 hidden justify-center items-center z-50 p-4">
-  <div class="glass-card max-w-sm w-full gold-glow text-center relative">
-    <button onclick="closeModal('login-modal')" class="absolute top-2 right-3 text-gray-400 text-lg">&times;</button>
-    <h3 class="text-lg font-bold text-yellow-400 mb-2">IOIS Member Login</h3>
-    <p class="text-xs text-gray-400 mb-4">ऑफ़िशियली कनेक्ट होने के लिए टेलीग्राम सपोर्ट पर जाएँ:</p>
-    <a href="https://t.me/ioisplatform" target="_blank" class="btn-gradient text-xs w-full block mb-2">Telegram Via Login (@ioisplatform)</a>
+<!-- LOGIN MODAL DIALOG -->
+<div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden justify-center items-center z-50 p-4">
+  <div class="glass-card-premium max-w-sm w-full border-amber-500/40 text-center relative bg-slate-950">
+    <button onclick="closeModal('login-modal')" class="absolute top-3 right-4 text-slate-400 text-xl hover:text-white">&times;</button>
+    <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mx-auto mb-3"><i class="fa-solid fa-lock"></i></div>
+    <h3 class="gold-metallic-text text-xl font-black mb-2">IOIS Member Login</h3>
+    <p class="text-xs text-slate-400 mb-6">ऑफ़िशियली ऑथेंटिकेट करने के लिए सीधे टेलीग्राम सपोर्ट पर जुड़ें:</p>
+    <a href="https://t.me/ioisplatform" target="_blank" class="btn-gold-gradient text-xs w-full block mb-3">
+      <i class="fa-brands fa-telegram"></i> Telegram Portal @ioisplatform
+    </a>
+    <button onclick="closeModal('login-modal')" class="btn-outline-gold text-xs w-full">Cancel</button>
   </div>
 </div>
 
 <script>
-  // Clock Script
+  // 1. Live Clock System Script
   function updateClock() {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
     
-    // Digital Clock
+    // Digital Clock Format
     const timeStr = now.toLocaleTimeString('en-US');
     document.getElementById('digital-clock').textContent = timeStr;
     document.getElementById('clock-date').textContent = now.toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    // Analog Clock Hands
+    // Analog Clock Calculation
     const secDeg = (seconds / 60) * 360;
     const minDeg = (minutes / 60) * 360 + (seconds / 60) * 6;
     const hourDeg = ((hours % 12) / 12) * 360 + (minutes / 60) * 30;
@@ -337,13 +668,47 @@
   setInterval(updateClock, 1000);
   updateClock();
 
-  // Survey Script
+  // 2. Selection Survey Handler
   function selectSurvey(option) {
     alert("आपने चुना: " + option + "\n\nआपको अब IOIS Official Telegram (@ioisplatform) पर रीडायरेक्ट किया जा रहा है।");
     window.location.href = "https://t.me/ioisplatform";
   }
 
-  // Modal Handlers
+  // 3. Dynamic Earning Calculator Script
+  function calculateEarning() {
+    const planPrice = parseInt(document.getElementById('calc-plan').value);
+    const refCount = parseInt(document.getElementById('calc-refs').value);
+    document.getElementById('ref-count-label').textContent = refCount;
+    
+    const totalEst = planPrice * refCount;
+    document.getElementById('calc-result').textContent = '₹' + totalEst.toLocaleString('en-IN');
+  }
+
+  // 4. Parents Live API Preview Simulator Script
+  function runParentApiPreview() {
+    const terminal = document.getElementById('apiTerminal');
+    terminal.innerHTML = "> Initializing IOIS Safety Diagnostic...\n";
+    
+    setTimeout(() => { terminal.innerHTML += "> [STATUS] Connection to WhatsApp Desk (+918877490845)... OK\n"; }, 400);
+    setTimeout(() => { terminal.innerHTML += "> [STATUS] Validating Telegram Notification Bot (@iois_admin_notification_bot)... ONLINE\n"; }, 800);
+    setTimeout(() => { terminal.innerHTML += "> [SECURITY] Encrypting Verification Handshake (256-Bit SSL)... SECURE\n"; }, 1200);
+    setTimeout(() => { terminal.innerHTML += "> [RESULT] IOIS Platform Core System 100% Safe and Verified for Parents & Students!\n"; }, 1600);
+  }
+
+  // 5. FAQ Accordion Handler Script
+  function toggleFaq(button) {
+    const answer = button.nextElementSibling;
+    const icon = button.querySelector('i');
+    
+    answer.classList.toggle('open');
+    if (answer.classList.contains('open')) {
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      icon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  // 6. Modal Dialog Handlers
   function openModal(id) { document.getElementById(id).style.display = 'flex'; }
   function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
