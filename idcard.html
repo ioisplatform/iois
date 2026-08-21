@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IOIS Premium Card - Original Image Mode</title>
+    <title>IOIS Premium Card Generator - Fixed Logo</title>
     
-    <!-- Libraries for Download -->
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
@@ -19,48 +19,52 @@
 
         body { font-family: 'Poppins', sans-serif; background: #050505; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 20px; }
 
-        /* Input Controls */
+        /* Admin Panel */
         .admin-panel {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
             padding: 25px; border-radius: 20px; width: 100%; max-width: 950px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
         .input-group { display: flex; flex-direction: column; }
         .input-group label { font-size: 11px; font-weight: bold; color: #FF9933; margin-bottom: 5px; }
         .input-group input, .input-group select { padding: 12px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; }
 
-        /* Card CSS */
+        /* Card Section */
         #captureArea { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; padding: 20px; }
 
         .pvc-card {
             width: 400px; height: 650px; border-radius: 35px; position: relative;
             background: var(--rainbow); background-size: 400% 400%;
             animation: rainbowMove 8s linear infinite; overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 20px 60px rgba(0,0,0,1);
+            border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 20px 60px rgba(0,0,0,1);
             display: flex; flex-direction: column;
         }
 
         @keyframes rainbowMove { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
-        /* Glossy Shine Animation */
+        /* 3D Shine Effect */
         .pvc-card::before {
             content: ''; position: absolute; top: -150%; left: -150%; width: 400%; height: 400%;
-            background: linear-gradient(135deg, rgba(255,255,255,0) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 55%);
+            background: linear-gradient(135deg, rgba(255,255,255,0) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 55%);
             animation: shine 6s infinite; pointer-events: none; z-index: 20;
         }
         @keyframes shine { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
 
-        /* LOGO BOX - No Circle, No Outline */
+        /* FIXED LOGO STYLE */
         .logo-box {
-            width: 100%; height: 90px;
+            width: 100%; height: 110px;
             margin: 20px auto 5px;
             display: flex; align-items: center; justify-content: center;
             z-index: 25;
         }
-        .logo-box img { max-width: 80%; max-height: 100%; object-fit: contain; }
+        .logo-box img { 
+            max-height: 100%; 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+        }
 
-        /* PROFILE BOX - No Circle, No Outline */
+        /* PROFILE PIC - No Border, No Clipping */
         .profile-container {
             width: 100%; height: 180px;
             margin: 10px auto;
@@ -72,47 +76,55 @@
         /* Tiranga Gradient Fonts */
         .tiranga-font {
             background: var(--tiranga); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-weight: 900; text-transform: uppercase; text-align: center; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8));
+            font-weight: 900; text-transform: uppercase; text-align: center; 
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.8));
         }
 
-        .details-box { background: rgba(0, 0, 0, 0.8); margin: 15px 20px; padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); z-index: 25; }
+        .details-box { 
+            background: rgba(0, 0, 0, 0.85); margin: 15px 20px; padding: 15px; 
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); z-index: 25; 
+        }
         .row { display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 11px; border-bottom: 1px solid #333; padding-bottom: 3px; }
         .val { font-weight: 800; color: #fff; }
         .lbl { color: #aaa; font-weight: 600; }
 
-        .plan-footer { background: #000; color: #fff; text-align: center; padding: 15px; font-weight: 900; font-size: 16px; border-top: 4px solid #FF9933; margin-top: auto; z-index: 25; }
+        .plan-footer { 
+            background: #000; color: #fff; text-align: center; padding: 15px; 
+            font-weight: 900; font-size: 16px; border-top: 4px solid #FF9933; 
+            margin-top: auto; z-index: 25; 
+        }
 
-        /* Back Side Details */
+        /* Back Content */
         .back-content { padding: 25px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; z-index: 25; }
-        .ref-box { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; border-left: 5px solid #138808; font-size: 10px; margin: 15px 0; color: #eee; }
-        .check-item { display: flex; align-items: center; font-size: 11px; margin-bottom: 6px; font-weight: 700; color: #fff; }
+        .ref-box { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; border-left: 5px solid #138808; font-size: 10px; margin: 15px 0; }
+        .check-item { display: flex; align-items: center; font-size: 11px; margin-bottom: 6px; font-weight: 700; }
         .box { width: 15px; height: 15px; border: 2px solid #fff; margin-right: 12px; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
         .box.active { background: #138808; border-color: #138808; }
 
         /* Action Buttons */
-        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 30px 0; }
-        .btn { padding: 12px 25px; border-radius: 50px; border: none; font-weight: 800; cursor: pointer; color: #fff; transition: 0.2s; }
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 50px; }
+        .btn { padding: 12px 30px; border-radius: 50px; border: none; font-weight: 800; cursor: pointer; color: #fff; transition: 0.3s; }
         .btn-jpg { background: #e67e22; } .btn-pdf { background: #c0392b; } .btn-live { background: #2980b9; }
+
     </style>
 </head>
 <body>
 
-    <h1 class="tiranga-font" style="font-size: 30px;">IOIS PREMIUM MASTER GEN</h1>
+    <h1 class="tiranga-font" style="font-size: 32px; margin-bottom: 10px;">IOIS PREMIUM GENERATOR</h1>
 
-    <!-- FORM -->
+    <!-- FORM (Logo Upload Removed) -->
     <div class="admin-panel">
         <div class="input-group"><label>Member Name</label><input type="text" id="inName" value="IOIS MEMBER" oninput="update()"></div>
-        <div class="input-group"><label>Roll Number</label><input type="text" id="inCode" value="IOISMEMBER" oninput="update()"></div>
+        <div class="input-group"><label>Roll Number (Code)</label><input type="text" id="inCode" value="IOISMEMBER" oninput="update()"></div>
         <div class="input-group"><label>Joining Date</label><input type="text" id="inDate" value="01/01/2026" oninput="update()"></div>
         <div class="input-group"><label>Owner Sponsor ID</label><input type="text" id="inOwner" value="IOISINDIA" oninput="update()"></div>
-        <div class="input-group"><label>Upline Sponsor Name</label><input type="text" id="inUpName" value="IOIS USER" oninput="update()"></div>
-        <div class="input-group"><label>Upline Sponsor ID</label><input type="text" id="inUpID" value="IOISUSER" oninput="update()"></div>
+        <div class="input-group"><label>Upline Name</label><input type="text" id="inUpName" value="IOIS USER" oninput="update()"></div>
+        <div class="input-group"><label>Upline ID</label><input type="text" id="inUpID" value="IOISUSER" oninput="update()"></div>
         <div class="input-group"><label>Email Address</label><input type="text" id="inEmail" value="ioisplatform@gmail.com" oninput="update()"></div>
-        <div class="input-group"><label>UPI ID</label><input type="text" id="inUPI" value="iois@iois" oninput="update()"></div>
+        <div class="input-group"><label>UPI Payment ID</label><input type="text" id="inUPI" value="iois@iois" oninput="update()"></div>
         <div class="input-group"><label>Profile Image (Show as uploaded)</label><input type="file" id="fProfile" accept="image/*"></div>
-        <div class="input-group"><label>IOIS Logo (Show as uploaded)</label><input type="file" id="fLogo" accept="image/*"></div>
         <div class="input-group">
-            <label>Membership Plan</label>
+            <label>Select Plan</label>
             <select id="inPlan" onchange="update()">
                 <option value="1">Bal Vikas Access (₹10)</option>
                 <option value="2">Youth Skill Access (₹49)</option>
@@ -125,58 +137,64 @@
         </div>
     </div>
 
-    <!-- CARDS AREA -->
+    <!-- PREVIEW -->
     <div id="captureArea">
-        <!-- FRONT -->
+        <!-- FRONT SIDE -->
         <div class="pvc-card" id="frontCard">
-            <div class="logo-box"><img id="viewLogo" src="https://via.placeholder.com/150x50?text=LOGO"></div>
-            <div class="tiranga-font" style="font-size: 24px;">IOIS PLATFORM</div>
-            <div class="tiranga-font" style="font-size: 9px; letter-spacing: 1px;">Indian Online Income Supporting System</div>
+            <!-- FIXED LOGO -->
+            <div class="logo-box">
+                <img src="logo.png" alt="IOIS Logo">
+            </div>
             
-            <div class="profile-container"><img id="viewProfile" src="https://via.placeholder.com/150x150?text=Profile+Pic"></div>
+            <div class="tiranga-font" style="font-size: 26px;">IOIS PLATFORM</div>
+            <div class="tiranga-font" style="font-size: 10px; letter-spacing: 1px;">Indian Online Income Supporting System</div>
+            
+            <div class="profile-container">
+                <img id="viewProfile" src="https://via.placeholder.com/150?text=Upload+Profile">
+            </div>
             
             <div class="tiranga-font" id="viewName" style="font-size: 24px;">IOIS MEMBER</div>
-            <div id="viewCode" style="text-align:center; font-weight:800; letter-spacing:1px; font-size:13px; color: #fff;">IOISMEMBER</div>
+            <div id="viewCode" style="text-align:center; font-weight:800; letter-spacing:1px; font-size:14px; color:#fff;">IOISMEMBER</div>
 
             <div class="details-box">
                 <div class="row"><span class="lbl">Joining Date:</span><span class="val" id="viewDate">01/01/2026</span></div>
                 <div class="row"><span class="lbl">Owner Sponsor 🆔:</span><span class="val" id="viewOwner">IOISINDIA</span></div>
                 <div class="row"><span class="lbl">Upline Name:</span><span class="val" id="viewUpName">IOIS USER</span></div>
                 <div class="row"><span class="lbl">Upline ID:</span><span class="val" id="viewUpID">IOISUSER</span></div>
-                <div class="row"><span class="lbl">Email:</span><span class="val" id="viewEmail">iois@gmail.com</span></div>
+                <div class="row"><span class="lbl">Email Address:</span><span class="val" id="viewEmail">iois@gmail.com</span></div>
                 <div class="row"><span class="lbl">UPI Address:</span><span class="val" id="viewUPI">iois@iois</span></div>
             </div>
             <div class="plan-footer" id="viewPlan">LIFETIME MASTER ACCESS</div>
         </div>
 
-        <!-- BACK -->
+        <!-- BACK SIDE -->
         <div class="pvc-card" id="backCard">
             <div class="back-content">
-                <div class="tiranga-font" style="font-size: 20px;">नमस्कार!</div>
-                <div class="tiranga-font" style="font-size: 11px;">IOIS PLATFORM की दुनिया में स्वागत है।</div>
+                <div class="tiranga-font" style="font-size: 22px;">नमस्कार!</div>
+                <div class="tiranga-font" style="font-size: 12px;">IOIS PLATFORM की दुनिया में स्वागत है।</div>
                 
-                <div style="font-size: 9px; color:#000; text-align:center; font-weight:800; margin-top:10px;">
+                <div style="font-size: 10px; color:#000; text-align:center; font-weight:800; margin-top:10px;">
                     सफ़लता पूर्वक आप <b>IOIS PLATFORM</b> के सदस्य बन चुके हैं।
                 </div>
 
                 <div class="ref-box">
                     <b style="color: #FF9933;">Referral Program:</b><br>
-                    IOIS आपको मौका देता है आर्थिक आजादी पाने का। रेफर करें और टीम से लाइफtime Passive Income कमाएं।
+                    IOIS आपको मौका देता है आर्थिक आजादी पाने का। रेफर करें और टीम से लाइफटाइम पैसिव इनकम कमाएं।
                 </div>
 
-                <div class="tiranga-font" style="font-size: 13px; margin-bottom: 8px;">Services Checklist:</div>
+                <div class="tiranga-font" style="font-size: 14px; margin-bottom: 10px;">Services Checklist:</div>
                 <ul id="checklist" style="list-style:none; padding:0; margin:0;"></ul>
 
                 <div style="margin-top:auto; text-align:center; border-top:1px dashed #666; padding-top:10px;">
-                    <div class="tiranga-font" style="font-size: 18px;">PAID: <span id="viewPrice">₹999</span></div>
-                    <div style="font-size: 9px; color:#000; font-weight:800;">Paid by: <span id="viewPaidBy">IOIS USER</span></div>
-                    <div style="display:inline-block; border:2px solid #138808; color:#138808; padding:3px 12px; font-weight:900; text-transform:uppercase; transform:rotate(-4deg); margin-top:10px; background:#fff;">Verified</div>
+                    <div class="tiranga-font" style="font-size: 20px;">Amount: <span id="viewPrice">₹999</span></div>
+                    <div style="font-size: 10px; color:#000; font-weight:800;">Paid by: <span id="viewPaidBy">IOIS USER</span></div>
+                    <div style="display:inline-block; border:2px solid #138808; color:#138808; padding:3px 15px; font-weight:900; text-transform:uppercase; transform:rotate(-4deg); margin-top:10px; background:#fff;">Verified</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ACTIONS -->
+    <!-- ACTION BUTTONS -->
     <div class="btn-group">
         <button class="btn btn-jpg" onclick="downloadJPG()">Save as JPG</button>
         <button class="btn btn-pdf" onclick="downloadPDF()">Save as PDF</button>
@@ -219,15 +237,10 @@
             document.getElementById('checklist').innerHTML = h;
         }
 
-        // Raw Image Uploading
+        // Profile Upload
         document.getElementById('fProfile').onchange = e => {
             const r = new FileReader();
             r.onload = () => document.getElementById('viewProfile').src = r.result;
-            r.readAsDataURL(e.target.files[0]);
-        };
-        document.getElementById('fLogo').onchange = e => {
-            const r = new FileReader();
-            r.onload = () => document.getElementById('viewLogo').src = r.result;
             r.readAsDataURL(e.target.files[0]);
         };
 
@@ -244,15 +257,14 @@
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const canvas = await html2canvas(document.getElementById('captureArea'), { scale: 2 });
-            const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('l', 'mm', 'a4');
-            pdf.addImage(imgData, 'PNG', 10, 10, 280, 180);
-            pdf.save("IOIS-Identity-Card.pdf");
+            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 10, 10, 280, 180);
+            pdf.save("IOIS-Member-Card.pdf");
         }
 
-        // DOWNLOAD LIVE ID CARD (HTML)
+        // DOWNLOAD LIVE ID CARD
         function downloadLive() {
-            const htmlContent = `<!DOCTYPE html><html><head><title>IOIS Live ID Card</title></head><body style="background:#000; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;"><div style="transform: scale(0.85);">${document.getElementById('captureArea').innerHTML}</div><style>${document.querySelector('style').innerHTML}.pvc-card { margin: 10px; }</style></body></html>`;
+            const htmlContent = `<!DOCTYPE html><html><head><title>IOIS Live Card</title></head><body style="background:#000; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;"><div style="transform: scale(0.8);">${document.getElementById('captureArea').innerHTML}</div><style>${document.querySelector('style').innerHTML}.pvc-card{margin:10px;}</style></body></html>`;
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
