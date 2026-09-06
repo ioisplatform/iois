@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
-import { OFFICIAL_FORM_URL, OFFICIAL_WHATSAPP_URL, OFFICIAL_TELEGRAM_URL } from '../data/plansData';
-import { ShieldCheck, MessageSquareText, Sparkles, Send, Share2, Copy, Check } from 'lucide-react';
+import { PageId } from '../types';
+import { OFFICIAL_FORM_URL } from '../data/plansData';
+import { HeaderClock } from './HeaderClock';
+import { 
+  ShieldCheck, 
+  Sparkles, 
+  Share2, 
+  Check, 
+  Menu, 
+  X, 
+  Lock, 
+  Sun, 
+  CloudSun, 
+  Briefcase,
+  Calendar
+} from 'lucide-react';
 
 interface NavbarProps {
+  currentPage: PageId;
+  onNavigate: (page: PageId) => void;
   onOpenChat: () => void;
-  onScrollTo: (id: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenChat, onScrollTo }) => {
+export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onOpenChat }) => {
   const [copied, setCopied] = useState<boolean>(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   const handleShareOrCopy = async () => {
     const liveUrl = window.location.href;
@@ -16,7 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenChat, onScrollTo }) => {
       try {
         await navigator.share({
           title: 'IOIS Platform - Indian Online Income Supporting System',
-          text: 'IOIS प्लेटफॉर्म पर 7 मास्टर प्लांस और इंस्टेंट पेआउट सिस्टम देखें:',
+          text: 'IOIS प्लेटफॉर्म पर 7 मास्टर प्लांस, दैनिक पंचांग, राशिफल, मौसम, करियर गाइड व RTPS सेवाएं देखें:',
           url: liveUrl,
         });
         return;
@@ -34,70 +50,106 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenChat, onScrollTo }) => {
     }
   };
 
+  const navItems: { id: PageId; label: string; icon?: any }[] = [
+    { id: 'home', label: 'होम' },
+    { id: 'entertainment', label: 'स्मार्ट टीवी' },
+    { id: 'panchang', label: 'पंचांग व मुहूर्त' },
+    { id: 'rashifal', label: 'राशिफल' },
+    { id: 'weather', label: 'लाइव मौसम' },
+    { id: 'jobs-news', label: 'जॉब अलर्ट्स' },
+    { id: 'plans', label: '7 मास्टर प्लान' },
+    { id: 'career-guide', label: 'करियर गाइड' },
+    { id: 'services', label: 'सरकारी सेवा (RTPS)' },
+    { id: 'compressor', label: 'फोटो कंप्रेसर' },
+    { id: 'study-hub', label: 'स्टडी व क्विज' },
+  ];
+
+  const handleNavClick = (page: PageId) => {
+    onNavigate(page);
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <header id="main-header" className="bg-slate-950/90 backdrop-blur-xl border-b border-amber-500/20 py-3.5 px-4 sm:px-6 sticky top-0 z-50 transition-all">
-      <div className="container mx-auto flex items-center justify-between gap-4">
-        {/* Brand / Logo */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => onScrollTo('hero')}>
-          <div className="w-12 h-12 rounded-full border-2 border-amber-400 bg-gradient-to-tr from-amber-500 via-yellow-400 to-green-500 p-0.5 shadow-lg flex items-center justify-center shrink-0">
+    <header id="main-header" className="bg-slate-950/95 backdrop-blur-xl border-b border-amber-500/20 py-2.5 px-3 sm:px-6 sticky top-0 z-50 transition-all">
+      <div className="container mx-auto flex items-center justify-between gap-2 sm:gap-4">
+        {/* 1. Brand / Logo */}
+        <div className="flex items-center gap-2.5 cursor-pointer shrink-0" onClick={() => handleNavClick('home')}>
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 border-amber-400 bg-gradient-to-tr from-amber-500 via-yellow-400 to-green-500 p-0.5 shadow-lg flex items-center justify-center shrink-0">
             <div className="w-full h-full rounded-full bg-slate-950 flex flex-col items-center justify-center text-center">
               <span className="text-[11px] font-black text-amber-400 leading-none">IOIS</span>
               <span className="text-[7px] text-green-400 font-bold leading-none mt-0.5">INDIA</span>
             </div>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="tiranga-text text-xl sm:text-2xl md:text-3xl font-black tracking-tight">IOIS PLATFORM</h1>
-              <span className="hidden sm:inline-block bg-green-500/10 border border-green-500/30 text-green-400 text-[10px] font-black px-2.5 py-0.5 rounded-full">
+            <div className="flex items-center gap-1.5">
+              <h1 className="tiranga-text text-base sm:text-xl font-black tracking-tight leading-none">IOIS PLATFORM</h1>
+              <span className="hidden md:inline-block bg-green-500/10 border border-green-500/30 text-green-400 text-[8px] font-black px-1.5 py-0.5 rounded-full">
                 VERIFIED 2026
               </span>
             </div>
-            <p className="gold-metallic-text text-[9px] sm:text-[10px] uppercase tracking-widest font-semibold">
+            <p className="gold-metallic-text text-[7px] sm:text-[8px] uppercase tracking-widest font-semibold mt-0.5">
               Indian Online Income Supporting System
             </p>
           </div>
         </div>
 
-        {/* Quick Nav & Action Buttons */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <nav className="hidden lg:flex items-center gap-5 text-xs font-bold text-slate-300 mr-2">
-            <button onClick={() => onScrollTo('about-iois')} className="hover:text-amber-400 transition cursor-pointer">
-              IOIS परिचय
-            </button>
-            <button onClick={() => onScrollTo('plans')} className="hover:text-amber-400 transition cursor-pointer">
-              7 मास्टर प्लान
-            </button>
-            <button onClick={() => onScrollTo('interview-portal')} className="hover:text-amber-400 transition cursor-pointer">
-              असेसमेंट
-            </button>
-            <button onClick={() => onScrollTo('calculator')} className="hover:text-amber-400 transition cursor-pointer">
-              पेआउट कैलकुलेटर
-            </button>
-            <button onClick={() => onScrollTo('parents')} className="hover:text-amber-400 transition cursor-pointer">
-              सुरक्षा पोर्टल
-            </button>
-          </nav>
+        {/* 2. Premium Small Digital & Analog Clock in Header */}
+        <div className="flex items-center">
+          <HeaderClock onNavigate={onNavigate} />
+        </div>
 
-          {/* Quick Share / Copy Link Button */}
+        {/* 3. Desktop Navigation Links */}
+        <nav className="hidden 2xl:flex items-center gap-2.5 text-xs font-bold text-slate-300">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => handleNavClick(item.id)}
+              className={`transition cursor-pointer px-2 py-1 rounded-lg text-[11px] ${
+                currentPage === item.id
+                  ? 'text-amber-400 font-black border-b-2 border-amber-400 bg-amber-500/10'
+                  : 'hover:text-amber-300 hover:bg-slate-900'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* 4. Quick Action Buttons */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Quick Share */}
           <button
             id="nav-share-btn"
             onClick={handleShareOrCopy}
-            className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-850 border border-slate-700 hover:border-amber-400 text-slate-200 px-3 py-2 rounded-full text-xs font-bold shadow-md transition cursor-pointer"
-            title="लिंक कॉपी या शेयर करें"
+            className="flex items-center gap-1 bg-slate-900 hover:bg-slate-850 border border-slate-700 hover:border-amber-400 text-slate-200 px-2 sm:px-2.5 py-1.5 rounded-full text-xs font-bold shadow-md transition cursor-pointer"
+            title="पोर्टल शेयर करें"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Share2 className="w-3.5 h-3.5 text-amber-400" />}
-            <span className="hidden sm:inline">{copied ? 'कॉपी हो गया!' : 'शेयर लिंक'}</span>
+            <span className="hidden lg:inline">{copied ? 'कॉपी हुआ!' : 'शेयर'}</span>
           </button>
 
           {/* AI Chat Button */}
           <button
             id="nav-ai-chat-btn"
             onClick={onOpenChat}
-            className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-amber-500/50 hover:border-amber-400 text-amber-300 px-3 py-2 rounded-full text-xs font-bold shadow-md transition cursor-pointer"
+            className="flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-amber-500/50 hover:border-amber-400 text-amber-300 px-2 sm:px-2.5 py-1.5 rounded-full text-xs font-bold shadow-md transition cursor-pointer"
             title="Ask AI Chatbot"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-            <span className="hidden sm:inline">AI असिस्टेंट</span>
+            <span className="hidden lg:inline">AI असिस्टेंट</span>
+          </button>
+
+          {/* Admin Login Button */}
+          <button
+            onClick={() => handleNavClick('admin')}
+            className={`p-2 rounded-full border transition cursor-pointer ${
+              currentPage === 'admin'
+                ? 'bg-amber-400 text-black border-amber-400'
+                : 'bg-slate-900 text-slate-300 border-slate-700 hover:border-amber-400 hover:text-amber-300'
+            }`}
+            title="एडमिन पैनल"
+          >
+            <Lock className="w-3.5 h-3.5" />
           </button>
 
           {/* Verified Pass Primary Button */}
@@ -106,13 +158,63 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenChat, onScrollTo }) => {
             href={OFFICIAL_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-black px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-black text-xs shadow-lg hover:shadow-amber-500/25 transition transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
+            className="btn-gold-gradient text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-black uppercase tracking-wider flex items-center gap-1 shadow-md shrink-0"
           >
-            <ShieldCheck className="w-4 h-4 text-black" />
-            <span>GET VERIFIED PASS</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-black" />
+            <span className="hidden sm:inline">VERIFIED PASS</span>
           </a>
+
+          {/* Mobile & Tablet Menu Toggle Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="2xl:hidden p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5 text-amber-400" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="2xl:hidden mt-3 pt-3 border-t border-slate-800 space-y-2 animate-in fade-in duration-200">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`text-left text-xs font-bold p-2.5 rounded-xl border transition cursor-pointer ${
+                  currentPage === item.id
+                    ? 'bg-amber-400 text-black border-amber-400 font-black'
+                    : 'bg-slate-900 text-slate-300 border-slate-800 hover:border-amber-400'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+            <button
+              onClick={() => handleNavClick('parent-guide')}
+              className={`text-left text-xs font-bold p-2.5 rounded-xl border transition cursor-pointer ${
+                currentPage === 'parent-guide'
+                  ? 'bg-amber-400 text-black border-amber-400 font-black'
+                  : 'bg-slate-900 text-slate-300 border-slate-800'
+              }`}
+            >
+              अभिभावक सुरक्षा गाइड
+            </button>
+            <button
+              onClick={() => handleNavClick('contact')}
+              className={`text-left text-xs font-bold p-2.5 rounded-xl border transition cursor-pointer ${
+                currentPage === 'contact'
+                  ? 'bg-amber-400 text-black border-amber-400 font-black'
+                  : 'bg-slate-900 text-slate-300 border-slate-800'
+              }`}
+            >
+              संपर्क केंद्र
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

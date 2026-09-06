@@ -1,7 +1,11 @@
 {
   "name": "Remix IOIS Platform",
   "description": "Indian Online Income Supporting System - Smart Digital Portal with 7 Plans, Assessment, Controlled Live Ticker \u0026 AI Assistant",
-  "requestFramePermissions": [],
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]

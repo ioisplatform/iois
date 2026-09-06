@@ -1,0 +1,18 @@
+# robots.txt for IOIS Platform (Indian Online Income Supporting System)
+User-agent: *
+Allow: /
+
+# Dedicated crawler for Google AdSense
+User-agent: Mediapartners-Google
+Allow: /
+
+# Dedicated Google search crawler
+User-agent: Googlebot
+Allow: /
+
+# Dedicated Google Image crawler for photo tools
+User-agent: Googlebot-Image
+Allow: /
+
+# Sitemap definition
+Sitemap: https://iois.in/sitemap.xml

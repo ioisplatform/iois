@@ -1,0 +1,779 @@
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// server.ts
+var server_exports = {};
+module.exports = __toCommonJS(server_exports);
+var import_express = __toESM(require("express"), 1);
+var import_path = __toESM(require("path"), 1);
+var import_fs = __toESM(require("fs"), 1);
+var import_vite = require("vite");
+var import_genai = require("@google/genai");
+var import_dotenv = __toESM(require("dotenv"), 1);
+import_dotenv.default.config();
+var DATA_DIR = import_path.default.join(process.cwd(), "data");
+var STORE_FILE = import_path.default.join(DATA_DIR, "store.json");
+var DEFAULT_SLIDERS = [
+  {
+    id: "slide-1",
+    url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1400&auto=format&fit=crop&q=80",
+    title: "IOIS 7 \u092E\u093E\u0938\u094D\u091F\u0930 \u0921\u093F\u091C\u093F\u091F\u0932 \u0907\u0928\u0915\u092E \u090F\u0935\u0902 \u0938\u094D\u0915\u093F\u0932 \u092A\u094D\u0932\u093E\u0902\u0938",
+    subtitle: "\u092E\u093E\u0924\u094D\u0930 \u20B910 \u0938\u0947 \u20B9999 \u0924\u0915 | 50% \u0938\u0947 70% \u0924\u0915 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F \u090F\u0935\u0902 \u0932\u093E\u0907\u092B\u091F\u093E\u0907\u092E \u0938\u092A\u094B\u0930\u094D\u091F",
+    targetPage: "plans",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "slide-2",
+    url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1400&auto=format&fit=crop&q=80",
+    title: "IOIS SMART TV & \u0915\u092E\u094D\u092F\u0941\u0928\u093F\u091F\u0940 \u0932\u093E\u0907\u0935 \u0925\u093F\u090F\u091F\u0930",
+    subtitle: "\u092C\u093F\u0928\u093E \u0930\u093F\u0921\u093E\u092F\u0930\u0947\u0915\u094D\u091F \u0939\u0941\u090F \u0905\u092A\u0928\u0947 \u092E\u0928\u092A\u0938\u0902\u0926 \u0935\u0940\u0921\u093F\u092F\u094B \u0926\u0947\u0916\u0947\u0902, \u092B\u094B\u091F\u094B \u0936\u0947\u092F\u0930 \u0915\u0930\u0947\u0902 \u0935 \u0917\u094D\u0930\u0941\u092A \u092E\u0947\u0902 \u091A\u0930\u094D\u091A\u093E \u0915\u0930\u0947\u0902",
+    targetPage: "entertainment",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "slide-3",
+    url: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1400&auto=format&fit=crop&q=80",
+    title: "\u092B\u094D\u0930\u0940 \u0911\u0928\u0932\u093E\u0907\u0928 \u0915\u0930\u093F\u092F\u0930 \u0917\u093E\u0907\u0921\u0947\u0902\u0938: 10\u0935\u0940\u0902 \u0935 12\u0935\u0940\u0902 \u0915\u0947 \u092C\u093E\u0926 \u0915\u094D\u092F\u093E \u0915\u0930\u0947\u0902?",
+    subtitle: "ADCA, DCA, \u0935\u0947\u092C \u0921\u0947\u0935\u0932\u092A\u092E\u0947\u0902\u091F, \u0938\u0930\u0915\u093E\u0930\u0940 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0924\u0948\u092F\u093E\u0930\u0940 \u090F\u0935\u0902 \u092D\u0935\u093F\u0937\u094D\u092F \u0915\u0940 \u0938\u0939\u0940 \u0926\u093F\u0936\u093E",
+    targetPage: "career-guide",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "slide-4",
+    url: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=1400&auto=format&fit=crop&q=80",
+    title: "\u0926\u0948\u0928\u093F\u0915 \u0935\u0948\u0926\u093F\u0915 \u092A\u0902\u091A\u093E\u0902\u0917, \u0936\u0941\u092D \u092E\u0941\u0939\u0942\u0930\u094D\u0924 \u090F\u0935\u0902 12 \u0930\u093E\u0936\u093F\u092F\u094B\u0902 \u0915\u093E \u0930\u093E\u0936\u093F\u092B\u0932",
+    subtitle: "\u0905\u092D\u093F\u091C\u0940\u0924 \u092E\u0941\u0939\u0942\u0930\u094D\u0924, \u0905\u092E\u0943\u0924 \u0915\u093E\u0932, \u0930\u093E\u0939\u0941\u0915\u093E\u0932 \u0935 \u0906\u091C \u0915\u093E \u091A\u094C\u0918\u0921\u093C\u093F\u092F\u093E \u0938\u092E\u092F \u0932\u093E\u0907\u0935 \u0926\u0947\u0916\u0947\u0902",
+    targetPage: "panchang",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "slide-5",
+    url: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=1400&auto=format&fit=crop&q=80",
+    title: "\u092B\u094D\u0930\u0940 \u0911\u0928\u0932\u093E\u0907\u0928 \u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E \u090F\u0935\u0902 \u0921\u093F\u091C\u093F\u091F\u0932 \u091F\u0942\u0932\u094D\u0938 \u0939\u092C",
+    subtitle: "\u091C\u093E\u0924\u0940\u092F, \u0906\u0935\u093E\u0938\u0940\u092F, \u0906\u092F (RTPS) \u0917\u093E\u0907\u0921, \u0906\u0927\u093E\u0930, \u092A\u0948\u0928, \u0935\u094B\u091F\u0930 \u0935 \u092B\u094D\u0930\u0940 \u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E / CV \u092C\u093F\u0932\u094D\u0921\u0930",
+    targetPage: "services",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "slide-6",
+    url: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=1400&auto=format&fit=crop&q=80",
+    title: "\u0932\u093E\u0907\u0935 \u092E\u094C\u0938\u092E \u0935 \u0935\u0930\u094D\u0937\u093E \u092A\u0942\u0930\u094D\u0935\u093E\u0928\u0941\u092E\u093E\u0928 (Open-Meteo API)",
+    subtitle: "\u0915\u093F\u0938\u093E\u0928\u094B\u0902 \u0915\u0947 \u0932\u093F\u090F \u0915\u0943\u0937\u093F \u0938\u0932\u093E\u0939, \u092F\u093E\u0924\u094D\u0930\u093E \u0938\u0941\u0930\u0915\u094D\u0937\u093E \u090F\u0935\u0902 7 \u0926\u093F\u0928\u094B\u0902 \u0915\u0940 \u0935\u093F\u0938\u094D\u0924\u0943\u0924 \u092E\u094C\u0938\u092E \u0930\u093F\u092A\u094B\u0930\u094D\u091F",
+    targetPage: "weather",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "slide-7",
+    url: "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1400&auto=format&fit=crop&q=80",
+    title: "100% \u092B\u094D\u0930\u0940 \u092B\u094B\u091F\u094B \u0935 \u0921\u0949\u0915\u094D\u092F\u0942\u092E\u0947\u0902\u091F \u0938\u093E\u0907\u091C \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930 \u091F\u0942\u0932",
+    subtitle: "RTPS, \u0938\u0930\u0915\u093E\u0930\u0940 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0935 \u091C\u0949\u092C \u092B\u0949\u0930\u094D\u092E \u0915\u0947 \u0932\u093F\u090F 20KB \u0938\u0947 50KB \u092E\u0947\u0902 \u0924\u0941\u0930\u0902\u0924 \u0915\u0902\u092A\u094D\u0930\u0947\u0938 \u0915\u0930\u0947\u0902",
+    targetPage: "compressor",
+    active: true,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  }
+];
+var DEFAULT_GALLERY = [
+  {
+    id: "photo-1",
+    url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1000&auto=format&fit=crop&q=80",
+    title: "IOIS \u0921\u093F\u091C\u093F\u091F\u0932 \u0938\u094D\u0915\u093F\u0932 \u0932\u0930\u094D\u0928\u093F\u0902\u0917 \u0915\u093E\u0930\u094D\u092F\u0936\u093E\u0932\u093E",
+    description: "\u092F\u0941\u0935\u093E\u0913\u0902 \u0914\u0930 \u091B\u093E\u0924\u094D\u0930\u094B\u0902 \u0915\u094B \u0911\u0928\u0932\u093E\u0907\u0928 \u0921\u093F\u091C\u093F\u091F\u0932 \u091F\u0942\u0932\u094D\u0938, \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0935 \u0930\u094B\u091C\u0917\u093E\u0930\u092A\u0930\u0915 \u0915\u094C\u0936\u0932 \u0915\u093E \u0932\u093E\u0907\u0935 \u092A\u094D\u0930\u0936\u093F\u0915\u094D\u0937\u0923\u0964",
+    category: "\u0921\u093F\u091C\u093F\u091F\u0932 \u0932\u0930\u094D\u0928\u093F\u0902\u0917",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-2",
+    url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1000&auto=format&fit=crop&q=80",
+    title: "\u092E\u0939\u093F\u0932\u093E \u0938\u0936\u0915\u094D\u0924\u093F\u0915\u0930\u0923 \u0935 \u0935\u0930\u094D\u0915 \u092B\u094D\u0930\u0949\u092E \u0939\u094B\u092E \u0938\u0947\u092E\u093F\u0928\u093E\u0930",
+    description: "\u0917\u0943\u0939\u093F\u0923\u093F\u092F\u094B\u0902 \u0914\u0930 \u091B\u093E\u0924\u094D\u0930\u093E\u0913\u0902 \u0915\u094B \u0918\u0930 \u092C\u0948\u0920\u0947 \u0921\u093F\u091C\u093F\u091F\u0932 \u0906\u092F \u0935 \u0921\u0947\u091F\u093E \u090F\u0902\u091F\u094D\u0930\u0940 \u0915\u093E\u0930\u094D\u092F \u0915\u093E \u092E\u093E\u0930\u094D\u0917\u0926\u0930\u094D\u0936\u0928\u0964",
+    category: "\u0938\u092B\u0932\u0924\u093E \u0915\u0940 \u0915\u0939\u093E\u0928\u093F\u092F\u093E\u0902",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-3",
+    url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+    title: "IOIS \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0921\u093F\u092A\u094D\u0932\u094B\u092E\u093E (ADCA/DCA) \u092C\u0948\u091A",
+    description: "MS Office, Tally Prime GST, \u0914\u0930 \u0917\u094D\u0930\u093E\u092B\u093F\u0915 \u0921\u093F\u091C\u093E\u0907\u0928 \u092E\u0947\u0902 \u0909\u0924\u094D\u0915\u0943\u0937\u094D\u091F \u092A\u094D\u0930\u0926\u0930\u094D\u0936\u0928 \u0915\u0930\u0928\u0947 \u0935\u093E\u0932\u0947 \u091B\u093E\u0924\u094D\u0930\u094B\u0902 \u0915\u093E \u0938\u092E\u094D\u092E\u093E\u0928\u0964",
+    category: "\u0906\u092F\u094B\u091C\u0928 \u0935 \u0938\u092E\u094D\u092E\u093E\u0928",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-4",
+    url: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1000&auto=format&fit=crop&q=80",
+    title: "IOIS \u092A\u093E\u0930\u094D\u091F\u0928\u0930 \u092E\u0940\u091F \u090F\u0935\u0902 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F \u0935\u093F\u0924\u0930\u0923",
+    description: "\u0938\u092B\u0932 \u0930\u0947\u092B\u0930\u0932 \u092A\u093E\u0930\u094D\u091F\u0928\u0930\u094D\u0938 \u0915\u094B \u092A\u094D\u0930\u092E\u093E\u0923 \u092A\u0924\u094D\u0930 \u0935 \u092A\u094D\u0930\u094B\u0924\u094D\u0938\u093E\u0939\u0928 \u092A\u0941\u0930\u0938\u094D\u0915\u093E\u0930 \u092A\u094D\u0930\u0926\u093E\u0928 \u0915\u0930\u0924\u0947 \u0939\u0941\u090F\u0964",
+    category: "\u0906\u092F\u094B\u091C\u0928 \u0935 \u0938\u092E\u094D\u092E\u093E\u0928",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-5",
+    url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1000&auto=format&fit=crop&q=80",
+    title: "\u0917\u094D\u0930\u093E\u092E\u0940\u0923 \u0921\u093F\u091C\u093F\u091F\u0932 \u0938\u093E\u0915\u094D\u0937\u0930\u0924\u093E \u0905\u092D\u093F\u092F\u093E\u0928 (\u092A\u091F\u0928\u093E, \u092C\u093F\u0939\u093E\u0930)",
+    description: "\u0917\u093E\u0902\u0927\u0940 \u092E\u0948\u0926\u093E\u0928 \u0915\u0947\u0902\u0926\u094D\u0930 \u0938\u0947 \u0938\u0902\u091A\u093E\u0932\u093F\u0924 \u0928\u093F\u0936\u0941\u0932\u094D\u0915 RTPS \u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E \u0935 \u092B\u0949\u0930\u094D\u092E \u0938\u0939\u093E\u092F\u0924\u093E \u0936\u093F\u0935\u093F\u0930\u0964",
+    category: "\u0915\u093E\u0930\u094D\u092F\u093E\u0932\u092F \u0935 \u091F\u0940\u092E",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-6",
+    url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1000&auto=format&fit=crop&q=80",
+    title: "IOIS \u0938\u094D\u092E\u093E\u0930\u094D\u091F \u0911\u0928\u0932\u093E\u0907\u0928 \u090F\u0917\u094D\u091C\u093E\u092E \u0935 \u092E\u0949\u0915 \u091F\u0947\u0938\u094D\u091F \u0938\u0947\u0902\u091F\u0930",
+    description: "SSC, \u0930\u0947\u0932\u0935\u0947 \u0914\u0930 \u092A\u0941\u0932\u093F\u0938 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0915\u0940 \u0924\u0948\u092F\u093E\u0930\u0940 \u0915\u0930 \u0930\u0939\u0947 \u0905\u092D\u094D\u092F\u0930\u094D\u0925\u093F\u092F\u094B\u0902 \u0915\u0947 \u0932\u093F\u090F \u092B\u094D\u0930\u0940 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0932\u0948\u092C\u0964",
+    category: "\u0921\u093F\u091C\u093F\u091F\u0932 \u0932\u0930\u094D\u0928\u093F\u0902\u0917",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-7",
+    url: "https://images.unsplash.com/photo-1577495508048-b635879837f1?w=1000&auto=format&fit=crop&q=80",
+    title: "\u0935\u093E\u0930\u094D\u0937\u093F\u0915 \u0921\u093F\u091C\u093F\u091F\u0932 \u092D\u093E\u0930\u0924 \u0938\u092E\u094D\u092E\u0947\u0932\u0928 \u090F\u0935\u0902 \u0938\u092E\u094D\u092E\u093E\u0928 \u0938\u092E\u093E\u0930\u094B\u0939",
+    description: "\u0936\u0940\u0930\u094D\u0937 100 \u092E\u0947\u0927\u093E\u0935\u0940 \u091B\u093E\u0924\u094D\u0930-\u091B\u093E\u0924\u094D\u0930\u093E\u0913\u0902 \u0915\u094B \u0932\u093E\u0907\u092B\u091F\u093E\u0907\u092E \u0932\u0930\u094D\u0928\u093F\u0902\u0917 \u092E\u0947\u0902\u092C\u0930\u0936\u093F\u092A \u0915\u093F\u091F \u0915\u093E \u0935\u093F\u0924\u0930\u0923\u0964",
+    category: "\u0906\u092F\u094B\u091C\u0928 \u0935 \u0938\u092E\u094D\u092E\u093E\u0928",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "photo-8",
+    url: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=1000&auto=format&fit=crop&q=80",
+    title: "IOIS \u0924\u0915\u0928\u0940\u0915\u0940 \u090F\u0935\u0902 \u0938\u092A\u094B\u0930\u094D\u091F \u091F\u0940\u092E \u0917\u093E\u0902\u0927\u0940 \u092E\u0948\u0926\u093E\u0928 \u0939\u092C",
+    description: "24x7 \u0909\u092A\u092F\u094B\u0917\u0915\u0930\u094D\u0924\u093E \u0938\u0939\u093E\u092F\u0924\u093E, \u0938\u0924\u094D\u092F\u093E\u092A\u0928 \u0935 \u092A\u0947\u0906\u0909\u091F \u0938\u0902\u091A\u093E\u0932\u0928 \u091F\u0940\u092E \u0915\u093E \u0926\u0948\u0928\u093F\u0915 \u0938\u092E\u0928\u094D\u0935\u092F \u0938\u0924\u094D\u0930\u0964",
+    category: "\u0915\u093E\u0930\u094D\u092F\u093E\u0932\u092F \u0935 \u091F\u0940\u092E",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  }
+];
+var DEFAULT_SMART_TV = {
+  videoUrl: "https://www.youtube.com/watch?v=bcjXgHGTBDQ&list=PLKB7inGcWpEY",
+  title: "IOIS \u0911\u092B\u093F\u0936\u093F\u092F\u0932 \u0935\u0940\u0921\u093F\u092F\u094B \u092A\u094D\u0932\u0947\u0932\u093F\u0938\u094D\u091F (Official Playlist)",
+  description: "IOIS \u0926\u094D\u0935\u093E\u0930\u093E \u0928\u093F\u0930\u0902\u0924\u0930 \u091A\u0932\u0928\u0947 \u0935\u093E\u0932\u0940 \u092E\u0941\u0916\u094D\u092F \u092A\u094D\u0932\u0947\u0932\u093F\u0938\u094D\u091F\u0964 \u091C\u092C \u0924\u0915 \u0915\u094B\u0908 \u092F\u0942\u091C\u0930 \u0915\u094B\u0908 \u0905\u0928\u094D\u092F \u0935\u0940\u0921\u093F\u092F\u094B \u0932\u093F\u0902\u0915 \u0928 \u091A\u0932\u093E\u090F, \u092F\u0939 \u0938\u094D\u0935\u0924\u0903 \u091A\u0932\u0924\u0940 \u0930\u0939\u0947\u0917\u0940\u0964",
+  isLive: true,
+  updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+};
+var DEFAULT_COMMUNITY_CHAT = [
+  {
+    id: "chat-1",
+    sender: "IOIS \u0938\u092A\u094B\u0930\u094D\u091F \u091F\u0940\u092E",
+    text: "\u0928\u092E\u0938\u094D\u0924\u0947! IOIS Smart TV \u0915\u092E\u094D\u092F\u0941\u0928\u093F\u091F\u0940 \u0930\u0942\u092E \u092E\u0947\u0902 \u0906\u092A\u0915\u093E \u0938\u094D\u0935\u093E\u0917\u0924 \u0939\u0948\u0964 \u0906\u092A \u0905\u092A\u0928\u0947 \u092E\u0928\u092A\u0938\u0902\u0926 \u0935\u0940\u0921\u093F\u092F\u094B \u0915\u093E \u0932\u093F\u0902\u0915 \u090A\u092A\u0930 \u092A\u0947\u0938\u094D\u091F \u0915\u0930\u0915\u0947 \u092C\u093F\u0928\u093E \u0930\u0940\u0921\u093E\u092F\u0930\u0947\u0915\u094D\u091F \u0939\u0941\u090F \u0917\u094D\u0930\u0941\u092A \u092E\u0947\u0902 \u0926\u0947\u0916 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902!",
+    time: "10:00 AM",
+    avatar: "\u{1F1EE}\u{1F1F3}"
+  },
+  {
+    id: "chat-2",
+    sender: "\u0905\u092E\u093F\u0924 \u0915\u0941\u092E\u093E\u0930 (\u092A\u091F\u0928\u093E)",
+    text: "\u092E\u0948\u0902\u0928\u0947 \u0906\u091C Plan 03 (Career & Job) \u091C\u0949\u0907\u0928 \u0915\u093F\u092F\u093E \u0914\u0930 \u0924\u0941\u0930\u0902\u0924 \u20B964 \u0915\u093E \u092A\u0947\u0906\u0909\u091F \u092E\u093F\u0932\u093E! \u092C\u0939\u0941\u0924 \u0939\u0940 \u092A\u093E\u0930\u0926\u0930\u094D\u0936\u0940 \u0938\u093F\u0938\u094D\u091F\u092E \u0939\u0948\u0964",
+    time: "10:15 AM",
+    avatar: "\u{1F468}\u200D\u{1F393}"
+  },
+  {
+    id: "chat-3",
+    sender: "\u092A\u094D\u0930\u093F\u092F\u093E \u0936\u0930\u094D\u092E\u093E (\u0917\u092F\u093E)",
+    text: "Smart TV \u092A\u0930 \u0935\u0940\u0921\u093F\u092F\u094B \u0926\u0947\u0916\u0928\u093E \u092C\u0939\u0941\u0924 \u0906\u0938\u093E\u0928 \u0939\u0948, \u092F\u0942\u091F\u094D\u092F\u0942\u092C \u0935\u0940\u0921\u093F\u092F\u094B \u0938\u0940\u0927\u0947 \u092F\u0939\u0940\u0902 \u092A\u094D\u0932\u0947 \u0939\u094B \u0930\u0939\u093E \u0939\u0948\u0964",
+    time: "10:25 AM",
+    avatar: "\u{1F469}\u200D\u{1F4BC}"
+  }
+];
+var DEFAULT_CUSTOM_QA = [
+  {
+    id: "qa-1",
+    question: "IOIS \u0915\u094D\u092F\u093E \u0939\u0948 \u0914\u0930 \u0907\u0938\u092E\u0947\u0902 \u092A\u0948\u0938\u0947 \u0915\u0948\u0938\u0947 \u092E\u093F\u0932\u0924\u0947 \u0939\u0948\u0902?",
+    keywords: ["iois kya hai", "kya hai", "paise kaise", "income kaise", "earning kaise"],
+    answer: "IOIS (Indian Online Income Supporting System) \u090F\u0915 \u0921\u093F\u091C\u093F\u091F\u0932 \u0938\u094D\u0915\u093F\u0932 \u0914\u0930 \u0907\u0928\u0915\u092E \u0938\u092A\u094B\u0930\u094D\u091F\u093F\u0902\u0917 \u092A\u094D\u0932\u0947\u091F\u092B\u0949\u0930\u094D\u092E \u0939\u0948\u0964 \u092F\u0939\u093E\u0901 \u0906\u092A\u0915\u094B NCERT \u092C\u0941\u0915\u094D\u0938, \u092A\u094D\u0930\u094B\u092B\u0947\u0936\u0928\u0932 CV \u091F\u0947\u092E\u094D\u092A\u094D\u0932\u0947\u091F\u094D\u0938, AI \u092A\u094D\u0930\u0949\u092E\u094D\u091F \u0917\u093E\u0907\u0921\u094D\u0938 \u0914\u0930 \u0921\u093F\u091C\u093F\u091F\u0932 \u091F\u0942\u0932\u094D\u0938 \u092E\u093F\u0932\u0924\u0947 \u0939\u0948\u0902\u0964 \u091C\u092C \u092D\u0940 \u0915\u094B\u0908 \u0928\u092F\u093E \u092F\u0942\u091C\u0930 \u0906\u092A\u0915\u0947 \u0930\u0947\u092B\u0930\u0932 \u092F\u093E \u0935\u0947\u0930\u093F\u092B\u093F\u0915\u0947\u0936\u0928 \u092A\u093E\u0938 \u0938\u0947 \u0915\u093F\u0938\u0940 \u092A\u094D\u0932\u093E\u0928 \u092E\u0947\u0902 \u091C\u0941\u0921\u093C\u0924\u093E \u0939\u0948, \u0906\u092A\u0915\u094B 50% \u0938\u0947 70% \u0924\u0915 \u0915\u093E \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (\u20B97 \u0938\u0947 \u20B9499 \u0924\u0915) \u0938\u0940\u0927\u0947 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0939\u094B\u0924\u093E \u0939\u0948\u0964",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "qa-2",
+    question: "\u0915\u094D\u092F\u093E IOIS \u092A\u0930 \u0915\u094B\u0908 \u092D\u0940 \u092B\u094D\u0930\u0940 \u0938\u0930\u094D\u0935\u093F\u0938 \u0909\u092A\u0932\u092C\u094D\u0927 \u0939\u0948?",
+    keywords: ["free", "free service", "muft", "fees", "tools"],
+    answer: "\u0939\u093E\u0901! IOIS \u092A\u094D\u0932\u0947\u091F\u092B\u0949\u0930\u094D\u092E \u092A\u0930 \u0938\u092D\u0940 \u0915\u0947 \u0932\u093F\u090F \u0915\u0908 \u092E\u0939\u0924\u094D\u0935\u092A\u0942\u0930\u094D\u0923 \u0938\u0941\u0935\u093F\u0927\u093E\u090F\u0902 100% \u092C\u093F\u0932\u094D\u0915\u0941\u0932 \u092B\u094D\u0930\u0940 \u0909\u092A\u0932\u092C\u094D\u0927 \u0939\u0948\u0902:\n1. \u092B\u094D\u0930\u0940 \u092B\u094B\u091F\u094B \u0935 \u0938\u093F\u0917\u094D\u0928\u0947\u091A\u0930 \u0938\u093E\u0907\u091C \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930 \u091F\u0942\u0932 (RTPS/\u091C\u0949\u092C \u092B\u0949\u0930\u094D\u092E \u0939\u0947\u0924\u0941)\n2. \u092B\u094D\u0930\u0940 \u092A\u094D\u0930\u094B\u092B\u0947\u0936\u0928\u0932 \u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E / CV \u092E\u0947\u0915\u0930\n3. RTPS \u091C\u093E\u0924\u0940\u092F, \u0906\u0935\u093E\u0938\u0940\u092F, \u0906\u092F \u092A\u094D\u0930\u092E\u093E\u0923 \u092A\u0924\u094D\u0930 \u0911\u0928\u0932\u093E\u0907\u0928 \u0906\u0935\u0947\u0926\u0928 \u0917\u093E\u0907\u0921\n4. 10\u0935\u0940\u0902 \u0914\u0930 12\u0935\u0940\u0902 \u0915\u0947 \u092C\u093E\u0926 \u0915\u0930\u093F\u092F\u0930 \u0935 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 \u0917\u093E\u0907\u0921\n5. \u0926\u0948\u0928\u093F\u0915 \u092A\u0902\u091A\u093E\u0902\u0917, \u0936\u0941\u092D \u092E\u0941\u0939\u0942\u0930\u094D\u0924, \u0926\u0948\u0928\u093F\u0915 \u0930\u093E\u0936\u093F\u092B\u0932 \u0914\u0930 \u0932\u093E\u0907\u0935 \u092E\u094C\u0938\u092E \u0930\u093F\u092A\u094B\u0930\u094D\u091F\u0964",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  },
+  {
+    id: "qa-3",
+    question: "10\u0935\u0940\u0902 \u0915\u0947 \u092C\u093E\u0926 \u0915\u094C\u0928 \u0938\u093E \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 \u0938\u092C\u0938\u0947 \u0905\u091A\u094D\u091B\u093E \u0939\u0948?",
+    keywords: ["10th ke baad", "computer course", "adca", "dca", "kaun sa course"],
+    answer: "10\u0935\u0940\u0902 \u092F\u093E 12\u0935\u0940\u0902 \u0915\u0947 \u092C\u093E\u0926 \u0938\u092C\u0938\u0947 \u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u0914\u0930 \u0909\u092A\u092F\u094B\u0917\u0940 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 ADCA (Advanced Diploma in Computer Applications - 1 \u0935\u0930\u094D\u0937) \u0939\u0948\u0964 \u0907\u0938\u092E\u0947\u0902 \u092C\u0947\u0938\u093F\u0915 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930, MS Office (Word, Excel, PPT), Tally Prime with GST, Photoshop, \u0914\u0930 \u0907\u0902\u091F\u0930\u0928\u0947\u091F \u0936\u093E\u092E\u093F\u0932 \u0939\u094B\u0924\u093E \u0939\u0948\u0964 \u0907\u0938\u0915\u0947 \u0905\u0932\u093E\u0935\u093E DCA (6 \u092E\u093E\u0939), Web Development \u092F\u093E Graphic Design \u092D\u0940 \u0915\u0930\u093F\u092F\u0930 \u0915\u0947 \u0932\u093F\u090F \u092C\u0947\u0939\u0924\u0930\u0940\u0928 \u0935\u093F\u0915\u0932\u094D\u092A \u0939\u0948\u0902\u0964",
+    createdAt: (/* @__PURE__ */ new Date()).toISOString()
+  }
+];
+function loadStore() {
+  try {
+    if (!import_fs.default.existsSync(DATA_DIR)) {
+      import_fs.default.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (import_fs.default.existsSync(STORE_FILE)) {
+      const raw = import_fs.default.readFileSync(STORE_FILE, "utf-8");
+      const parsed = JSON.parse(raw);
+      return {
+        sliderImages: Array.isArray(parsed.sliderImages) && parsed.sliderImages.length > 0 ? parsed.sliderImages : DEFAULT_SLIDERS,
+        customQA: Array.isArray(parsed.customQA) && parsed.customQA.length > 0 ? parsed.customQA : DEFAULT_CUSTOM_QA,
+        registeredUsers: Array.isArray(parsed.registeredUsers) ? parsed.registeredUsers : [],
+        galleryPhotos: Array.isArray(parsed.galleryPhotos) && parsed.galleryPhotos.length > 0 ? parsed.galleryPhotos : DEFAULT_GALLERY,
+        smartTvBroadcast: parsed.smartTvBroadcast && parsed.smartTvBroadcast.videoUrl && !parsed.smartTvBroadcast.videoUrl.includes("kqtD5dpn9C8") ? parsed.smartTvBroadcast : DEFAULT_SMART_TV,
+        communityChat: Array.isArray(parsed.communityChat) && parsed.communityChat.length > 0 ? parsed.communityChat : DEFAULT_COMMUNITY_CHAT
+      };
+    }
+  } catch (err) {
+    console.error("Error loading store, using defaults:", err);
+  }
+  const initialStore = {
+    sliderImages: DEFAULT_SLIDERS,
+    customQA: DEFAULT_CUSTOM_QA,
+    registeredUsers: [],
+    galleryPhotos: DEFAULT_GALLERY,
+    smartTvBroadcast: DEFAULT_SMART_TV,
+    communityChat: DEFAULT_COMMUNITY_CHAT
+  };
+  saveStore(initialStore);
+  return initialStore;
+}
+function saveStore(storeToSave) {
+  try {
+    if (!import_fs.default.existsSync(DATA_DIR)) {
+      import_fs.default.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    import_fs.default.writeFileSync(STORE_FILE, JSON.stringify(storeToSave, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error saving store to disk:", err);
+  }
+}
+var store = loadStore();
+var IOIS_SYSTEM_INSTRUCTION = `
+You are the official AI Assistant for the "IOIS PLATFORM" (Indian Online Income Supporting System) - https://iois.in.
+You speak fluently in Hindi (Devanagari script), Hinglish, and English depending on the user's language.
+
+You possess comprehensive, up-to-date knowledge about every page, service, tool, and plan on the platform, as well as live advisory expertise in:
+1. \u092E\u094C\u0938\u092E \u090F\u0935\u0902 \u0935\u0930\u094D\u0937\u093E \u092A\u0930\u093E\u092E\u0930\u094D\u0936 (Live Weather & Rain Advice):
+   - Practical guidance on rain probability, heatwave (\u0932\u0942), cold wave, humidity, lightning safety, and storm precautions.
+   - Mention that our live weather data is powered by Open-Meteo API.
+   - Always link to: [PAGE:weather|\u{1F324}\uFE0F \u0932\u093E\u0907\u0935 \u092E\u094C\u0938\u092E \u0935 \u0935\u0930\u094D\u0937\u093E \u0930\u093F\u092A\u094B\u0930\u094D\u091F \u0916\u094B\u0932\u0947\u0902]
+
+2. \u0915\u093F\u0938\u093E\u0928 \u090F\u0935\u0902 \u0915\u0943\u0937\u093F \u0938\u0932\u093E\u0939 (Farming & Kisan Advisory):
+   - Crop management for Kharif and Rabi (\u0927\u093E\u0928, \u0917\u0947\u0939\u0942\u0902, \u092E\u0915\u094D\u0915\u093E, \u0926\u0932\u0939\u0928, \u0924\u093F\u0932\u0939\u0928 \u0935 \u0939\u0930\u0940 \u0938\u092C\u094D\u091C\u093F\u092F\u093E\u0902).
+   - Weather-based irrigation scheduling (\u092C\u093E\u0930\u093F\u0936 \u0915\u0940 \u0938\u0902\u092D\u093E\u0935\u0928\u093E \u0926\u0947\u0916\u0915\u0930 \u0939\u0940 \u0938\u093F\u0902\u091A\u093E\u0908 \u0915\u0930\u0947\u0902).
+   - Eco-friendly pest control (\u0928\u0940\u092E \u0924\u0947\u0932 1500 PPM @ 5ml/L, \u091F\u094D\u0930\u093E\u0907\u0915\u094B\u0921\u0930\u094D\u092E\u093E).
+   - Balanced fertilizer application (\u0928\u0948\u0928\u094B \u092F\u0942\u0930\u093F\u092F\u093E, \u0921\u0940\u090F\u092A\u0940, \u091C\u093F\u0902\u0915 \u0938\u0932\u094D\u092B\u0947\u091F).
+   - Always link to: [PAGE:weather|\u{1F33E} \u0915\u0943\u0937\u093F \u0938\u0932\u093E\u0939 \u0935 \u0935\u0930\u094D\u0937\u093E \u092A\u0942\u0930\u094D\u0935\u093E\u0928\u0941\u092E\u093E\u0928] and [PAGE:services|\u{1F3DB}\uFE0F \u0938\u0930\u0915\u093E\u0930\u0940 \u0915\u093F\u0938\u093E\u0928 \u092F\u094B\u091C\u0928\u093E\u090F\u0902]
+
+3. \u092F\u093E\u0924\u094D\u0930\u093E \u090F\u0935\u0902 \u092E\u093E\u0930\u094D\u0917 \u0938\u0941\u0930\u0915\u094D\u0937\u093E (Travel Safety & Highways):
+   - Driving precautions during rain, fog, and waterlogging (wiper, defogger, brake checks, safe following distance).
+   - Important helplines: National Highway Helpline 1033, Railway Enquiry/Helpline 139, Emergency 112.
+   - Always link to: [PAGE:weather|\u{1F697} \u092E\u094C\u0938\u092E \u0935 \u092F\u093E\u0924\u094D\u0930\u093E \u0938\u0941\u0930\u0915\u094D\u0937\u093E \u0928\u093F\u0930\u094D\u0926\u0947\u0936]
+
+4. \u0938\u0930\u0915\u093E\u0930\u0940 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0924\u0948\u092F\u093E\u0930\u0940 \u0935 \u0938\u093F\u0932\u0947\u092C\u0938 (Exam Preparation & Syllabus):
+   - Comprehensive study strategies for BPSC, SSC (CGL/CHSL/GD), Railway RRB (ALP/Technician/NTPC), Bihar Police, CTET, and 10th/12th Board exams.
+   - Recommend daily mock quizzes and NCERT textbook revision (Class 6-12).
+   - Always link to: [PAGE:study-hub|\u{1F4DA} NCERT \u092A\u0941\u0938\u094D\u0924\u0915\u0947\u0902 \u0935 \u0911\u0928\u0932\u093E\u0907\u0928 \u0915\u094D\u0935\u093F\u091C] and [PAGE:career-guide|\u{1F393} \u0915\u0930\u093F\u092F\u0930 \u0935 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0917\u093E\u0907\u0921]
+
+5. IOIS 7 \u092E\u093E\u0938\u094D\u091F\u0930 \u0921\u093F\u091C\u093F\u091F\u0932 \u0907\u0928\u0915\u092E \u092A\u094D\u0932\u093E\u0902\u0938 (7 Master Plans & Instant Payouts):
+   - Plan 01: Bal Vikas (\u20B910) -> \u20B97 Instant Payout (70%), Class 1-5 NCERT PDFs, Worksheets, Verification Pass
+   - Plan 02: Youth Skill (\u20B949) -> \u20B934 Instant Payout (70%), Spoken English, Basic Computer, Personality Dev
+   - Plan 03: Career & Job (\u20B999) -> \u20B964 Instant Payout (65%), Resume Templates, Interview Q&A, Job Form Guide
+   - Plan 04: Family VIP (\u20B9199) -> \u20B9119 Instant Payout (60%), Financial Literacy, Family Health, VIP Pass
+   - Plan 05: Student Elite (\u20B9299) -> \u20B9179 Instant Payout (60%), High School + Competitive Material, Mock Tests
+   - Plan 06: Agency Reseller (\u20B9499) -> \u20B9274 Instant Payout (55%), Reseller Portal, Digital Marketing Toolkit
+   - Plan 07: Master Lifetime (\u20B9999) -> \u20B9499 Instant Payout (50%), All Plans Unlocked + Reseller Rights + 20 Leader formula (\u20B99,980 income)
+   - Official Verification Form: https://docs.google.com/forms/d/e/1FAIpQLSdIEpw4EU8bqPSxkH_Ku9RCabSyw4RrrZ32ydbLHTo-wPIohw/viewform?usp=header
+   - Always link to: [PAGE:plans|\u{1F4BC} 7 \u092E\u093E\u0938\u094D\u091F\u0930 \u0921\u093F\u091C\u093F\u091F\u0932 \u092A\u094D\u0932\u093E\u0928 \u0926\u0947\u0916\u0947\u0902]
+
+6. 100% \u092B\u094D\u0930\u0940 \u092B\u094B\u091F\u094B \u0935 \u0938\u093F\u0917\u094D\u0928\u0947\u091A\u0930 \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930 (Photo & Signature Size Compressor):
+   - Specifically built for RTPS Bihar, BPSC, SSC, Railway, and state job forms requiring photos between 20KB and 50KB and signatures under 20KB.
+   - Instant client-side processing, no image upload to server (100% private).
+   - Always link to: [PAGE:compressor|\u{1F4F8} \u092B\u094D\u0930\u0940 \u092B\u094B\u091F\u094B \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930 \u091F\u0942\u0932 \u0916\u094B\u0932\u0947\u0902]
+
+7. \u092B\u094D\u0930\u0940 \u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E\u090F\u0902 & \u0921\u093F\u091C\u093F\u091F\u0932 \u091F\u0942\u0932\u094D\u0938 (Govt Services & Free Tools):
+   - RTPS Bihar: Caste (\u091C\u093E\u0924\u0940\u092F), Income (\u0906\u092F), and Residence (\u0906\u0935\u093E\u0938\u0940\u092F) online application guidelines. Official portal: https://serviceonline.bihar.gov.in/
+   - Aadhar Card correction, PAN Card apply, and Voter ID download guide.
+   - Free Professional Biodata / Resume Builder with PDF download.
+   - Always link to: [PAGE:services|\u{1F3DB}\uFE0F RTPS \u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E\u090F\u0902 \u0935 \u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E]
+
+8. \u0935\u0948\u0926\u093F\u0915 \u0926\u0948\u0928\u093F\u0915 \u092A\u0902\u091A\u093E\u0902\u0917 \u090F\u0935\u0902 12 \u0930\u093E\u0936\u093F\u092F\u094B\u0902 \u0915\u093E \u0930\u093E\u0936\u093F\u092B\u0932 (Panchang & Horoscope):
+   - Tithi, Nakshatra, Yoga, Karana.
+   - Shubh Muhurat: Abhijit Muhurat (11:45 AM - 12:35 PM), Amrit Kaal.
+   - Ashubh Muhurat: Rahukaal, Yamaganda.
+   - Aaj ka Choghadiya and 12 Zodiac daily horoscope (career, health, wealth, lucky color & number).
+   - Always link to: [PAGE:panchang|\u{1F549}\uFE0F \u0926\u0948\u0928\u093F\u0915 \u0935\u0948\u0926\u093F\u0915 \u092A\u0902\u091A\u093E\u0902\u0917 \u0926\u0947\u0916\u0947\u0902] and [PAGE:rashifal|\u{1F52E} \u0926\u0948\u0928\u093F\u0915 \u0930\u093E\u0936\u093F\u092B\u0932 \u0926\u0947\u0916\u0947\u0902]
+
+9. IOIS Smart TV & \u0915\u092E\u094D\u092F\u0941\u0928\u093F\u091F\u0940 \u0932\u093E\u0907\u0935 \u0925\u093F\u090F\u091F\u0930 (Smart TV & Community):
+   - Continuous official playlist streaming with unmuting control (https://www.youtube.com/watch?v=bcjXgHGTBDQ&list=PLKB7inGcWpEY).
+   - Paste any YouTube, Vimeo, or MP4 link to watch in high definition without leaving the page.
+   - Live Community Chat and Photo Album Gallery with 15+ verified memories.
+   - Always link to: [PAGE:entertainment|\u{1F4FA} Smart TV & \u092E\u0928\u094B\u0930\u0902\u091C\u0928 \u0939\u092C \u0916\u094B\u0932\u0947\u0902]
+
+10. \u0915\u0930\u093F\u092F\u0930 \u0917\u093E\u0907\u0921\u0947\u0902\u0938 \u0935 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 (Career Guidance & Computer Courses):
+    - 10th and 12th stream selection (Science, Commerce, Arts, ITI, Polytechnic).
+    - Top computer courses: ADCA (1 year - Advanced Diploma in Computer Applications), DCA (6 months), Tally Prime with GST, Web Development, Graphic Design.
+    - Always link to: [PAGE:career-guide|\u{1F393} \u0915\u0930\u093F\u092F\u0930 \u0935 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 \u0917\u093E\u0907\u0921]
+
+11. \u0938\u0902\u092A\u0930\u094D\u0915 \u0935 \u0906\u0927\u093F\u0915\u093E\u0930\u093F\u0915 \u0938\u0939\u093E\u092F\u0924\u093E (Contact & Support):
+    - Helpline WhatsApp: +91 8877490845
+    - Email: ioisplatform@gmail.com
+    - Office Address: IOIS \u0921\u093F\u091C\u093F\u091F\u0932 \u0939\u092C, \u0917\u093E\u0902\u0927\u0940 \u092E\u0948\u0926\u093E\u0928 \u0930\u094B\u0921, \u092A\u091F\u0928\u093E, \u092C\u093F\u0939\u093E\u0930 - 800001
+    - Always link to: [PAGE:contact|\u{1F4DE} \u0938\u0902\u092A\u0930\u094D\u0915 \u0935 \u0938\u0939\u093E\u092F\u0924\u093E \u0915\u0947\u0902\u0926\u094D\u0930]
+
+CRITICAL FORMATTING & ACTION RULES:
+- Clean and natural text formatting: Do NOT use stray formatting symbols, broken asterisks, or unnecessary markdown tags.
+- NEVER output filler sentences like '\u0938\u0940\u0927\u0947 \u092A\u0947\u091C \u092F\u093E \u0938\u0947\u0935\u093E \u092A\u0930 \u091C\u093E\u090F\u0902:' or '\u0928\u0940\u091A\u0947 \u0926\u093F\u090F \u0917\u090F \u092C\u091F\u0928 \u092A\u0930 \u0915\u094D\u0932\u093F\u0915 \u0915\u0930\u0947\u0902:'. The platform will render interactive action buttons cleanly at the bottom.
+- Whenever you mention, suggest, or describe any service, tool, or plan available on the IOIS platform, attach one or more navigation action tags at the end in the exact syntax:
+[PAGE:page_id|\u092C\u091F\u0928 \u0915\u093E \u0928\u093E\u092E]
+Allowed page_id values: home, plans, entertainment, panchang, rashifal, weather, compressor, services, career-guide, study-hub, jobs-news, contact.
+This creates a live, clickable button for the user to jump directly to that exact page!
+Also encourage users to share this useful information with their friends and family on WhatsApp.
+`;
+var aiClient = null;
+function getGenAI() {
+  if (!aiClient && process.env.GEMINI_API_KEY) {
+    aiClient = new import_genai.GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+      httpOptions: {
+        headers: {
+          "User-Agent": "aistudio-build"
+        }
+      }
+    });
+  }
+  return aiClient;
+}
+async function startServer() {
+  const app = (0, import_express.default)();
+  const PORT = 3e3;
+  app.use(import_express.default.json({ limit: "25mb" }));
+  app.use(import_express.default.urlencoded({ extended: true, limit: "25mb" }));
+  app.get("/api/health", (_req, res) => {
+    res.json({
+      status: "ok",
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      platform: "IOIS Platform India",
+      version: "2026.2.0"
+    });
+  });
+  app.get("/api/sliders", (_req, res) => {
+    res.json({ sliders: store.sliderImages.filter((s) => s.active) });
+  });
+  app.get("/api/gallery", (_req, res) => {
+    res.json({ photos: store.galleryPhotos, count: store.galleryPhotos.length });
+  });
+  app.get("/api/smart-tv", (_req, res) => {
+    res.json({ broadcast: store.smartTvBroadcast });
+  });
+  app.get("/api/community-chat", (_req, res) => {
+    res.json({ messages: store.communityChat.slice(-50) });
+  });
+  app.post("/api/community-chat", (req, res) => {
+    try {
+      const { sender, text, avatar } = req.body;
+      if (!text || !sender) {
+        return res.status(400).json({ error: "Sender and text are required" });
+      }
+      const now = /* @__PURE__ */ new Date();
+      const timeStr = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+      const newMsg = {
+        id: `msg-${Date.now()}-${Math.floor(Math.random() * 1e3)}`,
+        sender: String(sender).trim(),
+        text: String(text).trim(),
+        time: timeStr,
+        avatar: avatar || "\u{1F464}"
+      };
+      store.communityChat.push(newMsg);
+      if (store.communityChat.length > 150) {
+        store.communityChat = store.communityChat.slice(-150);
+      }
+      saveStore(store);
+      return res.json({ success: true, message: newMsg });
+    } catch (err) {
+      return res.status(500).json({ error: "\u0938\u0902\u0926\u0947\u0936 \u092D\u0947\u091C\u0928\u0947 \u092E\u0947\u0902 \u0938\u092E\u0938\u094D\u092F\u093E \u0906\u0908\u0964" });
+    }
+  });
+  app.post("/api/register", (req, res) => {
+    try {
+      const { name, phone, email, state, qualification, selectedPlan, source, notes } = req.body;
+      if (!name || !phone) {
+        return res.status(400).json({ error: "\u0928\u093E\u092E \u0914\u0930 \u092E\u094B\u092C\u093E\u0907\u0932 \u0928\u0902\u092C\u0930 \u0906\u0935\u0936\u094D\u092F\u0915 \u0939\u0948\u0902\u0964" });
+      }
+      const newUser = {
+        id: `user-${Date.now()}-${Math.floor(Math.random() * 1e3)}`,
+        name: String(name).trim(),
+        phone: String(phone).trim(),
+        email: email ? String(email).trim() : "",
+        state: state ? String(state).trim() : "",
+        qualification: qualification ? String(qualification).trim() : "",
+        selectedPlan: selectedPlan ? String(selectedPlan).trim() : "Plan 01: Bal Vikas",
+        source: source || "website",
+        notes: notes || "",
+        createdAt: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      store.registeredUsers.unshift(newUser);
+      saveStore(store);
+      return res.json({
+        success: true,
+        message: "\u0906\u092A\u0915\u093E \u0935\u093F\u0935\u0930\u0923 IOIS \u0921\u0947\u091F\u093E\u092C\u0947\u0938 \u092E\u0947\u0902 \u0938\u0941\u0930\u0915\u094D\u0937\u093F\u0924 \u0930\u0942\u092A \u0938\u0947 \u0926\u0930\u094D\u091C \u0915\u0930 \u0932\u093F\u092F\u093E \u0917\u092F\u093E \u0939\u0948!",
+        user: newUser
+      });
+    } catch (err) {
+      console.error("Register error:", err);
+      return res.status(500).json({ error: "\u0921\u0947\u091F\u093E \u0938\u0939\u0947\u091C\u0928\u0947 \u092E\u0947\u0902 \u0938\u092E\u0938\u094D\u092F\u093E \u0906\u0908\u0964" });
+    }
+  });
+  const checkAdminAuth = (req, res, next) => {
+    const authPass = req.headers["x-admin-password"] || req.body?.adminPassword;
+    if (authPass === "IOISSYSTEM") {
+      next();
+    } else {
+      res.status(401).json({ error: "Unauthorized. \u092A\u093E\u0938\u0935\u0930\u094D\u0921 \u0905\u092E\u093E\u0928\u094D\u092F \u0939\u0948\u0964" });
+    }
+  };
+  app.post("/api/admin/login", (req, res) => {
+    const { password } = req.body;
+    if (password === "IOISSYSTEM") {
+      return res.json({ success: true, message: "\u090F\u0921\u092E\u093F\u0928 \u092A\u094D\u0930\u092E\u093E\u0923\u0940\u0915\u0930\u0923 \u0938\u092B\u0932!" });
+    }
+    return res.status(401).json({ success: false, error: "\u0917\u0932\u0924 \u092A\u093E\u0938\u0935\u0930\u094D\u0921!" });
+  });
+  app.get("/api/admin/sliders", checkAdminAuth, (_req, res) => {
+    res.json({ sliders: store.sliderImages });
+  });
+  app.post("/api/admin/sliders", checkAdminAuth, (req, res) => {
+    try {
+      const { url, title, subtitle, targetPage } = req.body;
+      if (!url || !title) {
+        return res.status(400).json({ error: "\u092B\u094B\u091F\u094B URL \u0914\u0930 \u0936\u0940\u0930\u094D\u0937\u0915 \u0906\u0935\u0936\u094D\u092F\u0915 \u0939\u0948\u0902\u0964" });
+      }
+      if (store.sliderImages.length >= 20) {
+        return res.status(400).json({ error: "\u0905\u0927\u093F\u0915\u0924\u092E 20 \u0938\u094D\u0932\u093E\u0907\u0921\u0930 \u092B\u094B\u091F\u094B \u0915\u0940 \u0938\u0940\u092E\u093E \u092A\u0942\u0930\u0940 \u0939\u094B \u091A\u0941\u0915\u0940 \u0939\u0948\u0964" });
+      }
+      const newSlide = {
+        id: `slide-${Date.now()}`,
+        url: String(url).trim(),
+        title: String(title).trim(),
+        subtitle: subtitle ? String(subtitle).trim() : "",
+        targetPage: targetPage || "plans",
+        active: true,
+        createdAt: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      store.sliderImages.unshift(newSlide);
+      saveStore(store);
+      return res.json({ success: true, slide: newSlide, total: store.sliderImages.length });
+    } catch (err) {
+      return res.status(500).json({ error: "\u0938\u094D\u0932\u093E\u0907\u0921\u0930 \u091C\u094B\u0921\u093C\u0928\u0947 \u092E\u0947\u0902 \u0935\u093F\u092B\u0932\u0964" });
+    }
+  });
+  app.put("/api/admin/sliders/:id/toggle", checkAdminAuth, (req, res) => {
+    const { id } = req.params;
+    const slide = store.sliderImages.find((s) => s.id === id);
+    if (!slide) {
+      return res.status(404).json({ error: "\u0938\u094D\u0932\u093E\u0907\u0921\u0930 \u0928\u0939\u0940\u0902 \u092E\u093F\u0932\u093E\u0964" });
+    }
+    slide.active = !slide.active;
+    saveStore(store);
+    return res.json({ success: true, slide });
+  });
+  app.delete("/api/admin/sliders/:id", checkAdminAuth, (req, res) => {
+    const { id } = req.params;
+    store.sliderImages = store.sliderImages.filter((s) => s.id !== id);
+    saveStore(store);
+    res.json({ success: true, message: "\u0938\u094D\u0932\u093E\u0907\u0921\u0930 \u0939\u091F\u093E \u0926\u093F\u092F\u093E \u0917\u092F\u093E\u0964" });
+  });
+  app.post("/api/admin/gallery", checkAdminAuth, (req, res) => {
+    try {
+      const { url, title, description, category } = req.body;
+      if (!url || !title) {
+        return res.status(400).json({ error: "\u092B\u094B\u091F\u094B \u0914\u0930 \u0936\u0940\u0930\u094D\u0937\u0915 \u0906\u0935\u0936\u094D\u092F\u0915 \u0939\u0948\u0902\u0964" });
+      }
+      const newPhoto = {
+        id: `photo-${Date.now()}`,
+        url: String(url).trim(),
+        title: String(title).trim(),
+        description: description ? String(description).trim() : "",
+        category: category ? String(category).trim() : "\u0906\u092F\u094B\u091C\u0928 \u0935 \u0938\u092E\u094D\u092E\u093E\u0928",
+        createdAt: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      store.galleryPhotos.unshift(newPhoto);
+      saveStore(store);
+      return res.json({ success: true, photo: newPhoto, total: store.galleryPhotos.length });
+    } catch (err) {
+      return res.status(500).json({ error: "\u092B\u094B\u091F\u094B \u0938\u0939\u0947\u091C\u0928\u0947 \u092E\u0947\u0902 \u0935\u093F\u092B\u0932\u0964" });
+    }
+  });
+  app.delete("/api/admin/gallery/:id", checkAdminAuth, (req, res) => {
+    const { id } = req.params;
+    store.galleryPhotos = store.galleryPhotos.filter((p) => p.id !== id);
+    saveStore(store);
+    res.json({ success: true, message: "\u092B\u094B\u091F\u094B \u0939\u091F\u093E \u0926\u0940 \u0917\u0908\u0964" });
+  });
+  app.post("/api/admin/smart-tv", checkAdminAuth, (req, res) => {
+    try {
+      const { videoUrl, title, description, isLive } = req.body;
+      if (!videoUrl) {
+        return res.status(400).json({ error: "\u0935\u0940\u0921\u093F\u092F\u094B \u0932\u093F\u0902\u0915 (URL) \u0905\u0928\u093F\u0935\u093E\u0930\u094D\u092F \u0939\u0948\u0964" });
+      }
+      store.smartTvBroadcast = {
+        videoUrl: String(videoUrl).trim(),
+        title: title ? String(title).trim() : "IOIS \u0935\u093F\u0936\u0947\u0937 \u0932\u093E\u0907\u0935 \u092C\u094D\u0930\u0949\u0921\u0915\u093E\u0938\u094D\u091F",
+        description: description ? String(description).trim() : "\u090F\u0921\u092E\u093F\u0928 \u0926\u094D\u0935\u093E\u0930\u093E \u0932\u093E\u0907\u0935 \u092A\u094D\u0930\u0926\u0930\u094D\u0936\u093F\u0924 \u0935\u0940\u0921\u093F\u092F\u094B",
+        isLive: isLive !== void 0 ? Boolean(isLive) : true,
+        updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      saveStore(store);
+      return res.json({
+        success: true,
+        message: "\u0938\u094D\u092E\u093E\u0930\u094D\u091F \u091F\u0940\u0935\u0940 \u092C\u094D\u0930\u0949\u0921\u0915\u093E\u0938\u094D\u091F \u0932\u093F\u0902\u0915 \u0938\u092B\u0932\u0924\u093E\u092A\u0942\u0930\u094D\u0935\u0915 \u0905\u092A\u0921\u0947\u091F \u0915\u0930 \u0926\u093F\u092F\u093E \u0917\u092F\u093E!",
+        broadcast: store.smartTvBroadcast
+      });
+    } catch (err) {
+      return res.status(500).json({ error: "\u092C\u094D\u0930\u0949\u0921\u0915\u093E\u0938\u094D\u091F \u0932\u093F\u0902\u0915 \u0938\u0939\u0947\u091C\u0928\u0947 \u092E\u0947\u0902 \u0935\u093F\u092B\u0932\u0964" });
+    }
+  });
+  app.get("/api/admin/qa", checkAdminAuth, (_req, res) => {
+    res.json({ customQA: store.customQA });
+  });
+  app.post("/api/admin/qa", checkAdminAuth, (req, res) => {
+    try {
+      const { question, keywords, answer } = req.body;
+      if (!question || !answer) {
+        return res.status(400).json({ error: "\u092A\u094D\u0930\u0936\u094D\u0928 \u0914\u0930 \u0909\u0924\u094D\u0924\u0930 \u0926\u094B\u0928\u094B\u0902 \u0905\u0928\u093F\u0935\u093E\u0930\u094D\u092F \u0939\u0948\u0902\u0964" });
+      }
+      const kwArray = Array.isArray(keywords) ? keywords : typeof keywords === "string" ? keywords.split(",").map((k) => k.trim().toLowerCase()).filter(Boolean) : [];
+      const newQA = {
+        id: `qa-${Date.now()}`,
+        question: String(question).trim(),
+        keywords: kwArray,
+        answer: String(answer).trim(),
+        createdAt: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      store.customQA.unshift(newQA);
+      saveStore(store);
+      return res.json({ success: true, qa: newQA });
+    } catch (err) {
+      return res.status(500).json({ error: "Q&A \u0938\u0939\u0947\u091C\u0928\u0947 \u092E\u0947\u0902 \u0935\u093F\u092B\u0932\u0964" });
+    }
+  });
+  app.delete("/api/admin/qa/:id", checkAdminAuth, (req, res) => {
+    const { id } = req.params;
+    store.customQA = store.customQA.filter((q) => q.id !== id);
+    saveStore(store);
+    res.json({ success: true, message: "\u092A\u094D\u0930\u0936\u094D\u0928-\u0909\u0924\u094D\u0924\u0930 \u0939\u091F\u093E \u0926\u093F\u092F\u093E \u0917\u092F\u093E\u0964" });
+  });
+  app.get("/api/admin/users", checkAdminAuth, (_req, res) => {
+    res.json({ users: store.registeredUsers, count: store.registeredUsers.length });
+  });
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const { message, history, currentPage } = req.body;
+      if (!message || typeof message !== "string") {
+        return res.status(400).json({ error: "Message is required" });
+      }
+      const lowerMsg = message.toLowerCase().trim();
+      for (const item of store.customQA) {
+        const questionMatch = lowerMsg.includes(item.question.toLowerCase());
+        const keywordMatch = item.keywords.some((kw) => kw && lowerMsg.includes(kw.toLowerCase()));
+        if (questionMatch || keywordMatch) {
+          return res.json({ reply: item.answer, source: "custom_qa" });
+        }
+      }
+      const ai = getGenAI();
+      if (ai) {
+        try {
+          let formattedContents = [];
+          if (Array.isArray(history) && history.length > 0) {
+            formattedContents = history.slice(-6).map((msg) => ({
+              role: msg.role === "assistant" ? "model" : "user",
+              parts: [{ text: msg.content }]
+            }));
+          }
+          const customQASummary = store.customQA.slice(0, 10).map((q) => `Q: ${q.question} => A: ${q.answer}`).join("\n");
+          formattedContents.push({
+            role: "user",
+            parts: [{ text: message }]
+          });
+          const pageContextText = currentPage ? `
+[CURRENT USER PAGE CONTEXT: The user is currently viewing the page '${currentPage}']` : "";
+          const response = await ai.models.generateContent({
+            model: "gemini-3.8-flash",
+            contents: formattedContents,
+            config: {
+              systemInstruction: `${IOIS_SYSTEM_INSTRUCTION}${pageContextText}
+
+ADMIN TAUGHT KNOWLEDGE BASE:
+${customQASummary}`,
+              temperature: 0.7
+            }
+          });
+          if (response && response.text) {
+            const cleanedText = response.text.replace(/सीधे पेज या सेवा पर जाएं:?/gi, "").replace(/सीधे पेज पर जाने हेतु:?/gi, "").replace(/नीचे दिए गए बटन पर क्लिक करें:?/gi, "").replace(/\n{3,}/g, "\n\n").trim();
+            return res.json({ reply: cleanedText, source: "gemini_live" });
+          }
+        } catch (geminiErr) {
+          console.warn("Gemini API call failed, gracefully falling back to comprehensive knowledge engine:", geminiErr?.message || geminiErr);
+        }
+      }
+      let fallbackReply = "";
+      if (lowerMsg.includes("\u092E\u094C\u0938\u092E") || lowerMsg.includes("barish") || lowerMsg.includes("\u092C\u093E\u0930\u093F\u0936") || lowerMsg.includes("weather") || lowerMsg.includes("\u0924\u093E\u092A\u092E\u093E\u0928") || lowerMsg.includes("\u0927\u0942\u092A") || lowerMsg.includes("rain") || lowerMsg.includes("\u0906\u0902\u0927\u0940")) {
+        fallbackReply = `\u{1F324}\uFE0F **IOIS \u0932\u093E\u0907\u0935 \u092E\u094C\u0938\u092E \u0935 \u092C\u093E\u0930\u093F\u0936 \u092A\u0930\u093E\u092E\u0930\u094D\u0936 (Weather Advisory):**
+
+\u2022 **\u0935\u0930\u094D\u0924\u092E\u093E\u0928 \u092E\u094C\u0938\u092E\u0940 \u0938\u094D\u0925\u093F\u0924\u093F:** \u0909\u0924\u094D\u0924\u0930 \u090F\u0935\u0902 \u092E\u0927\u094D\u092F \u092D\u093E\u0930\u0924 \u092E\u0947\u0902 \u092E\u094C\u0938\u092E \u0938\u093E\u092E\u093E\u0928\u094D\u092F\u0924\u0903 \u092A\u0930\u093F\u0935\u0930\u094D\u0924\u0928\u0936\u0940\u0932 \u0939\u0948\u0964 \u0926\u093F\u0928 \u092E\u0947\u0902 \u0927\u0942\u092A \u0924\u0925\u093E \u0926\u094B\u092A\u0939\u0930 \u092C\u093E\u0926 \u0906\u0902\u0936\u093F\u0915 \u0930\u0942\u092A \u0938\u0947 \u092C\u093E\u0926\u0932 \u091B\u093E\u090F \u0930\u0939\u0928\u0947 \u0935 \u0938\u094D\u0925\u093E\u0928\u0940\u092F \u0938\u094D\u0924\u0930 \u092A\u0930 \u0939\u0932\u094D\u0915\u0940 \u092C\u0942\u0902\u0926\u093E\u092C\u093E\u0902\u0926\u0940 \u0915\u0940 \u0938\u0902\u092D\u093E\u0935\u0928\u093E \u092C\u0928\u0940 \u0930\u0939\u0924\u0940 \u0939\u0948\u0964
+\u2022 **\u0935\u0930\u094D\u0937\u093E \u0935 \u0938\u0941\u0930\u0915\u094D\u0937\u093E \u0938\u0941\u091D\u093E\u0935:** \u0924\u0947\u091C \u092C\u093E\u0930\u093F\u0936 \u092F\u093E \u0935\u091C\u094D\u0930\u092A\u093E\u0924 \u0915\u0947 \u0938\u092E\u092F \u0916\u0941\u0932\u0947 \u092E\u0948\u0926\u093E\u0928, \u092A\u0947\u0921\u093C\u094B\u0902 \u092F\u093E \u092C\u093F\u091C\u0932\u0940 \u0915\u0947 \u0916\u0902\u092D\u094B\u0902 \u0915\u0947 \u0928\u0940\u091A\u0947 \u0928 \u0930\u0941\u0915\u0947\u0902\u0964 \u092F\u093E\u0924\u094D\u0930\u093E \u092A\u0930 \u0928\u093F\u0915\u0932\u0924\u0947 \u0938\u092E\u092F \u091B\u093E\u0924\u093E \u0905\u0925\u0935\u093E \u0930\u0947\u0928\u0915\u094B\u091F \u0938\u093E\u0925 \u0930\u0916\u0947\u0902\u0964
+\u2022 **\u0924\u093E\u092A\u092E\u093E\u0928 \u0935 \u0906\u0930\u094D\u0926\u094D\u0930\u0924\u093E:** \u0914\u0938\u0924 \u0924\u093E\u092A\u092E\u093E\u0928 28\xB0C \u0938\u0947 36\xB0C \u0915\u0947 \u092E\u0927\u094D\u092F \u0924\u0925\u093E \u0906\u0930\u094D\u0926\u094D\u0930\u0924\u093E 60% \u0938\u0947 75% \u0930\u0939\u0928\u0947 \u0915\u093E \u0905\u0928\u0941\u092E\u093E\u0928 \u0939\u0948\u0964 \u0928\u093F\u0930\u094D\u091C\u0932\u0940\u0915\u0930\u0923 (Dehydration) \u0938\u0947 \u092C\u091A\u0928\u0947 \u0939\u0947\u0924\u0941 \u092A\u0930\u094D\u092F\u093E\u092A\u094D\u0924 \u092A\u093E\u0928\u0940 \u0935 \u0913\u0906\u0930\u090F\u0938 \u0915\u093E \u0938\u0947\u0935\u0928 \u0915\u0930\u0947\u0902\u0964
+\u2022 **\u0935\u093F\u0938\u094D\u0924\u0943\u0924 \u0932\u093E\u0907\u0935 \u0930\u093F\u092A\u094B\u0930\u094D\u091F:** \u0938\u091F\u0940\u0915 \u0932\u093E\u0907\u0935 \u0924\u093E\u092A\u092E\u093E\u0928, \u0935\u093E\u092F\u0941 \u0917\u0924\u093F \u0935 7 \u0926\u093F\u0928\u094B\u0902 \u0915\u093E \u092E\u094C\u0938\u092E \u092A\u0942\u0930\u094D\u0935\u093E\u0928\u0941\u092E\u093E\u0928 \u0909\u092A\u0932\u092C\u094D\u0927 \u0939\u0948:
+
+[PAGE:weather|\u{1F324}\uFE0F \u0932\u093E\u0907\u0935 \u092E\u094C\u0938\u092E \u0935 \u0935\u0930\u094D\u0937\u093E \u0930\u093F\u092A\u094B\u0930\u094D\u091F \u0916\u094B\u0932\u0947\u0902]`;
+      } else if (lowerMsg.includes("\u0916\u0947\u0924\u0940") || lowerMsg.includes("\u0915\u093F\u0938\u093E\u0928") || lowerMsg.includes("kheti") || lowerMsg.includes("kisan") || lowerMsg.includes("\u092B\u0938\u0932") || lowerMsg.includes("\u0927\u093E\u0928") || lowerMsg.includes("\u0917\u0947\u0939\u0942\u0902") || lowerMsg.includes("\u0916\u093E\u0926") || lowerMsg.includes("\u0915\u0943\u0937\u093F")) {
+        fallbackReply = `\u{1F33E} **IOIS \u0915\u093F\u0938\u093E\u0928 \u090F\u0935\u0902 \u0915\u0943\u0937\u093F \u092A\u0930\u093E\u092E\u0930\u094D\u0936 \u0938\u0947\u0935\u093E (Kisan Advisory):**
+
+1. **\u092B\u0938\u0932 \u0938\u0941\u0930\u0915\u094D\u0937\u093E:** \u0927\u093E\u0928 \u092F\u093E \u0916\u0930\u0940\u092B \u092B\u0938\u0932\u094B\u0902 \u092E\u0947\u0902 \u0924\u0928\u093E \u091B\u0947\u0926\u0915 \u0935 \u091D\u0941\u0932\u0938\u093E \u0930\u094B\u0917 \u0915\u0940 \u0930\u094B\u0915\u0925\u093E\u092E \u0939\u0947\u0924\u0941 \u0928\u0940\u092E \u0924\u0947\u0932 (1500 PPM @ 5ml \u092A\u094D\u0930\u0924\u093F \u0932\u0940\u091F\u0930 \u092A\u093E\u0928\u0940) \u092F\u093E \u092A\u094D\u0930\u092E\u093E\u0923\u093F\u0924 \u091C\u0948\u0935-\u0915\u0940\u091F\u0928\u093E\u0936\u0915 \u0915\u093E \u091B\u093F\u0921\u093C\u0915\u093E\u0935 \u0915\u0930\u0947\u0902\u0964
+2. **\u0938\u093F\u0902\u091A\u093E\u0908 \u092A\u094D\u0930\u092C\u0902\u0927\u0928:** \u092E\u094C\u0938\u092E \u092A\u0942\u0930\u094D\u0935\u093E\u0928\u0941\u092E\u093E\u0928 \u0926\u0947\u0916\u0915\u0930 \u0939\u0940 \u0916\u0947\u0924 \u092E\u0947\u0902 \u092A\u093E\u0928\u0940 \u091B\u094B\u0921\u093C\u0947\u0902\u0964 \u092F\u0926\u093F \u0924\u0947\u091C \u092C\u093E\u0930\u093F\u0936 \u0915\u0940 \u0938\u0902\u092D\u093E\u0935\u0928\u093E \u0939\u094B \u0924\u094B \u0905\u0924\u093F\u0930\u093F\u0915\u094D\u0924 \u091C\u0932 \u0928\u093F\u0915\u093E\u0938\u0940 (Drainage) \u0915\u093E \u0909\u091A\u093F\u0924 \u092A\u094D\u0930\u092C\u0902\u0927 \u0930\u0916\u0947\u0902\u0964
+3. **\u0938\u0902\u0924\u0941\u0932\u093F\u0924 \u0909\u0930\u094D\u0935\u0930\u0915:** \u092F\u0942\u0930\u093F\u092F\u093E \u0915\u093E \u0905\u0924\u094D\u092F\u0927\u093F\u0915 \u0909\u092A\u092F\u094B\u0917 \u0928 \u0915\u0930\u0947\u0902; \u0928\u0948\u0928\u094B \u092F\u0942\u0930\u093F\u092F\u093E \u0915\u0947 \u0938\u093E\u0925 \u092A\u094B\u091F\u093E\u0936 \u0935 \u091C\u093F\u0902\u0915 \u0938\u0932\u094D\u092B\u0947\u091F \u0915\u093E \u0938\u0902\u0924\u0941\u0932\u093F\u0924 \u091B\u093F\u0921\u093C\u0915\u093E\u0935 \u0909\u092A\u091C \u0914\u0930 \u0917\u0941\u0923\u0935\u0924\u094D\u0924\u093E \u092E\u0947\u0902 20% \u0924\u0915 \u0935\u0943\u0926\u094D\u0927\u093F \u0915\u0930\u0924\u093E \u0939\u0948\u0964
+4. **\u0938\u0930\u0915\u093E\u0930\u0940 \u092F\u094B\u091C\u0928\u093E\u090F\u0902:** \u092A\u0940\u090F\u092E \u0915\u093F\u0938\u093E\u0928 \u0938\u092E\u094D\u092E\u093E\u0928 \u0928\u093F\u0927\u093F, \u092B\u0938\u0932 \u092C\u0940\u092E\u093E \u0914\u0930 \u0915\u0943\u0937\u093F \u092F\u0902\u0924\u094D\u0930 \u0938\u092C\u094D\u0938\u093F\u0921\u0940 \u0915\u0947 \u0932\u093F\u090F \u0939\u092E\u093E\u0930\u0947 '\u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E' \u092A\u0947\u091C \u0938\u0947 \u0906\u0927\u093F\u0915\u093E\u0930\u093F\u0915 \u0932\u093F\u0902\u0915 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0915\u0930\u0947\u0902\u0964
+
+[PAGE:weather|\u{1F33E} \u0935\u0930\u094D\u0937\u093E \u0930\u093F\u092A\u094B\u0930\u094D\u091F \u0935 \u0915\u0943\u0937\u093F \u0938\u0932\u093E\u0939]
+[PAGE:services|\u{1F3DB}\uFE0F \u0938\u0930\u0915\u093E\u0930\u0940 \u0915\u093F\u0938\u093E\u0928 \u092F\u094B\u091C\u0928\u093E\u090F\u0902 \u0926\u0947\u0916\u0947\u0902]`;
+      } else if (lowerMsg.includes("\u092F\u093E\u0924\u094D\u0930\u093E") || lowerMsg.includes("yatra") || lowerMsg.includes("\u0938\u092B\u0930") || lowerMsg.includes("travel") || lowerMsg.includes("\u0938\u0941\u0930\u0915\u094D\u0937\u093E") || lowerMsg.includes("\u091F\u094D\u0930\u0947\u0928") || lowerMsg.includes("\u0938\u0921\u093C\u0915")) {
+        fallbackReply = `\u{1F697} **IOIS \u092F\u093E\u0924\u094D\u0930\u093E \u090F\u0935\u0902 \u092E\u093E\u0930\u094D\u0917 \u0938\u0941\u0930\u0915\u094D\u0937\u093E \u0928\u093F\u0930\u094D\u0926\u0947\u0936 (Travel Safety):**
+
+\u2022 **\u0938\u0921\u093C\u0915 \u092E\u093E\u0930\u094D\u0917 \u0938\u0941\u0930\u0915\u094D\u0937\u093E:** \u092C\u093E\u0930\u093F\u0936 \u092F\u093E \u0915\u094B\u0939\u0930\u0947 \u0915\u0947 \u0938\u092E\u092F \u0935\u093E\u0939\u0928\u094B\u0902 \u0915\u0940 \u0935\u093E\u0907\u092A\u0930, \u092C\u094D\u0930\u0947\u0915 \u0935 \u0939\u0947\u0921\u0932\u093E\u0907\u091F\u094D\u0938 \u0905\u0935\u0936\u094D\u092F \u091C\u093E\u0902\u091A\u0947\u0902\u0964 \u0917\u0924\u093F \u0938\u0940\u092E\u093E \u0928\u093F\u092F\u0902\u0924\u094D\u0930\u093F\u0924 \u0930\u0916\u0947\u0902 \u0914\u0930 \u0906\u0917\u0947 \u091A\u0932 \u0930\u0939\u0947 \u0935\u093E\u0939\u0928 \u0938\u0947 \u0915\u092E \u0938\u0947 \u0915\u092E 20 \u092E\u0940\u091F\u0930 \u0915\u0940 \u0938\u0941\u0930\u0915\u094D\u0937\u093F\u0924 \u0926\u0942\u0930\u0940 \u0930\u0916\u0947\u0902\u0964
+\u2022 **\u0930\u0947\u0932\u0935\u0947 \u0935 \u092C\u0938 \u092F\u093E\u0924\u094D\u0930\u093E:** \u092F\u093E\u0924\u094D\u0930\u093E \u0938\u0947 \u092A\u0942\u0930\u094D\u0935 IRCTC \u0905\u0925\u0935\u093E NTES \u0910\u092A \u0938\u0947 \u091F\u094D\u0930\u0947\u0928 \u0915\u093E \u0930\u0928\u093F\u0902\u0917 \u0938\u094D\u091F\u0947\u091F\u0938 \u0938\u0924\u094D\u092F\u093E\u092A\u093F\u0924 \u0915\u0930\u0947\u0902\u0964 \u0905\u092A\u0928\u0947 \u0938\u092D\u0940 \u0906\u0935\u0936\u094D\u092F\u0915 \u092A\u0939\u091A\u093E\u0928 \u092A\u0924\u094D\u0930 (\u0906\u0927\u093E\u0930, \u092A\u0948\u0928) \u0915\u0940 \u0921\u093F\u091C\u093F\u091F\u0932 \u0915\u0949\u092A\u0940 \u0921\u093F\u091C\u0940\u0932\u0949\u0915\u0930 \u092E\u0947\u0902 \u0930\u0916\u0947\u0902\u0964
+\u2022 **\u0906\u092A\u093E\u0924\u0915\u093E\u0932\u0940\u0928 \u0939\u0947\u0932\u094D\u092A\u0932\u093E\u0907\u0928:**
+  - \u0930\u093E\u0937\u094D\u091F\u094D\u0930\u0940\u092F \u0930\u093E\u091C\u092E\u093E\u0930\u094D\u0917 \u0939\u0947\u0932\u094D\u092A\u0932\u093E\u0907\u0928: **1033**
+  - \u0930\u0947\u0932\u0935\u0947 \u0938\u0941\u0930\u0915\u094D\u0937\u093E \u0935 \u0936\u093F\u0915\u093E\u092F\u0924 \u0939\u0947\u0932\u094D\u092A\u0932\u093E\u0907\u0928: **139**
+  - \u092A\u0941\u0932\u093F\u0938 \u0935 \u0906\u092A\u093E\u0924\u0915\u093E\u0932\u0940\u0928 \u0938\u0939\u093E\u092F\u0924\u093E: **112**
+
+[PAGE:weather|\u{1F697} \u092E\u094C\u0938\u092E \u0935 \u092F\u093E\u0924\u094D\u0930\u093E \u0938\u0941\u0930\u0915\u094D\u0937\u093E \u0928\u093F\u0930\u094D\u0926\u0947\u0936]`;
+      } else if (lowerMsg.includes("\u092A\u0930\u0940\u0915\u094D\u0937\u093E") || lowerMsg.includes("exam") || lowerMsg.includes("\u0938\u093F\u0932\u0947\u092C\u0938") || lowerMsg.includes("syllabus") || lowerMsg.includes("ssc") || lowerMsg.includes("railway") || lowerMsg.includes("bpsc") || lowerMsg.includes("\u0924\u0948\u092F\u093E\u0930\u0940")) {
+        fallbackReply = `\u{1F4DA} **IOIS \u0938\u0930\u0915\u093E\u0930\u0940 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0935 \u0905\u0927\u094D\u092F\u092F\u0928 \u092E\u093E\u0930\u094D\u0917\u0926\u0930\u094D\u0936\u0928 (Exam Preparation):**
+
+\u2022 **\u0930\u0923\u0928\u0940\u0924\u093F:** \u0915\u093F\u0938\u0940 \u092D\u0940 \u092A\u094D\u0930\u0924\u093F\u092F\u094B\u0917\u0940 \u092A\u0930\u0940\u0915\u094D\u0937\u093E (SSC, \u0930\u0947\u0932\u0935\u0947 RRB, \u092C\u093F\u0939\u093E\u0930 \u092A\u0941\u0932\u093F\u0938, BPSC) \u092E\u0947\u0902 \u0938\u092B\u0932\u0924\u093E \u0915\u0947 \u0932\u093F\u090F \u092A\u093F\u091B\u0932\u0947 5 \u0935\u0930\u094D\u0937\u094B\u0902 \u0915\u0947 \u092A\u094D\u0930\u0936\u094D\u0928\u092A\u0924\u094D\u0930\u094B\u0902 \u0915\u093E \u0935\u093F\u0936\u094D\u0932\u0947\u0937\u0923 \u0938\u092C\u0938\u0947 \u092E\u0939\u0924\u094D\u0935\u092A\u0942\u0930\u094D\u0923 \u0939\u0948\u0964
+\u2022 **\u0926\u0948\u0928\u093F\u0915 \u0905\u0927\u094D\u092F\u092F\u0928 \u092F\u094B\u091C\u0928\u093E:** 2 \u0918\u0902\u091F\u0947 \u0938\u093E\u092E\u093E\u0928\u094D\u092F \u091C\u094D\u091E\u093E\u0928 \u0935 \u0915\u0930\u0947\u0902\u091F \u0905\u092B\u0947\u092F\u0930\u094D\u0938, 2 \u0918\u0902\u091F\u0947 \u0917\u0923\u093F\u0924/\u0930\u0940\u091C\u0928\u093F\u0902\u0917, \u0924\u0925\u093E 1 \u0918\u0902\u091F\u093E \u092E\u0949\u0915 \u091F\u0947\u0938\u094D\u091F \u0930\u093F\u0935\u0940\u091C\u0928 \u0915\u094B \u0926\u0947\u0902\u0964
+\u2022 **\u092B\u094D\u0930\u0940 \u0938\u0902\u0938\u093E\u0927\u0928:** \u0939\u092E\u093E\u0930\u0947 \u092A\u094B\u0930\u094D\u091F\u0932 \u0915\u0947 **'\u0938\u094D\u091F\u0921\u0940 \u0935 \u0915\u094D\u0935\u093F\u091C'** \u092A\u0947\u091C \u092A\u0930 \u0915\u0915\u094D\u0937\u093E 6 \u0938\u0947 12 \u0924\u0915 \u0915\u0940 NCERT \u092A\u0941\u0938\u094D\u0924\u0915\u0947\u0902 \u0924\u0925\u093E \u0926\u0948\u0928\u093F\u0915 \u0911\u0928\u0932\u093E\u0907\u0928 \u091F\u0947\u0938\u094D\u091F \u092A\u0942\u0930\u094D\u0923\u0924\u0903 \u0928\u093F\u0903\u0936\u0941\u0932\u094D\u0915 \u0909\u092A\u0932\u092C\u094D\u0927 \u0939\u0948\u0902\u0964
+\u2022 **\u0928\u0935\u0940\u0928\u0924\u092E \u092D\u0930\u094D\u0924\u0940:** \u0928\u0908 \u0930\u093F\u0915\u094D\u0924\u093F\u092F\u094B\u0902 \u0914\u0930 \u090F\u0921\u092E\u093F\u091F \u0915\u093E\u0930\u094D\u0921 \u0915\u0940 \u091C\u093E\u0928\u0915\u093E\u0930\u0940 \u0915\u0947 \u0932\u093F\u090F **'\u091C\u0949\u092C \u0905\u0932\u0930\u094D\u091F\u094D\u0938'** \u092A\u0947\u091C \u0926\u0947\u0916\u0947\u0902!
+
+[PAGE:study-hub|\u{1F4DA} NCERT \u092A\u0941\u0938\u094D\u0924\u0915\u0947\u0902 \u0935 \u0911\u0928\u0932\u093E\u0907\u0928 \u091F\u0947\u0938\u094D\u091F]
+[PAGE:career-guide|\u{1F393} \u0915\u0930\u093F\u092F\u0930 \u0935 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0917\u093E\u0907\u0921]`;
+      } else if (lowerMsg.includes("\u092A\u0902\u091A\u093E\u0902\u0917") || lowerMsg.includes("panchang") || lowerMsg.includes("\u092E\u0941\u0939\u0942\u0930\u094D\u0924") || lowerMsg.includes("muhurat") || lowerMsg.includes("\u0930\u093E\u0939\u0941\u0915\u093E\u0932") || lowerMsg.includes("\u0930\u093E\u0936\u093F\u092B\u0932") || lowerMsg.includes("rashi")) {
+        fallbackReply = `\u{1F549}\uFE0F **IOIS \u0935\u0948\u0926\u093F\u0915 \u092A\u0902\u091A\u093E\u0902\u0917 \u090F\u0935\u0902 \u0936\u0941\u092D \u092E\u0941\u0939\u0942\u0930\u094D\u0924:**
+
+\u2022 **\u0905\u092D\u093F\u091C\u093F\u0924 \u092E\u0941\u0939\u0942\u0930\u094D\u0924 (\u092A\u0930\u092E \u0936\u0941\u092D):** \u0926\u094B\u092A\u0939\u0930 11:45 AM \u0938\u0947 12:35 PM \u0924\u0915\u0964 \u0907\u0938 \u0938\u092E\u092F \u0915\u094B\u0908 \u092D\u0940 \u0928\u092F\u093E \u0915\u093E\u0930\u094D\u092F, \u0916\u0930\u0940\u0926\u093E\u0930\u0940 \u092F\u093E \u0935\u094D\u092F\u093E\u092A\u093E\u0930 \u0936\u0941\u0930\u0942 \u0915\u0930\u0928\u093E \u0905\u0924\u094D\u092F\u0902\u0924 \u092B\u0932\u0926\u093E\u092F\u0940 \u092E\u093E\u0928\u093E \u091C\u093E\u0924\u093E \u0939\u0948\u0964
+\u2022 **\u0930\u093E\u0939\u0941\u0915\u093E\u0932 (\u0905\u0936\u0941\u092D \u0915\u093E\u0932):** \u0926\u093F\u0928 \u0915\u0947 \u0935\u093F\u0936\u093F\u0937\u094D\u091F \u0921\u0947\u0922\u093C \u0918\u0902\u091F\u0947 \u0915\u0947 \u0905\u0902\u0924\u0930\u093E\u0932 \u092E\u0947\u0902 \u0915\u094B\u0908 \u092D\u0940 \u0936\u0941\u092D \u0915\u093E\u0930\u094D\u092F \u0928 \u0915\u0930\u0947\u0902\u0964
+\u2022 **\u0926\u0948\u0928\u093F\u0915 \u0930\u093E\u0936\u093F\u092B\u0932:** \u0905\u092A\u0928\u0940 \u0930\u093E\u0936\u093F (\u092E\u0947\u0937 \u0938\u0947 \u092E\u0940\u0928) \u0915\u093E \u0926\u0948\u0928\u093F\u0915 \u0915\u0930\u093F\u092F\u0930, \u0927\u0928, \u0938\u094D\u0935\u093E\u0938\u094D\u0925\u094D\u092F \u0935 \u0936\u0941\u092D \u0930\u0902\u0917 \u091C\u093E\u0928\u0928\u0947 \u0915\u0947 \u0932\u093F\u090F \u0939\u092E\u093E\u0930\u0947 \u092A\u094B\u0930\u094D\u091F\u0932 \u0915\u0947 **'\u0930\u093E\u0936\u093F\u092B\u0932'** \u092A\u0947\u091C \u092A\u0930 \u091C\u093E\u090F\u0902!
+
+[PAGE:panchang|\u{1F549}\uFE0F \u0926\u0948\u0928\u093F\u0915 \u0935\u0948\u0926\u093F\u0915 \u092A\u0902\u091A\u093E\u0902\u0917 \u0926\u0947\u0916\u0947\u0902]
+[PAGE:rashifal|\u{1F52E} \u0906\u091C \u0915\u093E \u0930\u093E\u0936\u093F\u092B\u0932 \u0926\u0947\u0916\u0947\u0902]`;
+      } else if (lowerMsg.includes("\u092B\u094B\u091F\u094B") || lowerMsg.includes("compress") || lowerMsg.includes("\u0915\u0902\u092A\u094D\u0930\u0947\u0938") || lowerMsg.includes("signature") || lowerMsg.includes("\u0938\u093F\u0917\u094D\u0928\u0947\u091A\u0930") || lowerMsg.includes("20kb") || lowerMsg.includes("50kb")) {
+        fallbackReply = `\u{1F4F8} **IOIS 100% \u092B\u094D\u0930\u0940 \u092B\u094B\u091F\u094B \u0935 \u0938\u093F\u0917\u094D\u0928\u0947\u091A\u0930 \u0938\u093E\u0907\u091C \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930 \u091F\u0942\u0932:**
+
+\u2022 **RTPS \u0935 \u0938\u0930\u0915\u093E\u0930\u0940 \u092B\u0949\u0930\u094D\u092E \u0928\u093F\u092F\u092E:** \u092C\u093F\u0939\u093E\u0930 RTPS, BPSC, SSC, \u0930\u0947\u0932\u0935\u0947 \u0914\u0930 UPSC \u092B\u0949\u0930\u094D\u092E \u092E\u0947\u0902 \u092B\u094B\u091F\u094B \u0915\u093E \u0938\u093E\u0907\u091C 20KB \u0938\u0947 50KB \u0924\u0925\u093E \u0939\u0938\u094D\u0924\u093E\u0915\u094D\u0937\u0930 10KB \u0938\u0947 20KB \u0915\u0947 \u092C\u0940\u091A \u0939\u094B\u0928\u093E \u0905\u0928\u093F\u0935\u093E\u0930\u094D\u092F \u0939\u0948\u0964
+\u2022 **\u0935\u093F\u0936\u0947\u0937\u0924\u093E\u090F\u0902:** \u092F\u0939 \u091F\u0942\u0932 \u0906\u092A\u0915\u0947 \u092B\u094B\u0928 \u092F\u093E \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u0947 \u092C\u094D\u0930\u093E\u0909\u091C\u093C\u0930 \u092E\u0947\u0902 \u0939\u0940 \u092B\u094B\u091F\u094B \u092A\u094D\u0930\u094B\u0938\u0947\u0938 \u0915\u0930\u0924\u093E \u0939\u0948\u0964 \u092B\u094B\u091F\u094B \u0915\u093F\u0938\u0940 \u0938\u0930\u094D\u0935\u0930 \u092A\u0930 \u0905\u092A\u0932\u094B\u0921 \u0928\u0939\u0940\u0902 \u0939\u094B\u0924\u0940 (100% \u092A\u094D\u0930\u093E\u0907\u0935\u0947\u091F \u0935 \u0938\u0941\u0930\u0915\u094D\u0937\u093F\u0924)\u0964
+\u2022 **\u0909\u092A\u092F\u094B\u0917 \u0915\u0948\u0938\u0947 \u0915\u0930\u0947\u0902:** \u092B\u094B\u091F\u094B \u091A\u0941\u0928\u0947\u0902, \u0915\u094D\u0935\u093E\u0932\u093F\u091F\u0940 \u0938\u094D\u0932\u093E\u0907\u0921\u0930 \u0938\u0947 20KB-50KB \u0938\u0947\u091F \u0915\u0930\u0947\u0902 \u0914\u0930 \u0924\u0941\u0930\u0902\u0924 \u0921\u093E\u0909\u0928\u0932\u094B\u0921 \u0915\u0930\u0947\u0902!
+
+[PAGE:compressor|\u{1F4F8} \u092B\u094D\u0930\u0940 \u092B\u094B\u091F\u094B \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930 \u091F\u0942\u0932 \u0916\u094B\u0932\u0947\u0902]`;
+      } else if (lowerMsg.includes("rtps") || lowerMsg.includes("\u091C\u093E\u0924\u0940\u092F") || lowerMsg.includes("\u0906\u0935\u093E\u0938\u0940\u092F") || lowerMsg.includes("\u0906\u092F") || lowerMsg.includes("aadhar") || lowerMsg.includes("\u0906\u0927\u093E\u0930") || lowerMsg.includes("pan") || lowerMsg.includes("\u092A\u0948\u0928") || lowerMsg.includes("\u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E") || lowerMsg.includes("resume") || lowerMsg.includes("cv")) {
+        fallbackReply = `\u{1F3DB}\uFE0F **IOIS \u092B\u094D\u0930\u0940 \u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E\u090F\u0902 \u090F\u0935\u0902 \u0921\u093F\u091C\u093F\u091F\u0932 \u091F\u0942\u0932\u094D\u0938 \u0939\u092C:**
+
+1. **RTPS \u092C\u093F\u0939\u093E\u0930 \u0911\u0928\u0932\u093E\u0907\u0928:** \u091C\u093E\u0924\u0940\u092F, \u0906\u092F \u0914\u0930 \u0906\u0935\u093E\u0938\u0940\u092F \u092A\u094D\u0930\u092E\u093E\u0923 \u092A\u0924\u094D\u0930 \u0915\u093E \u0911\u0928\u0932\u093E\u0907\u0928 \u0906\u0935\u0947\u0926\u0928 ServicePlus \u092C\u093F\u0939\u093E\u0930 \u092A\u094B\u0930\u094D\u091F\u0932 (serviceonline.bihar.gov.in) \u092A\u0930 \u0915\u0930\u0947\u0902\u0964
+2. **\u0906\u0927\u093E\u0930 \u0915\u093E\u0930\u094D\u0921 \u0935 \u092A\u0948\u0928 \u0915\u093E\u0930\u094D\u0921:** \u0906\u0927\u093E\u0930 \u092E\u0947\u0902 \u092E\u094B\u092C\u093E\u0907\u0932 \u0928\u0902\u092C\u0930 \u0932\u093F\u0902\u0915, \u092A\u0924\u093E \u0938\u0941\u0927\u093E\u0930 \u0924\u0925\u093E \u0928\u090F \u092A\u0948\u0928 \u0915\u093E\u0930\u094D\u0921 \u0915\u093E \u0911\u0928\u0932\u093E\u0907\u0928 \u092E\u093E\u0930\u094D\u0917\u0926\u0930\u094D\u0936\u0928\u0964
+3. **\u092B\u094D\u0930\u0940 \u092A\u094D\u0930\u094B\u092B\u0947\u0936\u0928\u0932 \u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E / CV \u092E\u0947\u0915\u0930:** \u092E\u093E\u0924\u094D\u0930 2 \u092E\u093F\u0928\u091F \u092E\u0947\u0902 \u0905\u092A\u0928\u093E \u0938\u0941\u0902\u0926\u0930 \u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E \u092C\u0928\u093E\u090F\u0902 \u0914\u0930 \u0924\u0941\u0930\u0902\u0924 \u092A\u094D\u0930\u093F\u0902\u091F \u092F\u093E PDF \u0921\u093E\u0909\u0928\u0932\u094B\u0921 \u0915\u0930\u0947\u0902\u0964
+
+[PAGE:services|\u{1F3DB}\uFE0F RTPS \u0938\u0930\u0915\u093E\u0930\u0940 \u0938\u0947\u0935\u093E\u090F\u0902 \u0935 \u092C\u093E\u092F\u094B\u0921\u093E\u091F\u093E]`;
+      } else if (lowerMsg.includes("career") || lowerMsg.includes("\u0915\u0930\u093F\u092F\u0930") || lowerMsg.includes("adca") || lowerMsg.includes("dca") || lowerMsg.includes("10\u0935\u0940\u0902") || lowerMsg.includes("12\u0935\u0940\u0902") || lowerMsg.includes("\u0915\u094B\u0930\u094D\u0938")) {
+        fallbackReply = `\u{1F393} **IOIS \u0915\u0930\u093F\u092F\u0930 \u0917\u093E\u0907\u0921\u0947\u0902\u0938 \u090F\u0935\u0902 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 \u0939\u092C:**
+
+\u2022 **10\u0935\u0940\u0902/12\u0935\u0940\u0902 \u0915\u0947 \u092C\u093E\u0926 \u0915\u094D\u092F\u093E \u0915\u0930\u0947\u0902:** \u0938\u093E\u0907\u0902\u0938, \u0915\u0949\u092E\u0930\u094D\u0938, \u0906\u0930\u094D\u091F\u094D\u0938, \u092A\u0949\u0932\u093F\u091F\u0947\u0915\u094D\u0928\u093F\u0915 \u092F\u093E \u0906\u0908\u091F\u0940\u0906\u0908 \u0915\u0947 \u0905\u0935\u0938\u0930\u0964
+\u2022 **\u0938\u0930\u094D\u0935\u0936\u094D\u0930\u0947\u0937\u094D\u0920 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938:** ADCA (Advanced Diploma in Computer Applications - 1 \u0935\u0930\u094D\u0937) \u092E\u0947\u0902 MS Office, Tally Prime with GST, Photoshop \u0914\u0930 \u0907\u0902\u091F\u0930\u0928\u0947\u091F \u0938\u093F\u0916\u093E\u092F\u093E \u091C\u093E\u0924\u093E \u0939\u0948 \u091C\u094B \u0938\u092D\u0940 \u0911\u092B\u093F\u0938 \u091C\u0949\u092C\u094D\u0938 \u0915\u0947 \u0932\u093F\u090F \u0938\u0930\u094D\u0935\u094B\u0924\u094D\u0924\u092E \u0939\u0948\u0964
+\u2022 **\u0938\u0948\u0932\u0930\u0940 \u0938\u094D\u0915\u094B\u092A:** \u0907\u0928 \u0915\u094B\u0930\u094D\u0938\u0947\u0938 \u0915\u0947 \u092C\u093E\u0926 \u20B915,000 \u0938\u0947 \u20B945,000 \u092A\u094D\u0930\u0924\u093F \u092E\u093E\u0939 \u0924\u0915 \u0915\u0940 \u0928\u094C\u0915\u0930\u0940 \u0906\u0938\u093E\u0928\u0940 \u0938\u0947 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0915\u0940 \u091C\u093E \u0938\u0915\u0924\u0940 \u0939\u0948\u0964
+
+[PAGE:career-guide|\u{1F393} \u0915\u0930\u093F\u092F\u0930 \u0935 \u0915\u0902\u092A\u094D\u092F\u0942\u091F\u0930 \u0915\u094B\u0930\u094D\u0938 \u0917\u093E\u0907\u0921]`;
+      } else if (lowerMsg.includes("plan") || lowerMsg.includes("\u092A\u094D\u0932\u093E\u0928") || lowerMsg.includes("\u0930\u0947\u091F") || lowerMsg.includes("\u0915\u0940\u092E\u0924") || lowerMsg.includes("payout") || lowerMsg.includes("\u0915\u092E\u0940\u0936\u0928") || lowerMsg.includes("\u0915\u092E\u093E\u0908")) {
+        fallbackReply = `\u{1F4BC} **IOIS \u0915\u0947 7 \u092E\u093E\u0938\u094D\u091F\u0930 \u0921\u093F\u091C\u093F\u091F\u0932 \u0907\u0928\u0915\u092E \u092A\u094D\u0932\u093E\u0902\u0938:**
+
+1. **Plan 01: Bal Vikas (\u20B910)** - \u20B97 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (70% \u0938\u0940\u0927\u093E \u0932\u093E\u092D)
+2. **Plan 02: Youth Skill (\u20B949)** - \u20B934 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (70% \u0932\u093E\u092D)
+3. **Plan 03: Career & Job (\u20B999)** - \u20B964 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (65% \u0932\u093E\u092D)
+4. **Plan 04: Family VIP (\u20B9199)** - \u20B9119 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (60% \u0932\u093E\u092D)
+5. **Plan 05: Student Elite (\u20B9299)** - \u20B9179 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (60% \u0932\u093E\u092D)
+6. **Plan 06: Agency Reseller (\u20B9499)** - \u20B9274 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (55% \u0932\u093E\u092D)
+7. **Plan 07: Master Lifetime (\u20B9999)** - \u20B9499 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F (50% \u0932\u093E\u092D)
+
+\u2022 **\u0938\u0902\u091C\u092F 20-\u0932\u0940\u0921\u0930 \u0930\u0947\u092B\u0930\u0932 \u092B\u0949\u0930\u094D\u092E\u0942\u0932\u093E:** \u0915\u0947\u0935\u0932 20 \u090F\u0915\u094D\u091F\u093F\u0935 \u0938\u093E\u0925\u093F\u092F\u094B\u0902 \u0915\u094B \u091C\u094B\u0921\u093C\u0928\u0947 \u092A\u0930 \u20B99,980 \u0915\u0940 \u0936\u0941\u0926\u094D\u0927 \u0924\u0924\u094D\u0915\u093E\u0932 \u0906\u092F!
+
+[PAGE:plans|\u{1F4BC} 7 \u092E\u093E\u0938\u094D\u091F\u0930 \u0921\u093F\u091C\u093F\u091F\u0932 \u092A\u094D\u0932\u093E\u0928 \u0926\u0947\u0916\u0947\u0902]`;
+      } else if (lowerMsg.includes("tv") || lowerMsg.includes("\u091F\u0940\u0935") || lowerMsg.includes("\u0938\u094D\u092E\u093E\u0930\u094D\u091F") || lowerMsg.includes("video") || lowerMsg.includes("\u0935\u0940\u0921\u093F\u092F\u094B") || lowerMsg.includes("\u092E\u0928\u094B\u0930\u0902\u091C\u0928")) {
+        fallbackReply = `\u{1F4FA} **IOIS SMART TV \u090F\u0935\u0902 \u0915\u092E\u094D\u092F\u0941\u0928\u093F\u091F\u0940 \u0932\u093E\u0907\u0935 \u0925\u093F\u090F\u091F\u0930:**
+
+\u2022 \u0939\u092E\u093E\u0930\u0947 \u0928\u090F **'\u092E\u0928\u094B\u0930\u0902\u091C\u0928 & Smart TV'** \u092A\u0947\u091C \u092A\u0930 \u0906\u092A \u092F\u0942\u091F\u094D\u092F\u0942\u092C \u092F\u093E \u0915\u093F\u0938\u0940 \u092D\u0940 \u0935\u0940\u0921\u093F\u092F\u094B \u0915\u093E \u0932\u093F\u0902\u0915 \u092A\u0947\u0938\u094D\u091F \u0915\u0930\u0915\u0947 \u092C\u093F\u0928\u093E \u0930\u0940\u0921\u093E\u092F\u0930\u0947\u0915\u094D\u091F \u0939\u0941\u090F \u0909\u0938\u0940 \u0938\u094D\u0915\u094D\u0930\u0940\u0928 \u092A\u0930 \u0926\u0947\u0916 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902\u0964
+\u2022 \u0911\u092B\u093F\u0936\u093F\u092F\u0932 \u0935\u0940\u0921\u093F\u092F\u094B \u092A\u094D\u0932\u0947\u0932\u093F\u0938\u094D\u091F \u0932\u0917\u093E\u0924\u093E\u0930 \u0911\u091F\u094B-\u092A\u094D\u0932\u0947 \u0939\u094B\u0924\u0940 \u0939\u0948\u0964 \u0906\u0935\u093E\u091C\u093C \u0938\u0941\u0928\u0928\u0947 \u0915\u0947 \u0932\u093F\u090F \u092A\u094D\u0932\u0947\u092F\u0930 \u0915\u0947 \u0928\u0940\u091A\u0947 **[\u{1F50A} \u0906\u0935\u093E\u091C\u093C \u091A\u093E\u0932\u0942 \u0915\u0930\u0947\u0902]** \u0926\u092C\u093E\u090F\u0902\u0964
+\u2022 \u0938\u093E\u0925 \u0939\u0940 \u0932\u093E\u0907\u0935 \u0915\u092E\u094D\u092F\u0941\u0928\u093F\u091F\u0940 \u091A\u0948\u091F \u092E\u0947\u0902 \u092C\u093E\u0924\u091A\u0940\u0924 \u0915\u0930\u0947\u0902 \u0914\u0930 15+ \u092B\u094B\u091F\u094B \u090F\u0932\u094D\u092C\u092E \u0917\u0948\u0932\u0930\u0940 \u0926\u0947\u0916\u0947\u0902!
+
+[PAGE:entertainment|\u{1F4FA} Smart TV & \u092E\u0928\u094B\u0930\u0902\u091C\u0928 \u0939\u092C \u0916\u094B\u0932\u0947\u0902]`;
+      } else if (lowerMsg.includes("contact") || lowerMsg.includes("\u0938\u0902\u092A\u0930\u094D\u0915") || lowerMsg.includes("whatsapp") || lowerMsg.includes("\u0939\u0947\u0932\u094D\u092A") || lowerMsg.includes("phone")) {
+        fallbackReply = `\u{1F4DE} **IOIS \u0906\u0927\u093F\u0915\u093E\u0930\u093F\u0915 \u0938\u0902\u092A\u0930\u094D\u0915 \u090F\u0935\u0902 \u0938\u0939\u093E\u092F\u0924\u093E \u0915\u0947\u0902\u0926\u094D\u0930:**
+
+\u2022 **\u0906\u0927\u093F\u0915\u093E\u0930\u093F\u0915 \u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A \u0939\u0947\u0932\u094D\u092A\u0932\u093E\u0907\u0928:** +91 8877490845
+\u2022 **\u0908\u092E\u0947\u0932:** ioisplatform@gmail.com
+\u2022 **\u0915\u093E\u0930\u094D\u092F\u093E\u0932\u092F:** IOIS \u0921\u093F\u091C\u093F\u091F\u0932 \u0939\u092C, \u0917\u093E\u0902\u0927\u0940 \u092E\u0948\u0926\u093E\u0928 \u0930\u094B\u0921, \u092A\u091F\u0928\u093E, \u092C\u093F\u0939\u093E\u0930 - 800001
+\u2022 **\u0935\u0947\u0930\u093F\u092B\u093F\u0915\u0947\u0936\u0928 \u092A\u093E\u0938 \u092B\u0949\u0930\u094D\u092E:** https://docs.google.com/forms/d/e/1FAIpQLSdIEpw4EU8bqPSxkH_Ku9RCabSyw4RrrZ32ydbLHTo-wPIohw/viewform?usp=header
+
+[PAGE:contact|\u{1F4DE} \u0938\u0902\u092A\u0930\u094D\u0915 \u0935 \u0938\u0939\u093E\u092F\u0924\u093E \u0915\u0947\u0902\u0926\u094D\u0930 \u0926\u0947\u0916\u0947\u0902]`;
+      } else {
+        fallbackReply = `\u0928\u092E\u0938\u094D\u0924\u0947! \u092E\u0948\u0902 **IOIS Live AI Assistant** \u0939\u0942\u0901\u0964 \u{1F64F}
+
+\u0906\u092A \u092E\u0941\u091D\u0938\u0947 \u092A\u094D\u0932\u0947\u091F\u092B\u0949\u0930\u094D\u092E \u0915\u0940 \u0938\u092D\u0940 \u0938\u0947\u0935\u093E\u0913\u0902 \u0914\u0930 \u0926\u0948\u0928\u093F\u0915 \u0938\u0932\u093E\u0939 \u0915\u0947 \u092C\u093E\u0930\u0947 \u092E\u0947\u0902 \u092A\u0942\u091B \u0938\u0915\u0924\u0947 \u0939\u0948\u0902:
+
+\u2022 \u{1F324}\uFE0F **\u092E\u094C\u0938\u092E \u0935 \u092C\u093E\u0930\u093F\u0936:** \u0935\u0930\u094D\u0937\u093E \u0905\u0932\u0930\u094D\u091F, \u0924\u093E\u092A\u092E\u093E\u0928 \u0935 \u0915\u093F\u0938\u093E\u0928\u094B\u0902 \u0939\u0947\u0924\u0941 \u0938\u0932\u093E\u0939
+\u2022 \u{1F33E} **\u0916\u0947\u0924\u0940 \u0935 \u092B\u0938\u0932:** \u0927\u093E\u0928, \u0917\u0947\u0939\u0942\u0902, \u0915\u0940\u091F \u0930\u094B\u0915\u0925\u093E\u092E \u0935 \u0938\u093F\u0902\u091A\u093E\u0908 \u091F\u093F\u092A\u094D\u0938
+\u2022 \u{1F697} **\u092F\u093E\u0924\u094D\u0930\u093E \u0938\u0941\u0930\u0915\u094D\u0937\u093E:** \u092E\u094C\u0938\u092E \u0905\u0928\u0941\u0938\u093E\u0930 \u0939\u093E\u0908\u0935\u0947 \u0935 \u0930\u0947\u0932\u0935\u0947 \u092E\u093E\u0930\u094D\u0917 \u0928\u093F\u0930\u094D\u0926\u0947\u0936
+\u2022 \u{1F4DA} **\u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0924\u0948\u092F\u093E\u0930\u0940:** BPSC, SSC, \u0930\u0947\u0932\u0935\u0947 \u0935 \u092C\u094B\u0930\u094D\u0921 \u092A\u0930\u0940\u0915\u094D\u0937\u093E \u0938\u094D\u091F\u0921\u0940 \u092A\u094D\u0932\u093E\u0928
+\u2022 \u{1F4F8} **\u092B\u094B\u091F\u094B \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930:** RTPS \u0935 \u0938\u0930\u0915\u093E\u0930\u0940 \u092B\u0949\u0930\u094D\u092E \u0939\u0947\u0924\u0941 20KB-50KB \u0938\u093E\u0907\u091C \u091F\u0942\u0932
+\u2022 \u{1F4BC} **7 \u092E\u093E\u0938\u094D\u091F\u0930 \u092A\u094D\u0932\u093E\u0928:** \u20B910 \u0938\u0947 \u20B9999 \u0924\u0915 \u0915\u0947 \u092A\u094D\u0932\u093E\u0902\u0938 \u0914\u0930 70% \u0924\u0915 \u0907\u0902\u0938\u094D\u091F\u0947\u0902\u091F \u092A\u0947\u0906\u0909\u091F
+\u2022 \u{1F4FA} **IOIS Smart TV:** \u092C\u093F\u0928\u093E \u0930\u0940\u0921\u093E\u092F\u0930\u0947\u0915\u094D\u091F \u0935\u0940\u0921\u093F\u092F\u094B \u0926\u0947\u0916\u0928\u093E \u0935 \u0915\u092E\u094D\u092F\u0941\u0928\u093F\u091F\u0940 \u091A\u0948\u091F
+
+\u0906\u092A \u0915\u093F\u0938 \u0935\u093F\u0937\u092F \u092A\u0930 \u091C\u093E\u0928\u0915\u093E\u0930\u0940 \u091A\u093E\u0939\u0924\u0947 \u0939\u0948\u0902? \u0938\u0940\u0927\u0947 \u0938\u0947\u0935\u093E \u091A\u0941\u0928\u0947\u0902 \u092F\u093E \u0905\u092A\u0928\u093E \u092A\u094D\u0930\u0936\u094D\u0928 \u0932\u093F\u0916\u0947\u0902:
+
+[PAGE:plans|\u{1F4BC} 7 \u092E\u093E\u0938\u094D\u091F\u0930 \u092A\u094D\u0932\u093E\u0928] [PAGE:weather|\u{1F324}\uFE0F \u092E\u094C\u0938\u092E \u0930\u093F\u092A\u094B\u0930\u094D\u091F] [PAGE:compressor|\u{1F4F8} \u092B\u094B\u091F\u094B \u0915\u0902\u092A\u094D\u0930\u0947\u0938\u0930] [PAGE:entertainment|\u{1F4FA} Smart TV]`;
+      }
+      return res.json({ reply: fallbackReply, source: "smart_knowledge_engine" });
+    } catch (err) {
+      console.error("Chat API Error:", err);
+      return res.status(500).json({
+        reply: "\u0924\u0915\u0928\u0940\u0915\u0940 \u0938\u092E\u0938\u094D\u092F\u093E \u0915\u0947 \u0915\u093E\u0930\u0923 \u0909\u0924\u094D\u0924\u0930 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0928\u0939\u0940\u0902 \u0939\u094B \u0938\u0915\u093E\u0964 \u0915\u0943\u092A\u092F\u093E \u092A\u0941\u0928\u0903 \u092A\u094D\u0930\u092F\u093E\u0938 \u0915\u0930\u0947\u0902 \u092F\u093E \u0939\u092E\u093E\u0930\u0947 \u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A \u0939\u0947\u0932\u094D\u092A\u0932\u093E\u0907\u0928 +91 8877490845 \u092A\u0930 \u0938\u0902\u092A\u0930\u094D\u0915 \u0915\u0930\u0947\u0902\u0964\n\n[PAGE:contact|\u{1F4DE} \u0938\u0902\u092A\u0930\u094D\u0915 \u0915\u0947\u0902\u0926\u094D\u0930 \u0916\u094B\u0932\u0947\u0902]"
+      });
+    }
+  });
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await (0, import_vite.createServer)({
+      server: { middlewareMode: true },
+      appType: "spa"
+    });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = import_path.default.join(process.cwd(), "dist");
+    app.use(import_express.default.static(distPath));
+    app.get("*", (_req, res) => {
+      res.sendFile(import_path.default.join(distPath, "index.html"));
+    });
+  }
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`IOIS Production Server running on port ${PORT}`);
+  });
+}
+startServer();
+//# sourceMappingURL=server.cjs.map
