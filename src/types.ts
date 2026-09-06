@@ -116,6 +116,9 @@ export interface RegisteredUserRecord {
   state?: string;
   qualification?: string;
   selectedPlan?: string;
+  sponsorId?: string;
+  payoutUpiId?: string;
+  utrNumber?: string;
   source?: string;
   notes?: string;
   createdAt: string;

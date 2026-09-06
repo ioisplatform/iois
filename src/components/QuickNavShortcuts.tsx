@@ -1,5 +1,6 @@
 import React from 'react';
 import { PageId } from '../types';
+import { OFFICIAL_FORM_URL } from '../data/plansData';
 import { 
   Home, 
   Layers, 
@@ -13,15 +14,21 @@ import {
   Sun,
   Sparkles,
   CloudSun,
-  Tv
+  Tv,
+  UserPlus
 } from 'lucide-react';
 
 interface QuickNavShortcutsProps {
   currentPage: PageId;
   onNavigate: (page: PageId) => void;
+  onOpenRegister?: () => void;
 }
 
-export const QuickNavShortcuts: React.FC<QuickNavShortcutsProps> = ({ currentPage, onNavigate }) => {
+export const QuickNavShortcuts: React.FC<QuickNavShortcutsProps> = ({ 
+  currentPage, 
+  onNavigate,
+  onOpenRegister 
+}) => {
   const links: { id: PageId; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: 'मुख्य पृष्ठ', icon: <Home className="w-3.5 h-3.5" /> },
     { id: 'entertainment', label: 'स्मार्ट टीवी', icon: <Tv className="w-3.5 h-3.5 text-amber-400" /> },
@@ -41,6 +48,15 @@ export const QuickNavShortcuts: React.FC<QuickNavShortcutsProps> = ({ currentPag
   return (
     <div className="w-full bg-slate-950/90 border-y border-amber-500/20 py-2.5 px-3 sm:px-6 backdrop-blur-md sticky top-[68px] z-30 shadow-md">
       <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+        <a
+          href={OFFICIAL_FORM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 text-xs font-black px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 shadow-md shadow-amber-500/20 hover:scale-105 active:scale-95 border border-white/40"
+        >
+          <UserPlus className="w-3.5 h-3.5 stroke-[2.5]" />
+          <span>रजिस्ट्रेशन / Join Now</span>
+        </a>
         <span className="text-[10px] uppercase font-black tracking-wider text-amber-400 shrink-0 hidden sm:inline-block pr-2 border-r border-slate-800">
           त्वरित मेन्यू:
         </span>

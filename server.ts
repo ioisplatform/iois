@@ -62,6 +62,9 @@ export interface RegisteredUser {
   state?: string;
   qualification?: string;
   selectedPlan?: string;
+  sponsorId?: string;
+  payoutUpiId?: string;
+  utrNumber?: string;
   source?: string;
   notes?: string;
   createdAt: string;
@@ -485,7 +488,7 @@ async function startServer() {
   // 6. User Registration & Inquiry Persistence (NEVER gets lost!)
   app.post("/api/register", (req: Request, res: Response) => {
     try {
-      const { name, phone, email, state, qualification, selectedPlan, source, notes } = req.body;
+      const { name, phone, email, state, qualification, selectedPlan, sponsorId, payoutUpiId, utrNumber, source, notes } = req.body;
       if (!name || !phone) {
         return res.status(400).json({ error: "नाम और मोबाइल नंबर आवश्यक हैं।" });
       }
@@ -498,6 +501,9 @@ async function startServer() {
         state: state ? String(state).trim() : "",
         qualification: qualification ? String(qualification).trim() : "",
         selectedPlan: selectedPlan ? String(selectedPlan).trim() : "Plan 01: Bal Vikas",
+        sponsorId: sponsorId ? String(sponsorId).trim() : "IOIS2026",
+        payoutUpiId: payoutUpiId ? String(payoutUpiId).trim() : "",
+        utrNumber: utrNumber ? String(utrNumber).trim() : "",
         source: source || "website",
         notes: notes || "",
         createdAt: new Date().toISOString()

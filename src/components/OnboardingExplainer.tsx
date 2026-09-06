@@ -208,9 +208,9 @@ export const OnboardingExplainer: React.FC<OnboardingExplainerProps> = ({
                 href={activePlan.formLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gold-gradient w-full py-3.5 text-sm tracking-wider"
+                className="btn-gold-gradient w-full py-3.5 text-sm tracking-wider flex items-center justify-center gap-1 text-center"
               >
-                <span>{activePlan.code} एक्टिवेट करें</span>
+                <span>रजिस्ट्रेशन / {activePlan.code} एक्टिवेट करें (गूगल फॉर्म)</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 

@@ -13,16 +13,23 @@ import {
   Sun, 
   CloudSun, 
   Briefcase,
-  Calendar
+  Calendar,
+  UserPlus
 } from 'lucide-react';
 
 interface NavbarProps {
   currentPage: PageId;
   onNavigate: (page: PageId) => void;
   onOpenChat: () => void;
+  onOpenRegister: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onOpenChat }) => {
+export const Navbar: React.FC<NavbarProps> = ({ 
+  currentPage, 
+  onNavigate, 
+  onOpenChat,
+  onOpenRegister 
+}) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
@@ -99,12 +106,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onOpenC
         </div>
 
         {/* 3. Desktop Navigation Links */}
-        <nav className="hidden 2xl:flex items-center gap-2.5 text-xs font-bold text-slate-300">
-          {navItems.map((item) => (
+        <nav className="hidden xl:flex items-center gap-2 text-xs font-bold text-slate-300">
+          {navItems.slice(0, 8).map((item) => (
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
-              className={`transition cursor-pointer px-2 py-1 rounded-lg text-[11px] ${
+              className={`transition cursor-pointer px-2 py-1 rounded-lg text-[11px] whitespace-nowrap ${
                 currentPage === item.id
                   ? 'text-amber-400 font-black border-b-2 border-amber-400 bg-amber-500/10'
                   : 'hover:text-amber-300 hover:bg-slate-900'
@@ -152,22 +159,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onOpenC
             <Lock className="w-3.5 h-3.5" />
           </button>
 
-          {/* Verified Pass Primary Button */}
+          {/* Registration / Join Now Primary Button (Direct Google Form Link) */}
           <a
-            id="nav-verified-pass-btn"
+            id="nav-join-now-btn"
             href={OFFICIAL_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold-gradient text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-black uppercase tracking-wider flex items-center gap-1 shadow-md shrink-0"
+            className="bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 text-[11px] sm:text-xs px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full font-black uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.5)] border border-white/40 shrink-0 transition transform hover:scale-105 active:scale-95 cursor-pointer"
+            title="रजिस्ट्रेशन / Join Now (गूगल फॉर्म)"
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-black" />
-            <span className="hidden sm:inline">VERIFIED PASS</span>
+            <UserPlus className="w-3.5 h-3.5 text-slate-950 stroke-[2.5]" />
+            <span className="font-black whitespace-nowrap">रजिस्ट्रेशन / Join Now</span>
           </a>
 
           {/* Mobile & Tablet Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="2xl:hidden p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white cursor-pointer"
+            className="xl:hidden p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white cursor-pointer"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5 text-amber-400" /> : <Menu className="w-5 h-5" />}
@@ -175,9 +183,21 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onOpenC
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile & Tablet Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="2xl:hidden mt-3 pt-3 border-t border-slate-800 space-y-2 animate-in fade-in duration-200">
+        <div className="xl:hidden mt-3 pt-3 border-t border-slate-800 space-y-2 animate-in fade-in duration-200">
+          {/* Prominent Join Now in Drawer */}
+          <a
+            href={OFFICIAL_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 p-3 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg mb-2 cursor-pointer"
+          >
+            <UserPlus className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+            <span>रजिस्ट्रेशन / Join Now (गूगल फॉर्म) - यहाँ क्लिक करें</span>
+          </a>
+
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {navItems.map((item) => (
               <button

@@ -1067,11 +1067,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
             <table className="w-full text-left text-xs text-slate-300">
               <thead className="bg-slate-900 text-slate-400 uppercase text-[10px] font-bold border-b border-slate-800">
                 <tr>
-                  <th className="p-3">नाम</th>
-                  <th className="p-3">मोबाइल नंबर</th>
-                  <th className="p-3">ईमेल</th>
-                  <th className="p-3">पसंदीदा प्लान</th>
-                  <th className="p-3">राज्य</th>
+                  <th className="p-3">नाम व मोबाइल</th>
+                  <th className="p-3">स्पॉन्सर ID</th>
+                  <th className="p-3">पेआउट UPI ID (Payment Addr)</th>
+                  <th className="p-3">प्लान / UTR</th>
+                  <th className="p-3">ईमेल / राज्य</th>
                   <th className="p-3">तारीख</th>
                 </tr>
               </thead>
@@ -1085,11 +1085,32 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onNavigate }) => {
                 ) : (
                   users.map((u) => (
                     <tr key={u.id} className="hover:bg-slate-900/50 transition">
-                      <td className="p-3 font-bold text-white">{u.name}</td>
-                      <td className="p-3 font-mono text-amber-300">{u.phone}</td>
-                      <td className="p-3 text-slate-400">{u.email || '-'}</td>
-                      <td className="p-3 text-emerald-400 font-semibold">{u.selectedPlan || '-'}</td>
-                      <td className="p-3">{u.state || '-'}</td>
+                      <td className="p-3">
+                        <div className="font-bold text-white">{u.name}</div>
+                        <div className="font-mono text-amber-300 text-[11px]">{u.phone}</div>
+                      </td>
+                      <td className="p-3">
+                        <span className="font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded text-[11px]">
+                          {u.sponsorId || 'IOIS2026'}
+                        </span>
+                      </td>
+                      <td className="p-3">
+                        <div className="font-mono font-semibold text-emerald-400 text-xs bg-emerald-950/40 border border-emerald-500/20 px-2 py-1 rounded inline-block">
+                          {u.payoutUpiId || '-'}
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <div className="text-amber-300 font-bold">{u.selectedPlan || '-'}</div>
+                        {u.utrNumber && (
+                          <div className="font-mono text-[10px] text-slate-400">
+                            UTR: {u.utrNumber}
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-3 text-slate-400 text-[11px]">
+                        <div>{u.email || '-'}</div>
+                        <div className="text-slate-500">{u.state || '-'}</div>
+                      </td>
                       <td className="p-3 text-slate-500 text-[11px]">
                         {new Date(u.createdAt).toLocaleDateString('hi-IN')}
                       </td>

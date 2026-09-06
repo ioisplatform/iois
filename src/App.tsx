@@ -24,6 +24,8 @@ import { Footer } from './components/Footer';
 import { AIChatBot } from './components/AIChatBot';
 import { EntertainmentHub } from './components/EntertainmentHub';
 import { AdSenseBanner } from './components/AdSenseBanner';
+import { RegistrationModal } from './components/RegistrationModal';
+import { StudentMobileBottomBar } from './components/StudentMobileBottomBar';
 import { 
   Sparkles, 
   Layers, 
@@ -47,6 +49,13 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>('home');
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [chatInitialQuery, setChatInitialQuery] = useState<string>('');
+  const [isRegisterOpen, setIsRegisterOpen] = useState<boolean>(false);
+  const [registerInitialPlanId, setRegisterInitialPlanId] = useState<number | undefined>(undefined);
+
+  const handleOpenRegister = (planId?: number) => {
+    setRegisterInitialPlanId(planId);
+    setIsRegisterOpen(true);
+  };
 
   // Synchronize hash with page state for browser history & shareable URLs
   useEffect(() => {
@@ -132,16 +141,21 @@ export default function App() {
           setChatInitialQuery('');
           setIsChatOpen(true);
         }}
+        onOpenRegister={() => handleOpenRegister()}
       />
 
       {/* 2. Controlled Live Ticker */}
-      <TickerBar />
+      <TickerBar onOpenRegister={handleOpenRegister} />
 
       {/* 3. Quick Navigation Sticky Shortcuts Bar */}
-      <QuickNavShortcuts currentPage={currentPage} onNavigate={navigateTo} />
+      <QuickNavShortcuts 
+        currentPage={currentPage} 
+        onNavigate={navigateTo} 
+        onOpenRegister={() => handleOpenRegister()}
+      />
 
       {/* 4. Main Multi-Page Content Area */}
-      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1">
+      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 pb-20 lg:pb-12">
         {/* ================= PAGE: HOME ================= */}
         {currentPage === 'home' && (
           <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-300">
@@ -453,7 +467,7 @@ export default function App() {
             </div>
 
             {/* Complete Plans Grid */}
-            <PlansGrid onAskAI={handleOpenChatWithQuery} />
+            <PlansGrid onAskAI={handleOpenChatWithQuery} onOpenRegister={handleOpenRegister} />
 
             {/* Assessment Portal */}
             <AssessmentPortal onAskAI={handleOpenChatWithQuery} />
@@ -539,6 +553,17 @@ export default function App() {
       {/* 5. Official AdSense-Compliant Footer */}
       <Footer onNavigate={navigateTo} />
 
+      {/* 5.5. Student Friendly Mobile & Tablet Bottom Navigation Bar */}
+      <StudentMobileBottomBar
+        currentPage={currentPage}
+        onNavigate={navigateTo}
+        onOpenRegister={() => handleOpenRegister()}
+        onOpenChat={() => {
+          setChatInitialQuery('');
+          setIsChatOpen(true);
+        }}
+      />
+
       {/* 6. Floating AI Assistant Launcher Button */}
       <button
         id="floating-ai-chat-launcher"
@@ -546,11 +571,12 @@ export default function App() {
           setChatInitialQuery('');
           setIsChatOpen(true);
         }}
-        className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black px-4 py-3.5 rounded-full font-black text-xs sm:text-sm shadow-[0_10px_30px_rgba(212,175,55,0.4)] flex items-center gap-2 transition transform hover:scale-108 active:scale-95 cursor-pointer border-2 border-white/40"
+        className="fixed bottom-16 sm:bottom-20 lg:bottom-6 right-4 sm:right-6 z-40 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-full font-black text-xs sm:text-sm shadow-[0_10px_30px_rgba(212,175,55,0.4)] flex items-center gap-2 transition transform hover:scale-108 active:scale-95 cursor-pointer border-2 border-white/40"
         title="Open Live AI Assistant"
       >
         <Sparkles className="w-4 h-4 text-black animate-spin" style={{ animationDuration: '4s' }} />
-        <span>Ask IOIS AI</span>
+        <span className="hidden sm:inline">Ask IOIS AI</span>
+        <span className="sm:hidden">AI</span>
       </button>
 
       {/* 7. Live AI Chatbot Modal / Drawer */}
@@ -560,6 +586,13 @@ export default function App() {
         initialQuery={chatInitialQuery}
         currentPage={currentPage}
         onNavigate={navigateTo}
+      />
+
+      {/* 8. Student Registration / Join Now Modal with UPI Warning & Sponsor ID */}
+      <RegistrationModal
+        isOpen={isRegisterOpen}
+        onClose={() => setIsRegisterOpen(false)}
+        initialPlanId={registerInitialPlanId}
       />
     </div>
   );

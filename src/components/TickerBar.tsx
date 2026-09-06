@@ -3,7 +3,11 @@ import { PLANS, OFFICIAL_FORM_URL } from '../data/plansData';
 import { TickerSpeed } from '../types';
 import { Play, Pause, Gauge, ChevronRight } from 'lucide-react';
 
-export const TickerBar: React.FC = () => {
+interface TickerBarProps {
+  onOpenRegister?: (planId?: number) => void;
+}
+
+export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRegister }) => {
   const [speed, setSpeed] = useState<TickerSpeed>('slow');
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -94,7 +98,7 @@ export const TickerBar: React.FC = () => {
                 href={OFFICIAL_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-3 bg-green-600 hover:bg-green-500 text-white font-black text-[10px] px-3 py-1 rounded-full shadow-[0_0_12px_rgba(22,163,74,0.6)] border border-white/40 tracking-wider inline-flex items-center gap-1 transition transform hover:scale-105 active:scale-95"
+                className="ml-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-black text-[10px] px-3 py-1 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)] border border-white/60 tracking-wider inline-flex items-center gap-1 transition transform hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <span>JOIN NOW</span>
                 <ChevronRight className="w-2.5 h-2.5" />
@@ -115,7 +119,7 @@ export const TickerBar: React.FC = () => {
                 href={OFFICIAL_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-3 bg-green-600 hover:bg-green-500 text-white font-black text-[10px] px-3 py-1 rounded-full shadow-[0_0_12px_rgba(22,163,74,0.6)] border border-white/40 tracking-wider inline-flex items-center gap-1 transition transform hover:scale-105 active:scale-95"
+                className="ml-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-black text-[10px] px-3 py-1 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)] border border-white/60 tracking-wider inline-flex items-center gap-1 transition transform hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <span>JOIN NOW</span>
                 <ChevronRight className="w-2.5 h-2.5" />

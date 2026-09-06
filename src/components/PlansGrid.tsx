@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { PLANS, OFFICIAL_FORM_URL, OFFICIAL_TELEGRAM_URL } from '../data/plansData';
 import { Plan } from '../types';
-import { Check, ArrowRight, Zap, Sparkles, BookOpen, Crown, ExternalLink } from 'lucide-react';
+import { Check, ArrowRight, Zap, Sparkles, BookOpen, Crown, ExternalLink, AlertTriangle } from 'lucide-react';
 
 interface PlansGridProps {
   onAskAI: (question: string) => void;
+  onOpenRegister?: (planId: number) => void;
 }
 
-export const PlansGrid: React.FC<PlansGridProps> = ({ onAskAI }) => {
+export const PlansGrid: React.FC<PlansGridProps> = ({ onAskAI, onOpenRegister }) => {
   const [filter, setFilter] = useState<'all' | 'starter' | 'pro' | 'master'>('all');
 
   const filteredPlans = PLANS.filter((plan) => {
@@ -51,6 +52,33 @@ export const PlansGrid: React.FC<PlansGridProps> = ({ onAskAI }) => {
               {item.label}
             </button>
           ))}
+        </div>
+
+        {/* अति महत्वपूर्ण चेतावनी (UPI ID & Sponsor ID Notice for Google Form) */}
+        <div className="text-left bg-gradient-to-r from-red-950/70 via-amber-950/40 to-slate-950 border-2 border-amber-500/80 rounded-2xl p-4 sm:p-5 shadow-lg space-y-2.5 mt-4">
+          <div className="flex items-center gap-2 text-amber-400 font-black text-sm sm:text-base">
+            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 animate-bounce" />
+            <span>⚠️ अति महत्वपूर्ण निर्देश (गूगल फॉर्म भरने से पूर्व ध्यान दें):</span>
+          </div>
+          <div className="text-xs sm:text-sm text-slate-200 space-y-2 pl-2 border-l-2 border-amber-500">
+            <p>
+              <strong className="text-amber-300">1. Payment Received Address / UPI ID:</strong> गूगल फॉर्म में अपना वही UPI ID (PhonePe, Google Pay, Paytm, BHIM) अथवा पेमेंट रिसीविंग एड्रेस <span className="text-emerald-400 font-bold underline">बिल्कुल सही-सही भरें</span> जिस पर आप अपना 50% से 70% दैनिक इंसेंटिव/कमीशन पाना चाहते हैं।
+            </p>
+            <p>
+              <strong className="text-amber-300">2. Sponsor ID (स्पॉन्सर आईडी):</strong> स्पॉन्सर आईडी <span className="text-red-400 font-bold underline">जरूर भरें</span> (जिस साथी या रेफरर के माध्यम से आप जुड़े हैं)। यदि कोई स्पॉन्सर नहीं है तो आधिकारिक कोड <span className="bg-amber-500/20 text-amber-300 font-mono px-2 py-0.5 rounded font-bold border border-amber-500/40">IOIS2026</span> भरें।
+            </p>
+          </div>
+          <div className="flex items-center justify-between pt-1 border-t border-amber-500/20 text-[11px] sm:text-xs">
+            <span className="text-slate-400">सभी "रजिस्ट्रेशन / JOIN NOW" बटन सीधे आधिकारिक गूगल फॉर्म लिंक खोलते हैं:</span>
+            <a
+              href={OFFICIAL_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 font-black underline flex items-center gap-1 shrink-0"
+            >
+              <span>सीधा गूगल फॉर्म खोलें ➔</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -133,9 +161,9 @@ export const PlansGrid: React.FC<PlansGridProps> = ({ onAskAI }) => {
                     href={plan.formLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-gold-gradient w-full sm:w-2/3 py-4 sm:py-5 text-lg sm:text-xl tracking-wider"
+                    className="btn-gold-gradient w-full sm:w-2/3 py-4 sm:py-5 text-base sm:text-xl tracking-wider justify-center text-center flex items-center"
                   >
-                    <span>UNLOCK EVERYTHING @ ₹{plan.price}</span>
+                    <span>रजिस्ट्रेशन / UNLOCK EVERYTHING @ ₹{plan.price}</span>
                     <ArrowRight className="w-5 h-5 ml-1" />
                   </a>
 
@@ -215,9 +243,9 @@ export const PlansGrid: React.FC<PlansGridProps> = ({ onAskAI }) => {
                   href={plan.formLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-gold-gradient text-xs w-full py-3 tracking-wider justify-center"
+                  className="btn-gold-gradient text-xs w-full py-3 tracking-wider justify-center text-center flex items-center"
                 >
-                  <span>ACTIVATE @ ₹{plan.price}</span>
+                  <span>रजिस्ट्रेशन / JOIN NOW @ ₹{plan.price}</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </a>
 
