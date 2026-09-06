@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #020617;
+    --card-bg: rgba(15, 23, 42, 0.85);
+    --saffron: #FF9933;
+    --green: #138808;
+    --gold: #D4AF37;
+    --gold-light: #F3E5AB;
+    --border-glow: rgba(212, 175, 55, 0.4);
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    color: #f8fafc;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(255, 153, 51, 0.12), transparent 45%),
+      radial-gradient(circle at 100% 100%, rgba(19, 136, 8, 0.1), transparent 45%),
+      linear-gradient(to right, rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 45px 45px, 45px 45px;
+    overflow-x: hidden;
+  }
+}
+
+/* Gold Metallic Gradient Text */
+.gold-metallic-text {
+  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+/* Tiranga Text Gradient */
+.tiranga-text {
+  background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+/* Glass Card Premium */
+.glass-card-premium {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-premium:hover {
+  border-color: rgba(212, 175, 55, 0.7);
+  box-shadow: 0 20px 45px rgba(212, 175, 55, 0.18);
+}
+
+/* Gold Gradient Button */
+.btn-gold-gradient {
+  background: linear-gradient(135deg, #FF9933 0%, #D4AF37 50%, #138808 100%);
+  color: #000;
+  font-weight: 900;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-gold-gradient:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.65);
+}
+
+/* Ticker Animations */
+@keyframes ticker-slow {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track-slow {
+  display: flex;
+  width: max-content;
+  animation: ticker-slow 90s linear infinite;
+}
+
+.ticker-track-normal {
+  display: flex;
+  width: max-content;
+  animation: ticker-slow 60s linear infinite;
+}
+
+.ticker-track-fast {
+  display: flex;
+  width: max-content;
+  animation: ticker-slow 35s linear infinite;
+}
+
+.ticker-paused {
+  animation-play-state: paused !important;
+}
+
+/* Clock Styles with upright digits */
+.clock-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border: 4px solid #D4AF37;
+  border-radius: 50%;
+  background: radial-gradient(circle, #0f172a 0%, #030712 100%);
+  margin: 0 auto;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+}
+
+.clock-numbers span {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: #F3E5AB;
+  --radius: 54px;
+}
+
+.n1  { transform: rotate(30deg)  translateY(calc(-1 * var(--radius))) rotate(-30deg); }
+.n2  { transform: rotate(60deg)  translateY(calc(-1 * var(--radius))) rotate(-60deg); }
+.n3  { transform: rotate(90deg)  translateY(calc(-1 * var(--radius))) rotate(-90deg); }
+.n4  { transform: rotate(120deg) translateY(calc(-1 * var(--radius))) rotate(-120deg); }
+.n5  { transform: rotate(150deg) translateY(calc(-1 * var(--radius))) rotate(-150deg); }
+.n6  { transform: rotate(180deg) translateY(calc(-1 * var(--radius))) rotate(-180deg); }
+.n7  { transform: rotate(210deg) translateY(calc(-1 * var(--radius))) rotate(-210deg); }
+.n8  { transform: rotate(240deg) translateY(calc(-1 * var(--radius))) rotate(-240deg); }
+.n9  { transform: rotate(270deg) translateY(calc(-1 * var(--radius))) rotate(-270deg); }
+.n10 { transform: rotate(300deg) translateY(calc(-1 * var(--radius))) rotate(-300deg); }
+.n11 { transform: rotate(330deg) translateY(calc(-1 * var(--radius))) rotate(-330deg); }
+.n12 { transform: rotate(0deg)   translateY(calc(-1 * var(--radius))) rotate(0deg); }
+
+.clock-hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  border-radius: 10px;
+  z-index: 10;
+  transition: transform 0.05s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+}
+
+.hour-hand { width: 5px; height: 35px; background: #D4AF37; margin-left: -2.5px; }
+.min-hand  { width: 4px; height: 48px; background: #ffffff; margin-left: -2px; }
+.sec-hand  { width: 2px; height: 58px; background: #FF9933; margin-left: -1px; }
+
+.center-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: #D4AF37;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  border: 1.5px solid #000;
+}
